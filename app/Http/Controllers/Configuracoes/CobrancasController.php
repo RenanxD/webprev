@@ -42,12 +42,12 @@ class CobrancasController extends Controller
         $cobranca->delete();
         $request->session()->flash('mensagem.sucesso', 'Cobrança Removida com Sucesso!');
 
-        return view('configuracoes.cobrancas.index');
+        return to_route('cobrancas.index');
     }
 
     public function edit(Request $request)
     {
-        return view('configuracoes.cobrancas.edit')->with('cobrancas', $request);
+        return view('configuracoes.cobrancas.edit')->with('cobranca', $request);
     }
 
     public function update(Cobrancas $cobranca, Request $request)
@@ -55,7 +55,7 @@ class CobrancasController extends Controller
         $cobranca->fill($request->all());
         $cobranca->save();
 
-        return view('configuracoes.cobrancas.index')
+        return to_route('cobrancas.index')
             ->with('mensagem.sucesso', 'Cobrança Atualizada com Sucesso!');
     }
 }

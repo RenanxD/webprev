@@ -2,21 +2,21 @@
 @section('content')
     <div class="py-12 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if ($errors->any())
+                <div id="error-message" class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @isset($mensagemSucesso)
+                <div id="success-message" class="alert alert-success">
+                    {{ $mensagemSucesso }}
+                </div>
+            @endisset
             <div class="bg-white overflow-hidden sm:rounded-lg p-6">
-                @if ($errors->any())
-                    <div id="error-message" class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @isset($mensagemSucesso)
-                    <div id="success-message" class="alert alert-success">
-                        {{ $mensagemSucesso }}
-                    </div>
-                @endisset
                 <x-botao-voltar>
                     <div class="d-flex align-items-center">
                         <x-logos.logo-valores-e-cobrancas/>
@@ -64,6 +64,12 @@
                                             data-target="#modal-create">
                                         Nova Cobrança
                                     </button>
+                                    <button type="button"
+                                            class=""
+                                            data-toggle="modal"
+                                            data-target="#modal-create">
+                                        Adicionar Tipo de Cobrança
+                                    </button>
                                 @elseif (isset($ultimaCobrancaAtiva))
                                     <p class="card-text"><strong style="font-size: 14px;">Última Cobrança
                                             Ativa:</strong><br>{{ $ultimaCobrancaAtiva->descricao }}</p>
@@ -95,14 +101,28 @@
                                             data-target="#modal-create">
                                         Nova Cobrança
                                     </button>
-                                @else
-                                    <p>Nenhuma Cobrança cadastrada ainda.</p>
                                     <button type="button"
-                                            class="btn-custom btn-edit"
+                                            class=""
                                             data-toggle="modal"
                                             data-target="#modal-create">
-                                        Nova Cobrança
+                                        Adicionar Tipo de Cobrança
                                     </button>
+                                @else
+                                    <p>Nenhuma Cobrança cadastrada ainda.</p>
+                                    <div class="d-flex">
+                                        <button type="button"
+                                                class="btn-custom"
+                                                data-toggle="modal"
+                                                data-target="#modal-create">
+                                            Nova Cobrança
+                                        </button>
+                                        <button type="button"
+                                                class="btn-custom"
+                                                data-toggle="modal"
+                                                data-target="#modal-create">
+                                            Adicionar Tipo de Cobrança
+                                        </button>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -184,14 +204,20 @@
         setTimeout(function () {
             var errorMessage = document.getElementById('error-message');
             if (errorMessage) {
-                errorMessage.style.display = 'none';
+                errorMessage.classList.add('fade-out');
+                setTimeout(function () {
+                    errorMessage.style.display = 'none';
+                }, 1000);
             }
         }, 5000);
 
         setTimeout(function () {
             var successMessage = document.getElementById('success-message');
             if (successMessage) {
-                successMessage.style.display = 'none';
+                successMessage.classList.add('fade-out');
+                setTimeout(function () {
+                    successMessage.style.display = 'none';
+                }, 1000);
             }
         }, 5000);
     });

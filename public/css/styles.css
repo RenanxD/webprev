@@ -103,6 +103,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    margin-right: 10px; /* Adiciona espaçamento à direita entre os botões */
 }
 
 .btn-custom:hover {
@@ -120,10 +121,20 @@
     pointer-events: none;
 }
 
+.ml-2 {
+    margin-left: 10px; /* Margem à esquerda para o segundo botão */
+}
+
+/* Classe para garantir que os botões ficam alinhados lado a lado */
+.d-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
 .btn-edit {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    position: static; /* Garante que os botões não se sobreponham */
+    margin-right: 10px; /* Espaçamento entre os botões */
 }
 
 .quadro-item a {
@@ -221,4 +232,9 @@
 }
 .table-responsive {
     overflow-x: auto;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
 }

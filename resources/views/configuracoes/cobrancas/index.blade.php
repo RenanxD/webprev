@@ -58,7 +58,9 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn-custom btn-edit" data-toggle="modal"
+                                    <button type="button"
+                                            class="btn-custom btn-edit"
+                                            data-toggle="modal"
                                             data-target="#modal-create">
                                         Nova Cobrança
                                     </button>
@@ -87,13 +89,17 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn-custom btn-edit" data-toggle="modal"
+                                    <button type="button"
+                                            class="btn-custom btn-edit"
+                                            data-toggle="modal"
                                             data-target="#modal-create">
                                         Nova Cobrança
                                     </button>
                                 @else
                                     <p>Nenhuma Cobrança cadastrada ainda.</p>
-                                    <button type="button" class="btn-custom btn-edit" data-toggle="modal"
+                                    <button type="button"
+                                            class="btn-custom btn-edit"
+                                            data-toggle="modal"
                                             data-target="#modal-create">
                                         Nova Cobrança
                                     </button>
@@ -136,9 +142,11 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-outline-secondary btn-sm"
+                                                        <button class="btn btn-primary btn-sm"
                                                                 data-toggle="modal"
-                                                                data-target="#modal-edit{{ $cobranca->id_cobranca }}">
+                                                                data-target="#modal-edit{{ $cobranca->id_cobranca }}"
+                                                                style="padding: 5px 6px; font-size: 0.8rem;"
+                                                                title="Editar Cobrança">
                                                             <i class="fas fa-edit" aria-hidden="true"></i>
                                                         </button>
                                                         <form
@@ -147,8 +155,7 @@
                                                             class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                    class="btn btn-outline-secondary btn-sm">
+                                                            <button type="submit" class="btn btn-danger btn-sm">
                                                                 <i class="fas fa-times" aria-hidden="true"></i>
                                                             </button>
                                                         </form>
@@ -173,17 +180,15 @@
     @include('configuracoes.cobrancas.create')
 @stop
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Esconde a mensagem de erro após 5 segundos
-        setTimeout(function() {
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
             var errorMessage = document.getElementById('error-message');
             if (errorMessage) {
                 errorMessage.style.display = 'none';
             }
         }, 5000);
 
-        // Esconde a mensagem de sucesso após 5 segundos
-        setTimeout(function() {
+        setTimeout(function () {
             var successMessage = document.getElementById('success-message');
             if (successMessage) {
                 successMessage.style.display = 'none';

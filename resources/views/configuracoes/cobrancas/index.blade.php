@@ -4,7 +4,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden sm:rounded-lg p-6">
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div id="error-message" class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -13,13 +13,21 @@
                     </div>
                 @endif
                 @isset($mensagemSucesso)
-                    <div class="alert alert-success">
+                    <div id="success-message" class="alert alert-success">
                         {{ $mensagemSucesso }}
                     </div>
                 @endisset
                 <x-botao-voltar>
-                    Gerenciar Cobranças
+                    <div class="d-flex align-items-center">
+                        <x-logos.logo-valores-e-cobrancas/>
+                        <span class="ml-3">Gerenciar Cobranças</span>
+                    </div>
                 </x-botao-voltar>
+                <div data-orientation="horizontal"
+                     role="none"
+                     class="mt-3 shrink-0 h-[1px] w-full min-w-full"
+                     style="background-color: #e5e7eb;">
+                </div>
                 <div class="row justify-content-center">
                     <div class="mt-8 col-md-11 mb-4">
                         <div class="card">
@@ -127,7 +135,7 @@
                                                             Inativa
                                                         @endif
                                                     </td>
-                                                    <td class="d-flex justify-content-between align-items-center">
+                                                    <td>
                                                         <button class="btn btn-outline-secondary btn-sm"
                                                                 data-toggle="modal"
                                                                 data-target="#modal-edit{{ $cobranca->id_cobranca }}">
@@ -164,3 +172,22 @@
     </div>
     @include('configuracoes.cobrancas.create')
 @stop
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Esconde a mensagem de erro após 5 segundos
+        setTimeout(function() {
+            var errorMessage = document.getElementById('error-message');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        }, 5000);
+
+        // Esconde a mensagem de sucesso após 5 segundos
+        setTimeout(function() {
+            var successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+        }, 5000);
+    });
+</script>

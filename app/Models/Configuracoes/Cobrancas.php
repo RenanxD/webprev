@@ -23,4 +23,9 @@ class Cobrancas extends Model
     ];
 
     protected $connection = 'internal_pgsql';
+
+    public function tipoCobranca()
+    {
+        return $this->belongsTo(TipoCobranca::class, 'id_tipo_cobranca', 'id_tipo_cobranca');
+    }
 }

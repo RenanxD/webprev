@@ -6,7 +6,7 @@
                 <div class="quadros-container">
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-turistas/>
+                            <x-logos.logo-turistas/>
                             <span class="quadro-titulo">
                                 Turistas
                             </span>
@@ -15,21 +15,21 @@
                     </div>
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-prestadores/>
+                            <x-logos.logo-prestadores/>
                             <span class="quadro-titulo">Prestadores</span>
                             <span class="quadro-subtitulo">Informações e Configurações</span>
                         </a>
                     </div>
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-usuarios/>
+                            <x-logos.logo-usuarios/>
                             <span class="quadro-titulo">Usuários</span>
                             <span class="quadro-subtitulo">Gerenciamento dos colaboradores</span>
                         </a>
                     </div>
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-isencoes/>
+                            <x-logos.logo-isencoes/>
                             <span class="quadro-titulo">Isenções</span>
                             <span class="quadro-subtitulo">Gerenciamento dos beneficiários</span>
                         </a>
@@ -42,28 +42,28 @@
                 <div class="quadros-container">
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-atividades/>
+                            <x-logos.logo-atividades/>
                             <span class="quadro-titulo">Atividades</span>
                             <span class="quadro-subtitulo">Informações sobre as atividades</span>
                         </a>
                     </div>
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-comprovantes-emitidos/>
+                            <x-logos.logo-comprovantes-emitidos/>
                             <span class="quadro-titulo">Comprovantes Emitidos</span>
                             <span class="quadro-subtitulo">Informações sobre as taxas geradas</span>
                         </a>
                     </div>
                     <div class="quadro-item">
                         <a href="{{ route('configuracoes.index') }}" class="quadro">
-                            <x-logo-configuracoes/>
+                            <x-logos.logo-configuracoes/>
                             <span class="quadro-titulo">Configurações</span>
                             <span class="quadro-subtitulo">Gerenciamento das funcionalidades</span>
                         </a>
                     </div>
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-validacoes/>
+                            <x-logos.logo-validacoes/>
                             <span class="quadro-titulo">Validações</span>
                             <span class="quadro-subtitulo">Lista de validações dos prestadores</span>
                         </a>
@@ -76,7 +76,7 @@
                 <div class="quadros-container">
                     <div class="quadro-item">
                         <a href="#" class="quadro">
-                            <x-logo-pagamentos/>
+                            <x-logos.logo-pagamentos/>
                             <span class="quadro-titulo">Pagamentos</span>
                             <span class="quadro-subtitulo">Lista de pagamentos e pedidos de extorno</span>
                         </a>

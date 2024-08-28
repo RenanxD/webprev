@@ -9,8 +9,6 @@
         </div>
     </button>
     <div class="d-flex align-items-center">
-        <x-logo-configuracoes class="mr-2"/> <!-- Adiciona margem à direita da logo -->
-        <span style="font-size: 20px; font-weight: bold;">{{ $slot }}</span>
+        <span class="ml-3" style="font-size: 23px; font-weight: bold;">{{ $slot }}</span>
     </div>
 </div>
-<div data-orientation="horizontal" role="none" class="shrink-0 h-[1px] w-full min-w-full" style="background-color: #e5e7eb;"></div>

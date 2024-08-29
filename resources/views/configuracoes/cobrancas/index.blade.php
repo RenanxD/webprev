@@ -151,7 +151,6 @@
     @include('configuracoes.cobrancas.add-tipo-cobranca')
     @include('configuracoes.cobrancas.create')
 @stop
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () {

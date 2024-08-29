@@ -33,8 +33,9 @@ class CobrancasController extends Controller
     public function store(ValidacaoCobrancaRequest $request)
     {
         Cobrancas::create($request->all());
+        $request->session()->flash('mensagem.sucesso', 'Nova Cobrança Cadastrada com Sucesso!');
 
-        return redirect()->route('cobrancas.index')->with('success', 'Nova Cobrança Cadastrada com Sucesso!');
+        return redirect()->route('cobrancas.index');
     }
 
     public function destroy(Cobrancas $cobranca, Request $request)

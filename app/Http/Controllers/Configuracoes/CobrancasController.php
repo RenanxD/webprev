@@ -15,7 +15,7 @@ class CobrancasController extends Controller
         $tiposCobranca = TipoCobranca::all();
         $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first()
             ?? Cobrancas::latest()->first();
-        $ultimaCobrancaAtiva = Cobrancas::where('cobranca_ativa', true)->latest()->skip(1)->first(); // Obter a penúltima cobrança ativa, por exemplo
+        $ultimaCobrancaAtiva = Cobrancas::where('cobranca_ativa', true)->latest()->skip(1)->first();
         $cobrancas = Cobrancas::paginate(7);
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 

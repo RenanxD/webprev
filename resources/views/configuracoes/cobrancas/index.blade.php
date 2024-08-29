@@ -41,11 +41,8 @@
                                         @include('configuracoes.cobrancas.partials.ultima-cobranca-ativa', ['cobranca' => $ultimaCobrancaAtiva])
                                     @endisset
                                 @endempty
-                                @if (!$cobrancaAtual && !$ultimaCobrancaAtiva)
-                                    <p>Nenhuma Cobrança cadastrada ainda.</p>
-                                @endif
-                                @if (!$cobrancaAtual || $cobrancaAtual->cobranca_ativa != 'Ativa')
-                                    <p>Nenhuma Cobrança ativa</p>
+                                @if (count($cobrancas) === 0)
+                                    <p>Nenhuma cobrança cadastrada ainda.</p>
                                     <div class="d-flex justify-content-end">
                                         <button type="button"
                                                 class="btn-custom"
@@ -61,11 +58,28 @@
                                             Adicionar Tipo de Cobrança
                                         </button>
                                     </div>
+                                @else
+                                    @if ($cobrancas->every(fn($cobranca) => !$cobranca->cobranca_ativa))
+                                        <p>Nenhuma cobrança ativa</p>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button"
+                                                    class="btn-custom"
+                                                    data-toggle="modal"
+                                                    data-target="#modal-create"
+                                                    @if(!$temTipoCobranca) disabled @endif>
+                                                Nova Cobrança
+                                            </button>
+                                            <button type="button"
+                                                    class="btn-custom"
+                                                    data-toggle="modal"
+                                                    data-target="#modal-add-tipo-cobranca">
+                                                Adicionar Tipo de Cobrança
+                                            </button>
+                                        </div>
+                                    @endif
                                 @endif
                                 @if(!$temTipoCobranca)
-                                    <p class="text-danger">Para cadastrar uma nova cobrança, é necessário cadastrar
-                                        ao
-                                        menos um tipo de cobrança.</p>
+                                    <p class="text-danger">Para cadastrar uma nova cobrança, é necessário cadastrar ao menos um tipo de cobrança.</p>
                                 @endif
                             </div>
                         </div>

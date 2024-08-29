@@ -34,7 +34,7 @@
                                 <input type="text"
                                        class="form-control blocked-label"
                                        name="descricao"
-                                       value="{{ $cobranca->descricao }}"
+                                       value="{{ $cobranca->cobranca_descricao }}"
                                        placeholder="Descrição"
                                        readonly/>
                             </div>

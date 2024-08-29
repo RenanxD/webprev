@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Configuracoes\CobrancasController;
+use App\Http\Controllers\Configuracoes\TipoCobrancaController;
 use App\Http\Controllers\ConfiguracoesController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/cobrancas', CobrancasController::class);
+Route::resource('/tipocobranca', TipoCobrancaController::class);
 Route::resource('/configuracoes', ConfiguracoesController::class);
 
 require __DIR__.'/auth.php';

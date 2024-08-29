@@ -122,19 +122,18 @@
 }
 
 .ml-2 {
-    margin-left: 10px; /* Margem à esquerda para o segundo botão */
+    margin-left: 10px;
 }
 
-/* Classe para garantir que os botões ficam alinhados lado a lado */
 .d-flex {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espaçamento entre os botões */
+    gap: 10px;
 }
 
 .btn-edit {
-    position: static; /* Garante que os botões não se sobreponham */
-    margin-right: 10px; /* Espaçamento entre os botões */
+    position: static;
+    margin-right: 10px;
 }
 
 .quadro-item a {

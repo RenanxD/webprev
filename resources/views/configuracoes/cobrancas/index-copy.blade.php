@@ -36,44 +36,46 @@
                                 @if ($cobrancaAtual && $cobrancaAtual->cobranca_ativa)
                                     @include('configuracoes.cobrancas.partials.cobranca-ativa', ['cobranca' => $cobrancaAtual])
                                 @endisset
+
                                 @empty($cobrancaAtual)
                                     @isset($ultimaCobrancaAtiva)
                                         @include('configuracoes.cobrancas.partials.ultima-cobranca-ativa', ['cobranca' => $ultimaCobrancaAtiva])
                                     @endisset
                                 @endempty
+
                                 @if (!$cobrancaAtual && !$ultimaCobrancaAtiva)
                                     <p>Nenhuma Cobrança cadastrada ainda.</p>
                                 @endif
-                                @if (!$cobrancaAtual || $cobrancaAtual->cobranca_ativa != 'Ativa')
-                                    <p>Nenhuma Cobrança ativa</p>
-                                    <div class="d-flex justify-content-end">
-                                        <button type="button"
-                                                class="btn-custom"
-                                                data-toggle="modal"
-                                                data-target="#modal-create"
-                                                @if(!$temTipoCobranca) disabled @endif>
-                                            Nova Cobrança
-                                        </button>
-                                        <button type="button"
-                                                class="btn-custom"
-                                                data-toggle="modal"
-                                                data-target="#modal-add-tipo-cobranca">
-                                            Adicionar Tipo de Cobrança
-                                        </button>
-                                    </div>
-                                @endif
+
+                                <div class="d-flex justify-content-end">
+                                    <button type="button"
+                                            class="btn-custom"
+                                            data-toggle="modal"
+                                            data-target="#modal-create"
+                                            @if(!$temTipoCobranca) disabled @endif>
+                                        Nova Cobrança
+                                    </button>
+
+                                    <button type="button"
+                                            class="btn-custom"
+                                            data-toggle="modal"
+                                            data-target="#modal-add-tipo-cobranca">
+                                        Adicionar Tipo de Cobrança
+                                    </button>
+                                </div>
+
                                 @if(!$temTipoCobranca)
-                                    <p class="text-danger">Para cadastrar uma nova cobrança, é necessário cadastrar
-                                        ao
-                                        menos um tipo de cobrança.</p>
+                                    <p class="text-danger">Para cadastrar uma nova cobrança, é necessário cadastrar ao menos um tipo de cobrança.</p>
                                 @endif
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-11 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Cobranças cadastradas</h5>
+
                                 @if (count($cobrancas) > 0)
                                     <div class="table-responsive">
                                         <table class="table">
@@ -94,8 +96,7 @@
                                                     <td>{{ $cobranca->id_tipo_cobranca }}</td>
                                                     <td>{{ $cobranca->cobranca_descricao }}</td>
                                                     <td>{{ $cobranca->cobranca_perm_minima }}</td>
-                                                    <td>
-                                                        R$ {{ number_format($cobranca->cobranca_vlr_adicional, 2, ',', '.') }}</td>
+                                                    <td>R$ {{ number_format($cobranca->cobranca_vlr_adicional, 2, ',', '.') }}</td>
                                                     <td>R$ {{ number_format($cobranca->valor, 2, ',', '.') }}</td>
                                                     <td>{{ $cobranca->cobranca_ativa ? 'Ativa' : 'Inativa' }}</td>
                                                     <td>
@@ -106,10 +107,9 @@
                                                                 title="Editar Cobrança">
                                                             <i class="fas fa-edit" aria-hidden="true"></i>
                                                         </button>
-                                                        <form
-                                                            action="{{ route('cobrancas.destroy', $cobranca->id_cobranca) }}"
-                                                            method="POST"
-                                                            class="d-inline">
+                                                        <form action="{{ route('cobrancas.destroy', $cobranca->id_cobranca) }}"
+                                                              method="POST"
+                                                              class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn-sm">

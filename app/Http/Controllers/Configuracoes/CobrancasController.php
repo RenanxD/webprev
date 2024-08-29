@@ -13,16 +13,15 @@ class CobrancasController extends Controller
     public function index(Request $request)
     {
         $tiposCobranca = TipoCobranca::all();
-        $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first();
+        $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first()
+            ?? Cobrancas::latest()->first();
+        $ultimaCobrancaAtiva = Cobrancas::where('cobranca_ativa', true)->latest()->skip(1)->first(); // Obter a penúltima cobrança ativa, por exemplo
+        $cobrancas = Cobrancas::paginate(7);
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
-        if (!$cobrancaAtual) {
-            $cobrancaAtual = Cobrancas::latest()->first();
-        }
+        $temTipoCobranca = $tiposCobranca->isNotEmpty();
 
-        $cobrancas = Cobrancas::paginate(7);
-
-        return view('configuracoes.cobrancas.index', compact('cobrancas', 'cobrancaAtual', 'tiposCobranca'))
+        return view('configuracoes.cobrancas.index', compact('cobrancas', 'cobrancaAtual', 'tiposCobranca', 'ultimaCobrancaAtiva', 'temTipoCobranca'))
             ->with('mensagemSucesso', $mensagemSucesso);
     }
 
@@ -33,16 +32,8 @@ class CobrancasController extends Controller
 
     public function store(ValidacaoCobrancaRequest $request)
     {
-        if (!TipoCobranca::exists()) {
-            TipoCobranca::create($request->all());
-
-            return redirect()->route('cobrancas.index')->with('success', 'Tipo de Cobrança Cadastrada com Sucesso!');
-        }
-
         Cobrancas::create($request->all());
-        $request->session()->flash('mensagem.sucesso', 'Cobrança criada com sucesso!');
 
-        // Redireciona para a rota 'cobrancas.index' em vez de carregar a view diretamente
         return redirect()->route('cobrancas.index')->with('success', 'Nova Cobrança Cadastrada com Sucesso!');
     }
 
@@ -51,7 +42,7 @@ class CobrancasController extends Controller
         $cobranca->delete();
         $request->session()->flash('mensagem.sucesso', 'Cobrança Removida com Sucesso!');
 
-        return to_route('cobrancas.index');
+        return redirect()->route('cobrancas.index');
     }
 
     public function edit(Request $request)

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_estado');
             $table->string('cidade_descricao');
             $table->string('slug')->unique();
-            $table->binary('cidade_imagem')->nullable();
+            $table->string('cidade_imagem')->nullable();
             $table->timestamps();
 
             $table->foreign('id_estado')->references('id_estado')->on('cadastro_estado')->onDelete('cascade');

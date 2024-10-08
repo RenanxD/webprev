@@ -1,3 +1,7 @@
+body {
+    background-color: #f8f8f8;
+}
+
 .quadros-container {
     display: flex;
     flex-wrap: wrap;
@@ -236,4 +240,114 @@
 .fade-out {
     opacity: 0;
     transition: opacity 1s ease-out;
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step-active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    background-color: #5cb85c; /* Cor verde para a barra de progresso */
+    font-weight: bold; /* Texto em negrito */
+}
+
+.progress-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.progress-circle.inactive {
+    background-color: #fff; /* Background for inactive steps */
+    color: #555; /* Text color for inactive */
+    border-color: #ccc; /* Border color for inactive */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.progress-circle.active {
+    background-color: #d0e7ff;
+    color: #4a90e2 !important;
+    border-color: #4a90e2;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.progress-circle.completed {
+    background-color: #d0e7ff; /* Cor de fundo azul para o círculo completado */
+    color: #fff; /* Cor do texto dentro do círculo */
+    border-color: #4a90e2; /* Cor da borda azul */
+}
+
+.progress-circle.completed:before {
+    content: '\f00c'; /* Código Unicode para o ícone de check */
+    font-family: 'Font Awesome 5 Free', serif; /* Certifique-se de que você está usando a fonte correta */
+    font-weight: 900; /* Usar o peso correto para o ícone */
+    color: #4a90e2; /* Cor do ícone */
+    font-size: 16px; /* Tamanho do ícone */
+}
+
+.progress-line {
+    width: 100px;
+    height: 2px;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.progress-line.completed {
+    background-color: #4a90e2;
+}
+
+#ruaField, #bairroField, #numeroField {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+#ruaField.show, #bairroField.show, #numeroField.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.is-valid {
+    border-color: #28a745;
+}
+
+.is-invalid {
+    border-color: #F44336;
+}
+
+.required-message {
+    color: #F44336;
+    font-size: 0.8rem;
+    display: none;
+}
+
+.required-message.show {
+    display: block;
+}
+
+.btn-block {
+    width: auto;
+    margin-right: 0.5rem;
+}
+
+.progress-info {
+    font-size: 0.9rem;
+    color: #555;
 }

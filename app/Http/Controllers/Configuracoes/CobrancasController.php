@@ -18,7 +18,6 @@ class CobrancasController extends Controller
         $ultimaCobrancaAtiva = Cobrancas::where('cobranca_ativa', true)->latest()->skip(1)->first();
         $cobrancas = Cobrancas::paginate(7);
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
-
         $temTipoCobranca = $tiposCobranca->isNotEmpty();
 
         return view('configuracoes.cobrancas.index', compact('cobrancas', 'cobrancaAtual', 'tiposCobranca', 'ultimaCobrancaAtiva', 'temTipoCobranca'))

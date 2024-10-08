@@ -3,83 +3,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
-<style>
-    body {
-        background-color: #f0f0f0;
-    }
-
-    .form-step {
-        display: none;
-    }
-
-    .form-step-active {
-        display: block;
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .progress-bar {
-        background-color: #5cb85c; /* Cor verde para a barra de progresso */
-        font-weight: bold; /* Texto em negrito */
-    }
-
-    .progress-circle {
-        width: 30px;
-        height: 30px;
-        border: 2px solid #5cb85c; /* Círculo verde */
-        border-radius: 50%; /* Forma circular */
-        display: inline-block;
-        line-height: 30px; /* Centraliza o texto verticalmente */
-        color: #5cb85c; /* Cor do texto do círculo */
-    }
-
-    .progress-circle.inactive {
-        border-color: #ccc; /* Círculos inativos em cinza */
-        color: #ccc; /* Texto em cinza */
-    }
-
-    #ruaField, #bairroField, #numeroField {
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        transform: translateY(-10px);
-        opacity: 0;
-    }
-
-    #ruaField.show, #bairroField.show, #numeroField.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .is-valid {
-        border-color: #28a745;
-    }
-
-    .is-invalid {
-        border-color: #F44336;
-    }
-
-    .required-message {
-        color: #F44336;
-        font-size: 0.8rem;
-        display: none;
-    }
-
-    .required-message.show {
-        display: block;
-    }
-
-    .btn-block {
-        width: auto;
-        margin-right: 0.5rem;
-    }
-
-    .progress-info {
-        font-size: 0.9rem;
-        color: #555;
-    }
-</style>
-
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-9">
@@ -91,19 +14,12 @@
                         <strong>dados</strong>
                     </h4>
 
-                    <!-- Progress Bar for Steps -->
-                    <div class="text-center mb-4">
-                        <div class="progress-info">
-                            <span>Passo <span id="stepNumber">1</span> de 3</span>
-                        </div>
-                        <div class="d-flex justify-content-center mb-2">
-                            <div class="progress-circle" id="circle1">1</div>
-                            <div class="progress-circle" id="circle2">2</div>
-                            <div class="progress-circle" id="circle3">3</div>
-                        </div>
-                        <div class="progress" style="height: 20px;" aria-live="polite">
-                            <div class="progress-bar" role="progressbar" id="progressBar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">1</div>
-                        </div>
+                    <div class="d-flex justify-content-center align-items-center mb-4">
+                        <div class="progress-circle active" id="circle1">1</div>
+                        <div class="progress-line"></div>
+                        <div class="progress-circle" id="circle2">2</div>
+                        <div class="progress-line"></div>
+                        <div class="progress-circle" id="circle3">3</div>
                     </div>
 
                     <!-- Form Starts -->
@@ -207,10 +123,11 @@
                             <div class="form-group is-invalid">
                                 <input type="checkbox" id="aceitar_termos" required>
                                 <label for="aceitar_termos">Aceito todos os <a href="#" target="_blank">termos</a></label>
-                                <small class="required-message show"><strong>* Campo obrigatório</strong></small>
+                                <small class="required-message show" id="termosRequiredMessage"><strong>* Campo obrigatório</strong></small>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-primary btn-block" onclick="nextStep()">Próximo</button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2">Cancelar</button>
+                                <button type="button" class="btn btn-primary flex-fill">Próximo</button>
                             </div>
                         </div>
 
@@ -244,110 +161,8 @@
         </div>
     </div>
 </div>
-
-<script>
-    const steps = document.querySelectorAll('.form-step');
-    let currentStep = 0;
-
-    function showStep(step) {
-        steps.forEach((formStep, index) => {
-            formStep.classList.toggle('form-step-active', index === step);
-        });
-        updateProgressBar(step);
-    }
-
-    function nextStep() {
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            showStep(currentStep);
-        }
-    }
-
-    function prevStep() {
-        if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    }
-
-    function updateProgressBar(step) {
-        const progressBar = document.getElementById('progressBar');
-        const stepNumber = document.getElementById('stepNumber');
-        const circles = [
-            document.getElementById('circle1'),
-            document.getElementById('circle2'),
-            document.getElementById('circle3')
-        ];
-        const progressPercentage = ((step + 1) / steps.length) * 100;
-
-        // Atualiza a barra de progresso
-        progressBar.style.width = progressPercentage + '%';
-        progressBar.innerText = step + 1;
-        stepNumber.innerText = step + 1;
-
-        // Atualiza os círculos
-        circles.forEach((circle, index) => {
-            if (index <= step) {
-                circle.classList.remove('inactive');
-                circle.style.color = '#5cb85c'; // cor verde
-            } else {
-                circle.classList.add('inactive');
-                circle.style.color = '#ccc'; // cor cinza
-            }
-        });
-    }
-
-    function pesquisacep(valor) {
-        const cep = valor.replace(/\D/g, '');
-        if (cep.length === 8) {
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.erro) {
-                        document.getElementById('turista_rua').value = data.logradouro;
-                        document.getElementById('turista_bairro').value = data.bairro;
-                        document.getElementById('ruaField').classList.add('show');
-                        document.getElementById('bairroField').classList.add('show');
-                        document.getElementById('numeroField').classList.add('show');
-                    } else {
-                        alert('CEP não encontrado.');
-                    }
-                })
-                .catch(error => {
-                    alert('Erro ao consultar o CEP.');
-                });
-        }
-    }
-
-    document.getElementById('multiStepForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        alert('Formulário enviado com sucesso!');
-    });
-
-    showStep(currentStep);
-</script>
-<script>
-    // Adiciona lógica de validação para mostrar as mensagens inicialmente
-    document.querySelectorAll('.form-control').forEach(field => {
-        // Verifica se o campo é obrigatório
-        if (field.classList.contains('is-invalid')) {
-            field.addEventListener('input', function() {
-                const requiredMessage = this.nextElementSibling;
-                // Remove a classe de erro e a mensagem se o campo for preenchido
-                if (this.value.trim() !== '') {
-                    this.classList.remove('is-invalid');
-                    requiredMessage.classList.remove('show');
-                }
-            });
-        }
-
-        field.addEventListener('blur', function() {
-            const requiredMessage = this.nextElementSibling;
-            // Se o campo estiver vazio ao perder o foco, mostra a mensagem de erro
-            if (this.value.trim() === '') {
-                this.classList.add('is-invalid');
-                requiredMessage.classList.add('show');
-            }
-        });
-    });
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/consulta-cep.js') }}" ></script>
+<script src="{{ asset('js/campos-obrigatorios.js') }}" ></script>
+<script src="{{ asset('js/barra-progresso.js') }}" ></script>
+<script src="{{ asset('js/etapas-formulario.js') }}" ></script>

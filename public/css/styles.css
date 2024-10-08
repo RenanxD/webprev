@@ -351,3 +351,9 @@ body {
     font-size: 0.9rem;
     color: #555;
 }
+
+.taxa-message {
+    color: #4a90e2;
+    font-size: 13px;
+    font-weight: 600;
+}

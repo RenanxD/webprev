@@ -36,34 +36,40 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <input type="text" class="form-control is-invalid" id="turista_cpf" placeholder="CPF">
+                                    <input type="text" class="form-control is-invalid" id="turista_cpf"
+                                           placeholder="CPF">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <input type="text" class="form-control is-invalid" id="turista_nome" placeholder="Nome Completo">
+                                    <input type="text" class="form-control is-invalid" id="turista_nome"
+                                           placeholder="Nome Completo">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <input type="email" class="form-control" id="turista_email" name="turista_email" placeholder="Email" value="{{ session('email') }}" readonly>
+                                    <input type="email" class="form-control" id="turista_email" name="turista_email"
+                                           placeholder="Email" value="{{ session('email') }}" readonly>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <input type="text" class="form-control is-invalid" id="turista_fone1" name="turista_fone1" placeholder="Telefone Celular">
+                                    <input type="text" class="form-control is-invalid" id="turista_fone1"
+                                           name="turista_fone1" placeholder="Telefone Celular">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <input type="date" class="form-control is-invalid" id="turista_data_nascimento" name="turista_data_nascimento" placeholder="Data de aniversário">
+                                    <input type="date" class="form-control is-invalid" id="turista_data_nascimento"
+                                           name="turista_data_nascimento" placeholder="Data de aniversário">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <input type="text" class="form-control is-invalid" id="turista_fone2" name="turista_fone2" placeholder="Contato de emergência">
+                                    <input type="text" class="form-control is-invalid" id="turista_fone2"
+                                           name="turista_fone2" placeholder="Contato de emergência">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                                 <div class="form-group col-md-3">
@@ -76,7 +82,8 @@
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <select class="form-control is-invalid" id="turista_tipo_sangue" name="turista_tipo_sangue">
+                                    <select class="form-control is-invalid" id="turista_tipo_sangue"
+                                            name="turista_tipo_sangue">
                                         <option value="">Tipo Sanguíneo</option>
                                         <option value="A+">A+</option>
                                         <option value="A-">A-</option>
@@ -92,64 +99,97 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <input type="text" class="form-control is-invalid" id="turista_cep" name="turista_cep" placeholder="CEP" onblur="pesquisacep(this.value)">
+                                    <input type="text" class="form-control is-invalid" id="turista_cep"
+                                           name="turista_cep" placeholder="CEP" onblur="pesquisacep(this.value)">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                                 <div class="form-group col-md-4" id="ruaField">
                                     <input type="text" class="form-control" id="turista_rua" placeholder="Rua" readonly>
                                 </div>
                                 <div class="form-group col-md-4" id="bairroField">
-                                    <input type="text" class="form-control" id="turista_bairro" placeholder="Bairro" readonly>
+                                    <input type="text" class="form-control" id="turista_bairro" placeholder="Bairro"
+                                           readonly>
                                 </div>
                                 <div class="form-group col-md-1" id="numeroField">
-                                    <input type="text" class="form-control is-invalid" id="turista_numero" placeholder="Nº">
+                                    <input type="text" class="form-control is-invalid" id="turista_numero"
+                                           placeholder="Nº">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="turista_necessidade_esp">Possui alguma <strong>necessidade especial?</strong></label><br>
-                                <input type="radio" id="turista_necessidade_esp_nao" name="turista_necessidade_esp" value="nao" checked>
+                                <label for="turista_necessidade_esp">Possui alguma <strong>necessidade
+                                        especial?</strong></label><br>
+                                <input type="radio" id="turista_necessidade_esp_nao" name="turista_necessidade_esp"
+                                       value="nao" checked>
                                 <label for="turista_necessidade_esp_nao">Não</label>
-                                <input type="radio" id="turista_necessidade_esp_sim" name="turista_necessidade_esp" value="sim">
+                                <input type="radio" id="turista_necessidade_esp_sim" name="turista_necessidade_esp"
+                                       value="sim">
                                 <label for="turista_necessidade_esp_sim">Sim</label>
                             </div>
                             <div class="form-group">
                                 <label for="turista_dependente">Possui <strong>dependentes</strong> menores de 18 anos?</label><br>
-                                <input type="radio" id="turista_dependente_nao" name="turista_dependente" value="nao" checked>
+                                <input type="radio" id="turista_dependente_nao" name="turista_dependente" value="nao"
+                                       checked>
                                 <label for="turista_dependente_nao">Não</label>
                                 <input type="radio" id="turista_dependente_sim" name="turista_dependente" value="sim">
                                 <label for="turista_dependente_sim">Sim</label>
                             </div>
                             <div class="form-group is-invalid">
                                 <input type="checkbox" id="aceitar_termos" required>
-                                <label for="aceitar_termos">Aceito todos os <a href="#" target="_blank">termos</a></label>
-                                <small class="required-message show" id="termosRequiredMessage"><strong>* Campo obrigatório</strong></small>
+                                <label for="aceitar_termos">Aceito todos os <a href="#"
+                                                                               target="_blank">termos</a></label>
+                                <small class="required-message show" id="termosRequiredMessage"><strong>* Campo
+                                        obrigatório</strong></small>
                             </div>
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-outline-secondary flex-fill mr-2">Cancelar</button>
-                                <button type="button" class="btn btn-primary flex-fill">Próximo</button>
+                                <button type="button" class="btn btn-primary flex-fill" onclick="nextStep()">Próximo
+                                </button>
                             </div>
                         </div>
 
                         <!-- Step 2 -->
-                        <div class="form-step">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <input type="email" class="form-control" id="email" placeholder="Email">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <input type="date" class="form-control" id="dob" placeholder="Date of Birth">
+                        <div class="form-step text-center">
+                            <h4 class="mb-4" style="text-align: left; display: inline-block;">
+                                <span style="font-weight: 400;">Informe o<br>
+                                    <strong>prazo de permanência</strong>
+                                    <small class="required-message taxa-message show mt-3" id="termosRequiredMessage">Taxa mínima de R$ 20,00. Válida por 7 dias.</small>
+                                </span>
+                            </h4>
+
+                            <div class="form-row justify-content-center text-start">
+                                <div class="form-group col-md-4 position-relative">
+                                    <input type="text" class="form-control" id="data_inicial" placeholder="Data Inicial" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}">
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                            <button type="button" class="btn btn-primary" onclick="nextStep()">Next</button>
+
+                            <div class="form-row justify-content-center text-start">
+                                <div class="form-group col-md-4 position-relative">
+                                    <input type="text" class="form-control" id="data_final" placeholder="Data Final" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}">
+                                </div>
+                            </div>
+
+                            <p class="mt-3"><strong>Alto Paraíso De Goiás</strong><br>possui taxa de conservação ambiental</p>
+
+                            <div class="form-check text-center">
+                                <input class="form-check-input" type="checkbox" id="termos">
+                                <label class="form-check-label" for="termos">
+                                    Aceito todos os <a href="#" class="text-decoration-underline">termos de taxa</a>
+                                </label>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
+                                <button type="button" class="btn btn-primary flex-fill" onclick="nextStep()">Próximo</button>
+                            </div>
                         </div>
 
                         <!-- Step 3 -->
                         <div class="form-step">
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <textarea class="form-control" id="comments" rows="4" placeholder="Additional comments..."></textarea>
+                                    <textarea class="form-control" id="comments" rows="4"
+                                              placeholder="Additional comments..."></textarea>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
@@ -162,7 +202,7 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('js/consulta-cep.js') }}" ></script>
-<script src="{{ asset('js/campos-obrigatorios.js') }}" ></script>
-<script src="{{ asset('js/barra-progresso.js') }}" ></script>
-<script src="{{ asset('js/etapas-formulario.js') }}" ></script>
+<script src="{{ asset('js/consulta-cep.js') }}"></script>
+<script src="{{ asset('js/campos-obrigatorios.js') }}"></script>
+<script src="{{ asset('js/barra-progresso.js') }}"></script>
+<script src="{{ asset('js/etapas-formulario.js') }}"></script>

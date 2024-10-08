@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\LoginLinkMail;
 use App\Models\Cidade;
+use App\Models\Configuracoes\Cobrancas;
 use App\Models\Turista\Turista;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,8 +52,10 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors(['message' => 'Você precisa estar autenticado para acessar esta página.']);
         }
 
+        $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first()
+            ?? Cobrancas::latest()->first();
         $email = session('email');
-        return view('cidades.complete-registration', compact('email', 'slug'));
+        return view('cidades.complete-registration', compact('email', 'slug', 'cobrancaAtual'));
     }
 
     public function completeRegistration(Request $request)

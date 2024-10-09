@@ -198,7 +198,7 @@
                         <div class="form-step" id="step3">
                             <h4>Resumo do que foi preenchido</h4>
                             <div id="resumoPreenchido"></div>
-
+                            <p><strong>CPF:</strong> <span id="cpfDisplay"></span></p>
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
                                 <button type="submit" class="btn btn-success flex-fill">Finalizar</button>

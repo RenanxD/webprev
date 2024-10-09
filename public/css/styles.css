@@ -357,3 +357,39 @@ body {
     font-size: 13px;
     font-weight: 600;
 }
+
+/* Define a borda azul padrão */
+.form-control-date {
+    border: 1px solid #4a90e2;
+}
+
+/* Muda a borda para azul mais escura ao focar */
+.form-control-date:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Adiciona um efeito de sombra */
+}
+
+/* Define a borda ao passar o mouse */
+.form-control-date:hover {
+    border-color: #4a90e2;
+}
+
+.form-control-date {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.form-control-date:focus-visible {
+    border-color: #007bff; /* Altere a cor da borda como desejar */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Adicione um efeito de sombra se necessário */
+}

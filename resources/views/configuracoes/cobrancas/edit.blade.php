@@ -28,7 +28,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="descricao">Descrição</label>
                                 <input type="text"
@@ -36,6 +36,17 @@
                                        name="descricao"
                                        value="{{ $cobranca->cobranca_descricao }}"
                                        placeholder="Descrição"
+                                       readonly/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cobranca_valor">Valor Cobrança</label>
+                                <input type="text"
+                                       class="form-control blocked-label"
+                                       name="cobranca_valor"
+                                       value="{{ $cobranca->cobranca_valor }}"
+                                       placeholder="Valor Cobrança"
                                        readonly/>
                             </div>
                         </div>

@@ -35,6 +35,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="cobranca_valor">Valor Cobrança</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="cobranca_valor"
+                                       placeholder="Valor Cobrança"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label for="cobranca_perm_minima">Permanência mínima</label>
                                 <input type="text"
                                        class="form-control"

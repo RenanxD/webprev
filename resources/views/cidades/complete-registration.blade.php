@@ -153,23 +153,33 @@
                             <h4 class="mb-4" style="text-align: left; display: inline-block;">
                                 <span style="font-weight: 400;">Informe o<br>
                                     <strong>prazo de permanência</strong>
-                                    <small class="required-message taxa-message show mt-3" id="termosRequiredMessage">Taxa mínima de R$ 20,00. Válida por 7 dias.</small>
+                                    <small class="required-message taxa-message show mt-3" id="termosRequiredMessage">
+                                        Taxa mínima de R${{ $cobrancaAtual->cobranca_valor }}. Válida por {{ $cobrancaAtual->cobranca_perm_minima }} dias.
+                                    </small>
                                 </span>
                             </h4>
 
                             <div class="form-row justify-content-center text-start">
                                 <div class="form-group col-md-4 position-relative">
-                                    <input type="text" class="form-control" id="data_inicial" placeholder="Data Inicial" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}">
+                                    <input type="text" class="form-control-date" id="data_inicial" placeholder="Data Inicial"
+                                           onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}" onchange="handleDateChange()">
                                 </div>
                             </div>
 
                             <div class="form-row justify-content-center text-start">
                                 <div class="form-group col-md-4 position-relative">
-                                    <input type="text" class="form-control" id="data_final" placeholder="Data Final" onfocus="(this.type='date')" onblur="if(this.value==''){this.type='text'}">
+                                    <input type="text" class="form-control-date" id="data_final" placeholder="Data Final"
+                                           onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}" onchange="calcularDias()">
                                 </div>
                             </div>
 
                             <p class="mt-3"><strong>Alto Paraíso De Goiás</strong><br>possui taxa de conservação ambiental</p>
+
+                            <div class="mt-3 mb-4" id="diasInfo" style="display: none; font-size: 19px;">
+                                <span id="dias_selecionados" style="color: #4a90e2; font-weight: bold;"></span>
+                                <span style="color: #4a90e2; font-weight: bold;">dias</span> de permanência <br>
+                                Valor da taxa: <span style="color: #4a90e2; font-weight: bold;">R$ {{ $cobrancaAtual->cobranca_valor }}</span>
+                            </div>
 
                             <div class="form-check text-center">
                                 <input class="form-check-input" type="checkbox" id="termos">
@@ -185,15 +195,14 @@
                         </div>
 
                         <!-- Step 3 -->
-                        <div class="form-step">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <textarea class="form-control" id="comments" rows="4"
-                                              placeholder="Additional comments..."></textarea>
-                                </div>
+                        <div class="form-step" id="step3">
+                            <h4>Resumo do que foi preenchido</h4>
+                            <div id="resumoPreenchido"></div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
+                                <button type="submit" class="btn btn-success flex-fill">Finalizar</button>
                             </div>
-                            <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -206,3 +215,57 @@
 <script src="{{ asset('js/campos-obrigatorios.js') }}"></script>
 <script src="{{ asset('js/barra-progresso.js') }}"></script>
 <script src="{{ asset('js/etapas-formulario.js') }}"></script>
+<script>
+    function setMinFinalDate() {
+        var minDays = {{ $cobrancaAtual->cobranca_perm_minima }};
+        var dataInicial = document.getElementById('data_inicial').value;
+
+        if (dataInicial) {
+            var initialDate = new Date(dataInicial);
+            initialDate.setDate(initialDate.getDate() + minDays);
+
+            var day = ("0" + initialDate.getDate()).slice(-2);
+            var month = ("0" + (initialDate.getMonth() + 1)).slice(-2);
+            var year = initialDate.getFullYear();
+            var minFinalDate = year + "-" + month + "-" + day;
+
+            document.getElementById('data_final').setAttribute('min', minFinalDate);
+        }
+    }
+
+    window.onload = function() {
+        var today = new Date();
+        var day = ("0" + today.getDate()).slice(-2);
+        var month = ("0" + (today.getMonth() + 1)).slice(-2);
+        var year = today.getFullYear();
+        var currentDate = year + "-" + month + "-" + day;
+
+        document.getElementById('data_inicial').setAttribute('min', currentDate);
+        document.getElementById('data_final').setAttribute('min', currentDate);
+    }
+
+    function calcularDias() {
+        const dataInicial = document.getElementById('data_inicial').value;
+        const dataFinal = document.getElementById('data_final').value;
+
+        if (dataInicial && dataFinal) {
+            const date1 = new Date(dataInicial);
+            const date2 = new Date(dataFinal);
+            const diffTime = Math.abs(date2 - date1);
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Adicionar 1 para incluir o último dia no cálculo
+            diffDays += 1;
+
+            document.getElementById('dias_selecionados').innerText = diffDays;
+            document.getElementById('diasInfo').style.display = 'block';
+        } else {
+            document.getElementById('diasInfo').style.display = 'none';
+        }
+    }
+
+    function handleDateChange() {
+        setMinFinalDate();
+        calcularDias();
+    }
+</script>

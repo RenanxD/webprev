@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id('id_cobranca');
             $table->unsignedBigInteger('id_tipo_cobranca');
             $table->string('cobranca_descricao');
+            $table->decimal('cobranca_valor', 10, 2);
             $table->smallInteger('cobranca_perm_minima');
             $table->decimal('cobranca_vlr_adicional', 10, 2);
             $table->smallInteger('cobranca_perm_dia_adicional');

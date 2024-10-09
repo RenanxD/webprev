@@ -16,6 +16,7 @@ class Cobrancas extends Model
     protected $fillable = [
         'id_tipo_cobranca',
         'cobranca_descricao',
+        'cobranca_valor',
         'cobranca_perm_minima',
         'cobranca_vlr_adicional',
         'cobranca_perm_dia_adicional',

@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-2">
         <p class="card-text"><strong style="font-size: 14px;">Valor
-                Mínimo:</strong><br>R$ {{ number_format($cobrancaAtual->valor, 2, ',', '.') }}
+                Mínimo:</strong><br>R$ {{ number_format($cobrancaAtual->cobranca_valor, 2, ',', '.') }}
         </p>
     </div>
     <div class="col-md-2">

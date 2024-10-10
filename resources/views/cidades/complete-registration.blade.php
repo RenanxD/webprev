@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="card">
@@ -196,9 +196,54 @@
 
                         <!-- Step 3 -->
                         <div class="form-step" id="step3">
-                            <h4>Resumo do que foi preenchido</h4>
                             <div id="resumoPreenchido"></div>
-                            <p><strong>CPF:</strong> <span id="cpfDisplay"></span></p>
+
+                            <!-- Card Data de Permanência -->
+                            <div class="card card-radius mb-4" style="border-radius: 0.75rem;">
+                                <div class="card-content m-4 d-flex align-items-start">
+                                    <x-logos.logo-calendario class="me-2" />
+                                    <div>
+                                        <strong>Data </strong>de Permanência<br>
+                                        <span style="font-size: 11px;"><strong>10/10/2024</strong> a <strong>16/10/2024</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider-text">
+                                <span>Turista(s)</span>
+                                <hr>
+                            </div>
+                            <!-- Card Turista -->
+                            <div class="card card-radius" style="border-radius: 0.75rem;">
+                                <div class="card-content m-4 d-flex align-items-start">
+                                    <x-logos.logo-turista class="me-2" />
+                                    <div>
+                                        <strong>Nome: </strong><span id="resumoNome"></span><br>
+                                        <strong>CPF: </strong><span id="resumoCpf"></span><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider-text">
+                                <span>Acompanhante(s) ou Dependente(s)</span>
+                                <hr>
+                            </div>
+                            <div class="d-flex flex-column align-items-center">
+                                <div class="mb-2">
+                                    <x-logos.logo-warning />
+                                </div>
+                                <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi adicionado</p>
+                            </div>
+                            <div class="container mt-5">
+                                <div style="margin: 0;" class="divider-text" data-toggle="collapse" data-target="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
+                                    <span>Valores e Taxas</span>
+                                    <hr>
+                                </div>
+
+                                <div class="collapse" id="collapseContent">
+                                    <div class="card card-body mt-2">
+                                        Este é o conteúdo que foi expandido! Você pode adicionar mais informações aqui.
+                                    </div>
+                                </div>
+                            </div>
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
                                 <button type="submit" class="btn btn-success flex-fill">Finalizar</button>
@@ -211,6 +256,9 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{{ asset('js/consulta-cep.js') }}"></script>
 <script src="{{ asset('js/campos-obrigatorios.js') }}"></script>
 <script src="{{ asset('js/barra-progresso.js') }}"></script>
@@ -269,3 +317,13 @@
         calcularDias();
     }
 </script>
+<style>
+    .divider-text {
+        cursor: pointer; /* Indica que a div é clicável */
+    }
+
+    .collapse {
+        transition: height 0.3s ease; /* Transição suave */
+        overflow: hidden; /* Esconde o conteúdo que excede o tamanho */
+    }
+</style>

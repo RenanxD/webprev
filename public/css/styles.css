@@ -393,3 +393,20 @@ body {
     border-color: #007bff; /* Altere a cor da borda como desejar */
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Adicione um efeito de sombra se necessário */
 }
+
+.divider-text {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.divider-text span {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.divider-text hr {
+    flex-grow: 1;
+    border: none;
+    border-top: 1px solid #d8d8d8;
+}

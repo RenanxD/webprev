@@ -6,11 +6,12 @@ $(document).ready(function () {
         $steps.each(function (index) {
             $(this).toggleClass('form-step-active', index === step);
         });
-        updateProgressCircles(step); // Chama a função de atualização da barra de progresso
+        updateProgressCircles(step);
 
-        // Verifica se a etapa atual é a terceira (índice 2) e chama collectData
+        alterarTitulo(step);
+
         if (step === 2) {
-            collectData(); // Chama a função para preencher o resumo
+            collectData();
         }
     }
 
@@ -34,7 +35,6 @@ $(document).ready(function () {
     });
 
     function collectData() {
-        // Captura os valores preenchidos
         const estrangeiro = $('input[name="turista_estrangeiro"]:checked').val();
         const cpf = $('#turista_cpf').val();
         const nome = $('#turista_nome').val();
@@ -51,7 +51,6 @@ $(document).ready(function () {
         const necessidadeEspecial = $('input[name="turista_necessidade_esp"]:checked').val();
         const dependente = $('input[name="turista_dependente"]:checked').val();
 
-        // Preenche os elementos HTML com os valores coletados
         $('#resumoEstrangeiro').text(estrangeiro);
         $('#resumoCpf').text(cpf);
         $('#resumoNome').text(nome);
@@ -67,6 +66,24 @@ $(document).ready(function () {
         $('#resumoBairro').text(bairro);
         $('#resumoNecessidadeEspecial').text(necessidadeEspecial);
         $('#resumoDependente').text(dependente);
+    }
+
+    function alterarTitulo(step) {
+        var titulo = document.getElementById('titulo-etapa');
+
+        switch (step) {
+            case 0:
+                titulo.innerHTML = '<span style="font-weight: 400;">Agora informe os seus</span> <strong>dados</strong>';
+                break;
+            case 1:
+                titulo.innerHTML = '<span style="font-weight: 400;"><strong>Prazo de permanência</strong></span>';
+                break;
+            case 2:
+                titulo.innerHTML = '<span style="font-weight: 400;"><strong>Resumo</strong> das informações</span>';
+                break;
+            default:
+                titulo.innerHTML = '<span style="font-weight: 400;">Agora informe os seus</span> <strong>dados</strong>';
+        }
     }
 
     showStep(currentStep);

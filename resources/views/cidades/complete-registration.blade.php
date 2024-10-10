@@ -13,9 +13,8 @@
             <div class="card">
                 <div class="card-body">
                     <!-- Form Header -->
-                    <h4 class="text-center mb-4">
-                        <span style="font-weight: 400;">Agora informe os seus</span>
-                        <strong>dados</strong>
+                    <h4 id="titulo-etapa" class="text-center mb-4">
+                        <span style="font-weight: 400;">Agora informe os seus</span> <strong>dados</strong>
                     </h4>
 
                     <div class="d-flex justify-content-center align-items-center mb-4">
@@ -48,7 +47,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <input type="text" class="form-control is-invalid" id="turista_nome"
-                                           placeholder="Nome Completo">
+                                           placeholder="Nome Completo" required>
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
@@ -165,7 +164,7 @@
 
                             <div class="form-row justify-content-center text-start">
                                 <div class="form-group col-md-4 position-relative">
-                                    <input type="text" class="form-control-date" id="data_inicial" placeholder="Data Inicial"
+                                    <input type="text" class="form-control-date" id="data_inicial" data-min-days="{{ $cobrancaAtual->cobranca_perm_minima }}" placeholder="Data Inicial"
                                            onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}" onchange="handleDateChange()">
                                 </div>
                             </div>
@@ -264,65 +263,5 @@
 <script src="{{ asset('js/campos-obrigatorios.js') }}"></script>
 <script src="{{ asset('js/barra-progresso.js') }}"></script>
 <script src="{{ asset('js/etapas-formulario.js') }}"></script>
-<script>
-    function setMinFinalDate() {
-        var minDays = {{ $cobrancaAtual->cobranca_perm_minima }};
-        var dataInicial = document.getElementById('data_inicial').value;
-
-        if (dataInicial) {
-            var initialDate = new Date(dataInicial);
-            initialDate.setDate(initialDate.getDate() + minDays);
-
-            var day = ("0" + initialDate.getDate()).slice(-2);
-            var month = ("0" + (initialDate.getMonth() + 1)).slice(-2);
-            var year = initialDate.getFullYear();
-            var minFinalDate = year + "-" + month + "-" + day;
-
-            document.getElementById('data_final').setAttribute('min', minFinalDate);
-        }
-    }
-
-    window.onload = function() {
-        var today = new Date();
-        var day = ("0" + today.getDate()).slice(-2);
-        var month = ("0" + (today.getMonth() + 1)).slice(-2);
-        var year = today.getFullYear();
-        var currentDate = year + "-" + month + "-" + day;
-
-        document.getElementById('data_inicial').setAttribute('min', currentDate);
-        document.getElementById('data_final').setAttribute('min', currentDate);
-    }
-
-    function calcularDias() {
-        const dataInicial = document.getElementById('data_inicial').value;
-        const dataFinal = document.getElementById('data_final').value;
-
-        if (dataInicial && dataFinal) {
-            const date1 = new Date(dataInicial);
-            const date2 = new Date(dataFinal);
-            const diffTime = Math.abs(date2 - date1);
-            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            // Adicionar 1 para incluir o último dia no cálculo
-            diffDays += 1;
-
-            document.getElementById('dias_selecionados').innerText = diffDays;
-            document.getElementById('diasInfo').style.display = 'block';
-        } else {
-            document.getElementById('diasInfo').style.display = 'none';
-        }
-    }
-
-    function handleDateChange() {
-        setMinFinalDate();
-        calcularDias();
-    }
-</script>
-<script>
-    // Script para alternar a seta
-    $('#collapseContent').on('show.bs.collapse', function () {
-        $('.arrow').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-    }).on('hide.bs.collapse', function () {
-        $('.arrow').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-    });
-</script>
+<script src="{{ asset('js/data-cobranca.js') }}"></script>
+<script src="{{ asset('js/resumo-cobranca.js') }}"></script>

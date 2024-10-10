@@ -1,6 +1,10 @@
 <!-- Include Bootstrap, FontAwesome, and your custom styles as needed -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
 <div class="container mt-4">
@@ -236,6 +240,7 @@
                                 <div style="margin: 0;" class="divider-text" data-toggle="collapse" data-target="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
                                     <span>Valores e Taxas</span>
                                     <hr>
+                                    <span>Detalhes <i class="arrow fas fa-chevron-up"></i></span>
                                 </div>
 
                                 <div class="collapse" id="collapseContent">
@@ -255,10 +260,6 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{{ asset('js/consulta-cep.js') }}"></script>
 <script src="{{ asset('js/campos-obrigatorios.js') }}"></script>
 <script src="{{ asset('js/barra-progresso.js') }}"></script>
@@ -317,13 +318,11 @@
         calcularDias();
     }
 </script>
-<style>
-    .divider-text {
-        cursor: pointer; /* Indica que a div é clicável */
-    }
-
-    .collapse {
-        transition: height 0.3s ease; /* Transição suave */
-        overflow: hidden; /* Esconde o conteúdo que excede o tamanho */
-    }
-</style>
+<script>
+    // Script para alternar a seta
+    $('#collapseContent').on('show.bs.collapse', function () {
+        $('.arrow').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+    }).on('hide.bs.collapse', function () {
+        $('.arrow').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+    });
+</script>

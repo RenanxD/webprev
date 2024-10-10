@@ -409,4 +409,23 @@ body {
     flex-grow: 1;
     border: none;
     border-top: 1px solid #d8d8d8;
+    margin-right: 20px;
+    margin-left: 14px;
+}
+
+.divider-text {
+    cursor: pointer; /* Indica que a div é clicável */
+}
+
+.collapse {
+    transition: height 0.3s ease; /* Transição suave */
+    overflow: hidden; /* Esconde o conteúdo que excede o tamanho */
+}
+
+.arrow {
+    transition: transform 0.3s ease; /* Animação para a rotação da seta */
+}
+
+.collapse:not(.show) .arrow {
+    transform: rotate(180deg); /* Rotaciona a seta para baixo quando fechado */
 }

@@ -175,6 +175,7 @@
                                            placeholder="Data Inicial"
                                            onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}"
                                            onchange="handleDateChange()">
+                                    <small class="required-message show" style="margin-right: 8rem;"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
 
@@ -184,6 +185,7 @@
                                            placeholder="Data Final"
                                            onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}"
                                            onchange="calcularDias()">
+                                    <small class="required-message show" style="margin-right: 8rem;"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
 
@@ -202,6 +204,7 @@
                                 <label class="form-check-label" for="termos">
                                     Aceito todos os <a href="#" class="text-decoration-underline">termos de taxa</a>
                                 </label>
+                                <small class="required-message show" style="margin-right: 8rem;"><strong>* Campo obrigatório</strong></small>
                             </div>
 
                             <div class="d-flex justify-content-between mt-4">

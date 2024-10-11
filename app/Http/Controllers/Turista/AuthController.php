@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Turista;
 
+use App\Http\Controllers\Controller;
 use App\Mail\LoginLinkMail;
 use App\Models\Cidade;
 use App\Models\Configuracoes\Cobrancas;
@@ -18,17 +19,18 @@ class AuthController extends Controller
     {
         $cidade = Cidade::where('slug', $slug)->firstOrFail();
 
+        $urlToken = request('token');
         $sessionToken = Session::get('auth_token');
 
-        if ($sessionToken) {
-            return view('cidades.signin-options', [
+        if ($urlToken && $sessionToken && hash_equals($sessionToken, $urlToken)) {
+            return view('turista.signin-options', [
                 'cidade' => $cidade,
                 'email' => Session::get('email'),
                 'slug' => $slug,
             ]);
         }
 
-        return view('cidades.signin', compact('cidade', 'slug'));
+        return view('turista.signin', compact('cidade', 'slug'));
     }
 
     public function sendLoginLink(Request $request, $slug)
@@ -39,7 +41,7 @@ class AuthController extends Controller
         Session::put('auth_token', $token);
         Session::put('email', $request->email);
 
-        $link = route('login.signin', ['slug' => $slug]);
+        $link = route('login.signin', ['slug' => $slug, 'token' => $token]);
 
         Mail::to($request->email)->send(new LoginLinkMail($link));
 
@@ -55,7 +57,7 @@ class AuthController extends Controller
         $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first()
             ?? Cobrancas::latest()->first();
         $email = session('email');
-        return view('cidades.complete-registration', compact('email', 'slug', 'cobrancaAtual'));
+        return view('turista.complete-registration', compact('email', 'slug', 'cobrancaAtual'));
     }
 
     public function completeRegistration(Request $request)

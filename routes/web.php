@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Configuracoes\CobrancasController;
 use App\Http\Controllers\Configuracoes\TipoCobrancaController;
 use App\Http\Controllers\ConfiguracoesController;
 use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Turista\AuthController;
 use App\Http\Controllers\Turista\CadastroTurista;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;

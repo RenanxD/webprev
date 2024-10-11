@@ -1,13 +1,20 @@
-<!-- Include Bootstrap, FontAwesome, and your custom styles as needed -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-
-<div class="container mt-4">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <title>Document</title>
+</head>
+<body>
+<div class="container mt-4 mb-4">
     <div class="row justify-content-center">
         <div class="col-md-9">
             <div class="card">
@@ -47,7 +54,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <input type="text" class="form-control is-invalid" id="turista_nome"
-                                           placeholder="Nome Completo" required>
+                                           placeholder="Nome Completo">
                                     <small class="required-message show"><strong>* Campo obrigatório</strong></small>
                                 </div>
                             </div>
@@ -138,7 +145,7 @@
                                 <label for="turista_dependente_sim">Sim</label>
                             </div>
                             <div class="form-group is-invalid">
-                                <input type="checkbox" id="aceitar_termos" required>
+                                <input type="checkbox" id="aceitar_termos">
                                 <label for="aceitar_termos">Aceito todos os <a href="#"
                                                                                target="_blank">termos</a></label>
                                 <small class="required-message show" id="termosRequiredMessage"><strong>* Campo
@@ -146,8 +153,7 @@
                             </div>
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-outline-secondary flex-fill mr-2">Cancelar</button>
-                                <button type="button" class="btn btn-primary flex-fill" onclick="nextStep()">Próximo
-                                </button>
+                                <button type="button" id="nextStepButton" class="btn btn-primary flex-fill">Próximo</button>
                             </div>
                         </div>
 
@@ -164,24 +170,31 @@
 
                             <div class="form-row justify-content-center text-start">
                                 <div class="form-group col-md-4 position-relative">
-                                    <input type="text" class="form-control-date" id="data_inicial" data-min-days="{{ $cobrancaAtual->cobranca_perm_minima }}" placeholder="Data Inicial"
-                                           onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}" onchange="handleDateChange()">
+                                    <input type="text" class="form-control-date" id="data_inicial"
+                                           data-min-days="{{ $cobrancaAtual->cobranca_perm_minima }}"
+                                           placeholder="Data Inicial"
+                                           onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}"
+                                           onchange="handleDateChange()">
                                 </div>
                             </div>
 
                             <div class="form-row justify-content-center text-start">
                                 <div class="form-group col-md-4 position-relative">
-                                    <input type="text" class="form-control-date" id="data_final" placeholder="Data Final"
-                                           onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}" onchange="calcularDias()">
+                                    <input type="text" class="form-control-date" id="data_final"
+                                           placeholder="Data Final"
+                                           onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}"
+                                           onchange="calcularDias()">
                                 </div>
                             </div>
 
-                            <p class="mt-3"><strong>Alto Paraíso De Goiás</strong><br>possui taxa de conservação ambiental</p>
+                            <p class="mt-3"><strong>Alto Paraíso De Goiás</strong><br>possui taxa de conservação
+                                ambiental</p>
 
                             <div class="mt-3 mb-4" id="diasInfo" style="display: none; font-size: 19px;">
                                 <span id="dias_selecionados" style="color: #4a90e2; font-weight: bold;"></span>
                                 <span style="color: #4a90e2; font-weight: bold;">dias</span> de permanência <br>
-                                Valor da taxa: <span style="color: #4a90e2; font-weight: bold;">R$ {{ $cobrancaAtual->cobranca_valor }}</span>
+                                Valor da taxa: <span
+                                    style="color: #4a90e2; font-weight: bold;">R$ {{ $cobrancaAtual->cobranca_valor }}</span>
                             </div>
 
                             <div class="form-check text-center">
@@ -192,7 +205,9 @@
                             </div>
 
                             <div class="d-flex justify-content-between mt-4">
-                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
+                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2"
+                                        onclick="prevStep()">Voltar
+                                </button>
                                 <button type="button" class="btn btn-primary flex-fill" onclick="nextStep()">Próximo</button>
                             </div>
                         </div>
@@ -204,10 +219,11 @@
                             <!-- Card Data de Permanência -->
                             <div class="card card-radius mb-4" style="border-radius: 0.75rem;">
                                 <div class="card-content m-4 d-flex align-items-start">
-                                    <x-logos.logo-calendario class="me-2" />
+                                    <x-logos.logo-calendario class="me-2"/>
                                     <div>
                                         <strong>Data </strong>de Permanência<br>
-                                        <span style="font-size: 11px;"><strong>10/10/2024</strong> a <strong>16/10/2024</strong></span>
+                                        <span
+                                            style="font-size: 11px;"><strong>10/10/2024</strong> a <strong>16/10/2024</strong></span>
                                     </div>
                                 </div>
                             </div>
@@ -218,7 +234,7 @@
                             <!-- Card Turista -->
                             <div class="card card-radius" style="border-radius: 0.75rem;">
                                 <div class="card-content m-4 d-flex align-items-start">
-                                    <x-logos.logo-turista class="me-2" />
+                                    <x-logos.logo-turista class="me-2"/>
                                     <div>
                                         <strong>Nome: </strong><span id="resumoNome"></span><br>
                                         <strong>CPF: </strong><span id="resumoCpf"></span><br>
@@ -231,12 +247,15 @@
                             </div>
                             <div class="d-flex flex-column align-items-center">
                                 <div class="mb-2">
-                                    <x-logos.logo-warning />
+                                    <x-logos.logo-warning/>
                                 </div>
-                                <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi adicionado</p>
+                                <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi
+                                    adicionado</p>
                             </div>
                             <div class="container mt-5">
-                                <div style="margin: 0;" class="divider-text" data-toggle="collapse" data-target="#collapseContent" aria-expanded="false" aria-controls="collapseContent">
+                                <div style="margin: 0;" class="divider-text" data-toggle="collapse"
+                                     data-target="#collapseContent" aria-expanded="false"
+                                     aria-controls="collapseContent">
                                     <span>Valores e Taxas</span>
                                     <hr>
                                     <span>Detalhes <i class="arrow fas fa-chevron-up"></i></span>
@@ -249,7 +268,9 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between mt-4">
-                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
+                                <button type="button" class="btn btn-outline-secondary flex-fill mr-2"
+                                        onclick="prevStep()">Voltar
+                                </button>
                                 <button type="submit" class="btn btn-success flex-fill">Finalizar</button>
                             </div>
                         </div>
@@ -259,9 +280,11 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/consulta-cep.js') }}"></script>
-<script src="{{ asset('js/campos-obrigatorios.js') }}"></script>
-<script src="{{ asset('js/barra-progresso.js') }}"></script>
-<script src="{{ asset('js/etapas-formulario.js') }}"></script>
-<script src="{{ asset('js/data-cobranca.js') }}"></script>
-<script src="{{ asset('js/resumo-cobranca.js') }}"></script>
+</body>
+</html>
+<script src="{{ asset('js/turista/consulta-cep.js') }}"></script>
+<script src="{{ asset('js/turista/campos-obrigatorios.js') }}"></script>
+<script src="{{ asset('js/turista/barra-progresso.js') }}"></script>
+<script src="{{ asset('js/turista/etapas-formulario.js') }}"></script>
+<script src="{{ asset('js/turista/data-cobranca.js') }}"></script>
+<script src="{{ asset('js/turista/resumo-cobranca.js') }}"></script>

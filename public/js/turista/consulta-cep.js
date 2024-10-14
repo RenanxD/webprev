@@ -4,8 +4,8 @@ function pesquisacep(valor) {
         $.getJSON(`https://viacep.com.br/ws/${cep}/json/`)
             .done(function (data) {
                 if (!data.erro) {
-                    $('#turista_rua').val(data.logradouro);
-                    $('#turista_bairro').val(data.bairro);
+                    $('#turista_endereco').val(data.logradouro);
+                    $('#turista_endereco_bairro').val(data.bairro);
                     $('#ruaField, #bairroField, #numeroField').addClass('show');
                 } else {
                     alert('CEP não encontrado.');

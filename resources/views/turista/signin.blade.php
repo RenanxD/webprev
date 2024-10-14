@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
-<body>
+<body style="display: flex;">
 <div class="logo" style="margin-top: 10rem;">
     <x-logos.logo-regiao/>
 </div>

@@ -7,7 +7,6 @@ $(document).ready(function () {
             $(this).toggleClass('form-step-active', index === step);
         });
         updateProgressCircles(step);
-
         alterarTitulo(step);
 
         if (step === 2) {
@@ -15,10 +14,91 @@ $(document).ready(function () {
         }
     }
 
+    function validateCurrentStep() {
+        let valid = true;
+        const $currentFormStep = $steps.eq(currentStep);
+
+        $currentFormStep.find('.invalid-feedback').remove();
+
+        $currentFormStep.find('input, select').each(function () {
+            if ($(this).prop('required') && !$(this).val()) {
+                valid = false;
+                $(this).addClass('is-invalid');
+                $(this).after('<small class="invalid-feedback" style="color: red;">Campo obrigatório.</small>');
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        function validateCheckbox(checkboxId, labelId, errorMessage) {
+            const checkbox = $(checkboxId);
+            const label = $(`label[for="${labelId}"]`);
+
+            if (!checkbox.is(':checked')) {
+                valid = false;
+                checkbox.addClass('is-invalid');
+
+                if (label.next('.invalid-feedback').length === 0) {
+                    label.after(`<small class="invalid-feedback show" style="color: red;">${errorMessage}</small>`);
+                } else {
+                    label.next('.invalid-feedback').addClass('show');
+                }
+            } else {
+                checkbox.removeClass('is-invalid');
+                label.next('.invalid-feedback').remove();
+            }
+        }
+
+        validateCheckbox('#aceitar_termos', 'aceitar_termos', 'Você deve aceitar os termos.');
+
+        if (currentStep === 1) {
+            validateCheckbox('#termos', 'termos', 'Você deve aceitar os termos.');
+        }
+
+        return valid;
+    }
+
+    $('#aceitar_termos').on('change', function () {
+        const checkboxTermos = $(this);
+        const labelTermos = $('label[for="aceitar_termos"]');
+
+        if (!checkboxTermos.is(':checked')) {
+            checkboxTermos.addClass('is-invalid');
+
+            if (labelTermos.next('.invalid-feedback').length === 0) {
+                labelTermos.after('<small class="invalid-feedback show" style="color: red;">Você deve aceitar os termos.</small>');
+            } else {
+                labelTermos.next('.invalid-feedback').addClass('show');
+            }
+        } else {
+            checkboxTermos.removeClass('is-invalid');
+            labelTermos.next('.invalid-feedback').remove();
+        }
+    });
+
+    $('#termos').on('change', function () {
+        const checkboxTermos = $(this);
+        const labelTermos = $('label[for="termos"]');
+
+        if (!checkboxTermos.is(':checked')) {
+            checkboxTermos.addClass('is-invalid');
+
+            if (labelTermos.next('.invalid-feedback').length === 0) {
+            } else {
+                labelTermos.next('.invalid-feedback').addClass('show');
+            }
+        } else {
+            checkboxTermos.removeClass('is-invalid');
+            labelTermos.next('.invalid-feedback').remove();
+        }
+    });
+
     window.nextStep = function () {
-        if (currentStep < $steps.length - 1) {
-            currentStep++;
-            showStep(currentStep);
+        if (validateCurrentStep()) {
+            if (currentStep < $steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
         }
     };
 
@@ -29,12 +109,9 @@ $(document).ready(function () {
         }
     };
 
-    $('#multiStepForm').on('submit', function (event) {
-        event.preventDefault();
-        alert('Formulário enviado com sucesso!');
-    });
-
     function collectData() {
+        const dataInicial = $('#data_inicial').val();
+        const dataFinal = $('#data_final').val();
         const estrangeiro = $('input[name="turista_estrangeiro"]:checked').val();
         const cpf = $('#turista_cpf').val();
         const nome = $('#turista_nome').val();
@@ -44,28 +121,36 @@ $(document).ready(function () {
         const emergencia = $('#turista_fone2').val();
         const sexo = $('#turista_sexo').val();
         const tipoSanguineo = $('#turista_tipo_sangue').val();
-        const cep = $('#turista_cep').val();
-        const rua = $('#turista_rua').val();
-        const bairro = $('#turista_bairro').val();
-        const numero = $('#turista_numero').val();
+        const cep = $('#turista_endereco_cep').val();
+        const rua = $('#turista_endereco').val();
+        const bairro = $('#turista_endereco_bairro').val();
+        const numero = $('#turista_endereco_numero').val();
         const necessidadeEspecial = $('input[name="turista_necessidade_esp"]:checked').val();
-        const dependente = $('input[name="turista_dependente"]:checked').val();
 
-        $('#resumoEstrangeiro').text(estrangeiro);
-        $('#resumoCpf').text(cpf);
-        $('#resumoNome').text(nome);
-        $('#resumoEmail').text(email);
-        $('#resumoTelefone').text(telefone);
-        $('#resumoNascimento').text(nascimento);
-        $('#resumoEmergencia').text(emergencia);
-        $('#resumoSexo').text(sexo);
-        $('#resumoTipoSanguineo').text(tipoSanguineo);
-        $('#resumoCep').text(cep);
-        $('#resumoRua').text(rua);
-        $('#resumoNumero').text(numero);
-        $('#resumoBairro').text(bairro);
-        $('#resumoNecessidadeEspecial').text(necessidadeEspecial);
-        $('#resumoDependente').text(dependente);
+        $('.resumoDataInicial').text(dataInicial);
+        $('.resumoDataFinal').text(dataFinal);
+        if (estrangeiro === 'sim') {
+            $('#resumoEstrangeiroSim').prop('checked', true);
+        } else {
+            $('#resumoEstrangeiroNao').prop('checked', true);
+        }
+        $('.resumoCpf').text(cpf);
+        $('.resumoNome').text(nome);
+        $('.resumoEmail').text(email);
+        $('.resumoTelefone').text(telefone);
+        $('.resumoNascimento').text(nascimento);
+        $('.resumoEmergencia').text(emergencia);
+        $('.resumoSexo').text(sexo);
+        $('.resumoTipoSanguineo').text(tipoSanguineo);
+        $('.resumoCep').text(cep);
+        $('.resumoRua').text(rua);
+        $('.resumoBairro').text(bairro);
+        $('.resumoNumero').text(numero);
+        if (necessidadeEspecial === 'sim') {
+            $('#resumoNecessidadeEspecialSim').prop('checked', true);
+        } else {
+            $('#resumoNecessidadeEspecialNao').prop('checked', true);
+        }
     }
 
     function alterarTitulo(step) {
@@ -85,6 +170,11 @@ $(document).ready(function () {
                 titulo.innerHTML = '<span style="font-weight: 400;">Agora informe os seus</span> <strong>dados</strong>';
         }
     }
+
+    $steps.on('input change', 'input, select', function () {
+        $(this).removeClass('is-invalid');
+        $(this).next('.invalid-feedback').remove();
+    });
 
     showStep(currentStep);
 });

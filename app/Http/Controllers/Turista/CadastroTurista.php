@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Turista;
 
 use App\Http\Controllers\Controller;
+use App\Models\Turista\Turista;
 use Illuminate\Http\Request;
 
 class CadastroTurista extends Controller
 {
     public function submit(Request $request)
     {
-        // Aqui você pode validar e processar os dados recebidos
+        $request->merge([
+            'turista_dependente' => $request->turista_dependente === 'sim',
+            'turista_estrangeiro' => $request->turista_estrangeiro === 'sim',
+        ]);
+
         $validatedData = $request->validate([
             'turista_cpf' => 'required',
-            'turista_passaporte' => 'required',
+            'turista_passaporte' => 'nullable',
             'turista_nome' => 'required',
             'turista_email' => 'required',
             'turista_fone1' => 'required',
@@ -24,13 +29,12 @@ class CadastroTurista extends Controller
             'turista_endereco' => 'required',
             'turista_endereco_bairro' => 'required',
             'turista_endereco_numero' => 'required',
-            'turista_necessidade_esp' => 'required',
-            'turista_dependente' => 'required',
-            'turista_estrangeiro' => 'required'
+            'turista_necessidade_esp' => 'required|boolean',
+            'turista_dependente' => 'required|boolean',
+            'turista_estrangeiro' => 'required|boolean'
         ]);
 
-        // Faça algo com os dados, como salvar no banco de dados
-        // Model::create($validatedData);
+        Turista::create($validatedData);
 
         return response()->json(['success' => 'Formulário enviado com sucesso!']);
     }

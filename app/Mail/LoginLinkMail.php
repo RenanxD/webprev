@@ -19,7 +19,7 @@ class LoginLinkMail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.login-link')
+        return $this->markdown('emails.login-link')
             ->with(['link' => $this->link]);
     }
 }

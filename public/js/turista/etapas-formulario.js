@@ -125,7 +125,7 @@ $(document).ready(function () {
         const rua = $('#turista_endereco').val();
         const bairro = $('#turista_endereco_bairro').val();
         const numero = $('#turista_endereco_numero').val();
-        const necessidadeEspecial = $('input[name="turista_necessidade_esp"]:checked').val();
+        const necessidadeEspecial = $('input[name="turista_necessidade_esp_opcao"]:checked').val();
 
         $('.resumoDataInicial').text(dataInicial);
         $('.resumoDataFinal').text(dataFinal);
@@ -148,8 +148,18 @@ $(document).ready(function () {
         $('.resumoNumero').text(numero);
         if (necessidadeEspecial === 'sim') {
             $('#resumoNecessidadeEspecialSim').prop('checked', true);
+
+            // Verifica se o usuário escolheu uma necessidade especial no select
+            const selectedNecessidade = $('#turista_necessidade_esp').val();
+            if (selectedNecessidade) {
+                $('.resumoTuristaNecessidadeEsp').text(selectedNecessidade);
+            } else {
+                $('.resumoTuristaNecessidadeEsp').text('Necessidade especial não selecionada');
+            }
+
         } else {
             $('#resumoNecessidadeEspecialNao').prop('checked', true);
+            $('.resumoTuristaNecessidadeEsp').text('Não possui necessidade especial');
         }
     }
 

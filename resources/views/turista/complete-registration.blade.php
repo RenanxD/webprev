@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <title>Document</title>
 </head>
@@ -137,15 +138,23 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="turista_necessidade_esp">Possui alguma <strong>necessidade
-                                        especial?</strong></label><br>
-                                <input type="radio" id="turista_necessidade_esp_nao" name="turista_necessidade_esp"
-                                       value="nao" checked>
+                            <div class="form-group mb-1">
+                                <label for="turista_necessidade_esp_opcao">Possui alguma <strong>necessidade especial?</strong></label><br/>
+                                <input type="radio" id="turista_necessidade_esp_nao" name="turista_necessidade_esp_opcao" value="nao" checked/>
                                 <label for="turista_necessidade_esp_nao">Não</label>
-                                <input type="radio" id="turista_necessidade_esp_sim" name="turista_necessidade_esp"
-                                       value="sim">
+                                <input type="radio" id="turista_necessidade_esp_sim" name="turista_necessidade_esp_opcao" value="sim"/>
                                 <label for="turista_necessidade_esp_sim">Sim</label>
+                            </div>
+                            <!-- Select de Necessidade Especial (oculto inicialmente) -->
+                            <div class="form-group col-md-4" id="necessidade-especial-options" style="display: none; padding-left: 0;">
+                                <select class="form-control" id="turista_necessidade_esp" name="turista_necessidade_esp">
+                                    <option value="">Selecionar</option>
+                                    <option value="Visual">Visual</option>
+                                    <option value="Motora">Motora</option>
+                                    <option value="Mental">Mental</option>
+                                    <option value="Auditiva">Auditiva</option>
+                                    <option value="Outra(s)">Outra(s)</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="turista_dependente">Possui <strong>dependentes</strong> menores de 18 anos?</label><br>
@@ -272,9 +281,9 @@
                                 </div>
 
                                 <div class="collapse" id="collapseContentResumo">
-                                    <div class="card card-body mt-2">
+                                    <div class="container m-2">
                                         <div class="row">
-                                            <div class="col-md-6 mb-3">
+                                            <div class="col-md-6 mb-2 mt-2">
                                                 <label class="form-label">Sou <strong>Estrangeiro?</strong></label>
                                                 <div>
                                                     <label>
@@ -289,70 +298,57 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="resumoCpf" class="form-label"></label>
+                                            <div class="col-md-6 mb-2">
                                                 <span class="resumoCpf form-control"></span>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-12 mb-3">
-                                                <label for="resumoNome" class="form-label"></label>
+                                            <div class="col-md-12 mb-2">
                                                 <span class="resumoNome form-control"></span>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-12 mb-3">
-                                                <label for="resumoEmail" class="form-label"></label>
+                                            <div class="col-md-12 mb-2">
                                                 <span class="resumoEmail form-control"></span>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="resumoTelefone" class="form-label"></label>
+                                            <div class="col-md-6 mb-2">
                                                 <span class="resumoTelefone form-control"></span>
                                             </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="resumoNascimento" class="form-label"></label>
+                                            <div class="col-md-6 mb-2">
                                                 <span class="resumoNascimento form-control"></span>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="resumoEmergencia" class="form-label"></label>
+                                            <div class="col-md-6 mb-2">
                                                 <span class="resumoEmergencia form-control"></span>
                                             </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="resumoSexo" class="form-label"></label>
+                                            <div class="col-md-3 mb-2">
                                                 <span class="resumoSexo form-control"></span>
                                             </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="resumoTipoSanguineo" class="form-label"></label>
+                                            <div class="col-md-3 mb-2">
                                                 <span class="resumoTipoSanguineo form-control"></span>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-3 mb-3">
-                                                <label for="resumoCep" class="form-label"></label>
+                                            <div class="col-md-3 mb-2">
                                                 <span class="resumoCep form-control"></span>
                                             </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="resumoRua" class="form-label"></label>
+                                            <div class="col-md-4 mb-2">
                                                 <span class="resumoRua form-control"></span>
                                             </div>
-                                            <div class="col-md-3 mb-3">
-                                                <label for="resumoBairro" class="form-label"></label>
+                                            <div class="col-md-3 mb-2">
                                                 <span class="resumoBairro form-control"></span>
                                             </div>
-                                            <div class="col-md-2 mb-3">
-                                                <label for="resumoNumero" class="form-label"></label>
+                                            <div class="col-md-2 mb-2">
                                                 <span class="resumoNumero form-control"></span>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-6 mb-3 mt-3">
-                                                <label class="form-label">Possui alguma <strong>necessidade
-                                                        especial?</strong></label>
+                                            <div class="col-md-6 mb-2 mt-3">
+                                                <label class="form-label">Possui alguma <strong>necessidade especial?</strong></label>
                                                 <div>
                                                     <label>
                                                         <input type="radio" name="resumoNecessidadeEspecial" value="sim"
@@ -362,6 +358,10 @@
                                                         <input type="radio" name="resumoNecessidadeEspecial" value="nao"
                                                                disabled id="resumoNecessidadeEspecialNao"> Não
                                                     </label>
+                                                </div>
+                                                <!-- Span abaixo dos radios -->
+                                                <div class="col-md-5 mt-2" style="padding-left:0;">
+                                                    <span class="resumoTuristaNecessidadeEsp form-control"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -437,3 +437,20 @@
 <script src="{{ asset('js/turista/etapas-formulario.js') }}"></script>
 <script src="{{ asset('js/turista/data-cobranca.js') }}"></script>
 <script src="{{ asset('js/turista/resumo-cobranca.js') }}"></script>
+<script src="{{ asset('js/turista/mascara-campos.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('input[name="turista_necessidade_esp_opcao"]').change(function () {
+            if ($('#turista_necessidade_esp_sim').is(':checked')) {
+                $('#necessidade-especial-options').show();
+            } else {
+                $('#necessidade-especial-options').hide();
+            }
+        });
+    });
+</script>
+<style>
+    .spacing-top {
+        margin-top: 10px; /* Ajuste conforme necessário */
+    }
+</style>

@@ -38,4 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/configuracoes', ConfiguracoesController::class);
 });
 
+Route::get('/email', function () {
+    return new \App\Mail\LoginLinkMail('https://www.google.com/');
+});
+
 require __DIR__.'/auth.php';

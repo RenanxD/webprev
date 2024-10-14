@@ -219,8 +219,9 @@
                             <div class="mt-3 mb-4" id="diasInfo" style="display: none; font-size: 19px;">
                                 <span id="dias_selecionados" style="color: #4a90e2; font-weight: bold;"></span>
                                 <span style="color: #4a90e2; font-weight: bold;">dias</span> de permanência <br>
-                                Valor da taxa: <span
-                                    style="color: #4a90e2; font-weight: bold;">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
+                                    Valor da taxa: <span id="valorTaxa" style="color: #4a90e2; font-weight: bold;">
+                                    R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}
+                                </span>
                             </div>
 
                             <div class="form-check text-center">
@@ -403,16 +404,16 @@
                                             <tr>
                                                 <td>1.</td>
                                                 <td><span class="resumoNome"></span></td>
-                                                <td><span>R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span></td>
+                                                <td><span id="valorTaxaTabela">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span></td>
                                             </tr>
                                             </tbody>
                                         </table>
 
                                         <div class="mt-3">
-                                            <strong>Total de Taxas:</strong> R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}
+                                            <strong>Total de Taxas:</strong> <span id="totalTaxas">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
                                         </div>
                                         <div class="mt-2">
-                                            <strong>Total Geral:</strong> R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}
+                                            <strong>Total Geral:</strong> <span id="totalGeral">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -449,8 +450,42 @@
         });
     });
 </script>
-<style>
-    .spacing-top {
-        margin-top: 10px; /* Ajuste conforme necessário */
-    }
-</style>
+<script>
+    $(document).ready(function () {
+        var $radiosNecessidade = $('input[name="turista_necessidade_esp_opcao"]');
+
+        // Valor original da cobrança
+        var cobrancaValor = "{{ $cobrancaAtual->cobranca_valor ?? '' }}";
+
+        // Seletores para atualizar a exibição
+        var $valorTaxaSpan = $('#valorTaxa'); // Para atualizar o valor da taxa no primeiro bloco
+        var $valorTaxaTabela = $('#valorTaxaTabela'); // Para atualizar o valor da taxa na tabela
+        var $totalTaxas = $('#totalTaxas'); // Para atualizar o total de taxas
+        var $totalGeral = $('#totalGeral'); // Para atualizar o total geral
+
+        // Função que altera a exibição do valor com base na seleção de necessidade especial
+        function verificarIsencao() {
+            var necessidadeSelecionada = $('input[name="turista_necessidade_esp_opcao"]:checked').val();
+
+            if (necessidadeSelecionada === 'sim') {
+                // Exibe "Isento" e zera os totais
+                $valorTaxaSpan.text('Isento');
+                $valorTaxaTabela.text('Isento');
+                $totalTaxas.text('R$ 0,00');
+                $totalGeral.text('R$ 0,00');
+            } else {
+                // Restaura o valor original na exibição
+                $valorTaxaSpan.text(`R$ ${cobrancaValor}`);
+                $valorTaxaTabela.text(`R$ ${cobrancaValor}`);
+                $totalTaxas.text(`R$ ${cobrancaValor}`);
+                $totalGeral.text(`R$ ${cobrancaValor}`);
+            }
+        }
+
+        // Adiciona o evento 'change' para os radios
+        $radiosNecessidade.on('change', verificarIsencao);
+
+        // Executa a função inicialmente para verificar o estado atual
+        verificarIsencao();
+    });
+</script>

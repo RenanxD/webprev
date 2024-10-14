@@ -4,10 +4,18 @@ namespace App\Http\Controllers\Turista;
 
 use App\Http\Controllers\Controller;
 use App\Models\Turista\Turista;
+use App\Services\CobrancaService;
 use Illuminate\Http\Request;
 
 class CadastroTurista extends Controller
 {
+    protected $cobrancaService;
+
+    public function __construct(CobrancaService $cobrancaService)
+    {
+        $this->cobrancaService = $cobrancaService;
+    }
+
     public function submit(Request $request)
     {
         $request->merge([
@@ -34,8 +42,20 @@ class CadastroTurista extends Controller
             'turista_estrangeiro' => 'required|boolean'
         ]);
 
-        Turista::create($validatedData);
+        $turista = Turista::create($validatedData);
 
-        return response()->json(['success' => 'Formulário enviado com sucesso!']);
+        $cobrancaResponse = $this->cobrancaService->gerarCobranca($turista);
+
+        if (isset($cobrancaResponse['error'])) {
+            return response()->json(['error' => $cobrancaResponse['error']], 500);
+        }
+
+        return response()->json([
+            'success' => 'Formulário enviado e cobrança gerada com sucesso!',
+            'cobranca' => $cobrancaResponse['cobranca'],
+            'bar_code' => $cobrancaResponse['bar_code'],
+            'qr_code' => $cobrancaResponse['qr_code'],
+            'detalhes_cobranca' => $cobrancaResponse['detalhes_cobranca'],
+        ]);
     }
 }

@@ -14,7 +14,7 @@ class CobrancaService
 
         $cobrancaData = [
             "tipo_cobranca" => "boleto-hibrido",
-            "data_vencimento" => $dataVencimento->format('Y-m-d'),
+            "data_vencimento" => "2024-06-13",
             "valor_original" => "3",
             "valor_abatimento" => 0,
             "multa_tipo" => 0,
@@ -31,9 +31,9 @@ class CobrancaService
             "dias_negativacao" => 0,
             "num_titulo_beneficiario" => "1693859156",
             "campo_uso_beneficiario" => null,
-            "mensagem" => "Não receber após " . $dataVencimento->subDay()->format('d/m/Y'),
+            "mensagem" => "N\u00e3o receber ap\u00f3s 12\/06\/2024",
             "tags" => "guia-previdenciaria",
-            "pagador_id" => $turista->id,
+            "pagador_id" => $turista->id_turista,
             "pagador_cpf_cnpj" => $turista->turista_cpf,
             "pagador_nome" => $turista->turista_nome,
         ];

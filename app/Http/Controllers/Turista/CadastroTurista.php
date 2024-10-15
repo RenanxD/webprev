@@ -21,6 +21,7 @@ class CadastroTurista extends Controller
         $request->merge([
             'turista_dependente' => $request->turista_dependente === 'sim',
             'turista_estrangeiro' => $request->turista_estrangeiro === 'sim',
+            'turista_necessidade_esp' => false
         ]);
 
         $validatedData = $request->validate([

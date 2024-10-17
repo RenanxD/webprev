@@ -12,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Document</title>
+    <title>Webprev - Registro</title>
 </head>
 <body>
 <div class="container mt-4 mb-4">
@@ -20,7 +20,6 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-body">
-                    <!-- Form Header -->
                     <h4 id="titulo-etapa" class="text-center mb-4">
                         <span style="font-weight: 400;">Agora informe os seus</span> <strong>dados</strong>
                     </h4>
@@ -31,10 +30,12 @@
                         <div class="progress-circle" id="circle2">2</div>
                         <div class="progress-line"></div>
                         <div class="progress-circle" id="circle3">3</div>
+                        <div class="progress-line"></div>
+                        <div class="progress-circle" id="circle4">4</div>
                     </div>
 
                     <!-- Form Starts -->
-                    <form action="{{ route('form.submit')}}" method="POST">
+                    <form id="multiStepForm" method="POST">
                         @csrf
 
                         <!-- Step 1 -->
@@ -45,6 +46,9 @@
 
                         <!-- Step 3 -->
                         @include('turista.form.etapa3')
+
+                        <!-- Step 4 -->
+                        @include('turista.form.etapa4')
 
                     </form>
                 </div>
@@ -118,6 +122,33 @@
             } else {
                 $('#date-error').hide();
             }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#multiStepForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(this); // Initialize the formData object with the form data
+
+            $.ajax({
+                url: '{{ route("form.submit") }}', // Corrected the selector
+                method: 'POST',
+                data: formData,
+                contentType: false,  // Needed for FormData to send files
+                processData: false,  // Prevents jQuery from converting the form data
+                success: function (response) {
+                    console.log('Resposta do servidor:', response);
+                    $('#step4').html('<img src="' + response.qr_code + '" alt="QR Code">');
+                    $('#step3').hide();
+                    $('#step4').show();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erro ao enviar o formulário:', error);
+                    alert('Ocorreu um erro: ' + error);
+                }
+            });
         });
     });
 </script>

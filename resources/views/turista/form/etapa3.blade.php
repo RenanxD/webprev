@@ -1,7 +1,5 @@
 <div class="form-step" id="step3">
     <div id="resumoPreenchido"></div>
-
-    <!-- Card Data de Permanência -->
     <div class="container">
         <div class="card card-radius mb-4" style="border-radius: 0.75rem;">
             <div class="card-content m-4 d-flex align-items-start">
@@ -15,14 +13,11 @@
                 </div>
             </div>
         </div>
-
         <div class="divider-text">
             <span>Turista(s)</span>
             <hr>
         </div>
     </div>
-
-    <!-- Card Turista -->
     <div class="container">
         <div class="card card-radius" style="border-radius: 0.75rem; cursor: pointer;"
              data-toggle="collapse"
@@ -39,7 +34,6 @@
                 </div>
             </div>
         </div>
-
         <div class="collapse" id="collapseContentResumo">
             <div class="container m-2">
                 <div class="row">
@@ -47,12 +41,20 @@
                         <label class="form-label">Sou <strong>Estrangeiro?</strong></label>
                         <div>
                             <label>
-                                <input type="radio" name="resumoEstrangeiro" value="sim"
-                                       disabled id="resumoEstrangeiroSim"> Sim
+                                <input type="radio"
+                                       name="resumoEstrangeiro"
+                                       value="sim"
+                                       disabled
+                                       id="resumoEstrangeiroSim">
+                                Sim
                             </label>
                             <label>
-                                <input type="radio" name="resumoEstrangeiro" value="nao"
-                                       disabled id="resumoEstrangeiroNao"> Não
+                                <input type="radio"
+                                       name="resumoEstrangeiro"
+                                       value="nao"
+                                       disabled
+                                       id="resumoEstrangeiroNao">
+                                Não
                             </label>
                         </div>
                     </div>
@@ -105,18 +107,25 @@
                         <span class="resumoNumero form-control"></span>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6 mb-2 mt-3">
                         <label class="form-label">Possui alguma <strong>necessidade especial?</strong></label>
                         <div>
                             <label>
-                                <input type="radio" name="resumoNecessidadeEspecial" value="sim"
-                                       disabled id="resumoNecessidadeEspecialSim"> Sim
+                                <input type="radio"
+                                       name="resumoNecessidadeEspecial"
+                                       value="sim"
+                                       disabled
+                                       id="resumoNecessidadeEspecialSim">
+                                Sim
                             </label>
                             <label>
-                                <input type="radio" name="resumoNecessidadeEspecial" value="nao"
-                                       disabled id="resumoNecessidadeEspecialNao"> Não
+                                <input type="radio"
+                                       name="resumoNecessidadeEspecial"
+                                       value="nao"
+                                       disabled
+                                       id="resumoNecessidadeEspecialNao">
+                                Não
                             </label>
                         </div>
                         <div class="col-md-5 mt-2" style="padding-left:0;">
@@ -126,7 +135,6 @@
                 </div>
             </div>
         </div>
-
         <div class="divider-text">
             <span>Acompanhante(s) ou Dependente(s)</span>
             <hr>
@@ -135,8 +143,7 @@
             <div class="mb-2">
                 <x-logos.logo-warning/>
             </div>
-            <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi
-                adicionado</p>
+            <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi adicionado</p>
         </div>
     </div>
     <div class="container mt-5">
@@ -147,7 +154,6 @@
             <hr>
             <span>Detalhes <i class="arrow fas fa-chevron-up"></i></span>
         </div>
-
         <div class="collapse" id="collapseContent">
             <div class="card card-body mt-2">
                 <table class="table">
@@ -166,22 +172,17 @@
                     </tr>
                     </tbody>
                 </table>
-
                 <div class="mt-3">
-                    <strong>Total de Taxas:</strong> <span
-                        id="totalTaxas">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
+                    <strong>Total de Taxas:</strong> <span id="totalTaxas">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
                 </div>
                 <div class="mt-2">
-                    <strong>Total Geral:</strong> <span
-                        id="totalGeral">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
+                    <strong>Total Geral:</strong> <span id="totalGeral">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
                 </div>
             </div>
         </div>
     </div>
     <div class="d-flex justify-content-between mt-4">
-        <button type="button" class="btn btn-outline-secondary flex-fill mr-2"
-                onclick="prevStep()">Voltar
-        </button>
+        <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
         <button type="submit" class="btn btn-success flex-fill">Finalizar</button>
     </div>
 </div>

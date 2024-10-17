@@ -1,4 +1,3 @@
-<!-- Step 2 -->
 <div class="form-step text-center">
     <h4 class="mb-4" style="text-align: left; display: inline-block;">
         <span style="font-weight: 400;">Informe o<br>
@@ -48,7 +47,9 @@
     </div>
 
     <div class="form-check text-center">
-        <input class="form-check-input" type="checkbox" id="termos">
+        <input class="form-check-input"
+               type="checkbox"
+               id="termos">
         <label class="form-check-label" for="termos" style="color: #000000;">
             Aceito todos os <a href="#" class="text-decoration-underline">termos de taxa</a>
         </label>

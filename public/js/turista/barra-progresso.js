@@ -1,6 +1,6 @@
 $(document).ready(function () {
     window.updateProgressCircles = function (step) {
-        const $circles = $('#circle1, #circle2, #circle3');
+        const $circles = $('#circle1, #circle2, #circle3, #circle4');
         const $lines = $('.progress-line');
 
         $circles.each(function (index) {

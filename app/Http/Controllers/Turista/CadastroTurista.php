@@ -51,12 +51,14 @@ class CadastroTurista extends Controller
             return response()->json(['error' => $cobrancaResponse['error']], 500);
         }
 
+        // Codifica o QR code binário para base64
+        $qrCodeBase64 = base64_encode($cobrancaResponse['qr_code']);
+
         return response()->json([
             'success' => 'Formulário enviado e cobrança gerada com sucesso!',
             'cobranca' => $cobrancaResponse['cobranca'],
-            'bar_code' => $cobrancaResponse['bar_code'],
-            'qr_code' => $cobrancaResponse['qr_code'],
-            'detalhes_cobranca' => $cobrancaResponse['detalhes_cobranca'],
+            'qr_code' => $qrCodeBase64,
+            'pix_emv' => $cobrancaResponse['detalhes_cobranca']['dados']['pix_emv'],
         ]);
     }
 }

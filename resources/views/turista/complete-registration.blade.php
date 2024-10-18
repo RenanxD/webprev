@@ -128,25 +128,36 @@
 <script>
     $(document).ready(function () {
         $('#multiStepForm').on('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
-            var formData = new FormData(this); // Initialize the formData object with the form data
+            var formData = new FormData(this);
 
             $.ajax({
-                url: '{{ route("form.submit") }}', // Corrected the selector
+                url: '{{ route("form.submit") }}',
                 method: 'POST',
                 data: formData,
-                contentType: false,  // Needed for FormData to send files
-                processData: false,  // Prevents jQuery from converting the form data
+                contentType: false,
+                processData: false,
                 success: function (response) {
                     console.log('Resposta do servidor:', response);
-                    $('#step4').html('<img src="' + response.qr_code + '" alt="QR Code">');
+
+                    if (response.qr_code) {
+                        var qrCodeBase64 = 'data:image/png;base64,' + response.qr_code;
+
+                        // Atualiza o src da imagem e exibe o QR Code
+                        $('#qrCodeImage').attr('src', qrCodeBase64).show();
+                        // Exibe o texto de instrução
+                        $('#qrCodeText').show();
+                    }
+
+                    // Atualiza o campo do código Pix
+                    if (response.pix_emv) {
+                        $('#pixCode').val(response.pix_emv);
+                    }
+
+                    nextStep();
                     $('#step3').hide();
                     $('#step4').show();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Erro ao enviar o formulário:', error);
-                    alert('Ocorreu um erro: ' + error);
                 }
             });
         });

@@ -176,6 +176,9 @@ $(document).ready(function () {
             case 2:
                 titulo.innerHTML = '<span style="font-weight: 400;"><strong>Resumo</strong> das informações</span>';
                 break;
+            case 3:
+                titulo.innerHTML = '<span style="font-weight: 400;"><strong>Realize o</strong> pagamento</span>';
+                break;
             default:
                 titulo.innerHTML = '<span style="font-weight: 400;">Agora informe os seus</span> <strong>dados</strong>';
         }

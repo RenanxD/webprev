@@ -35,15 +35,11 @@
         </div>
     </div>
 
-    <p class="mt-3"><strong>Alto Paraíso De Goiás</strong><br>possui taxa de conservação
-        ambiental</p>
+    <p class="mt-3"><strong>Alto Paraíso De Goiás</strong><br>possui taxa de conservação ambiental</p>
 
     <div class="mt-3 mb-4" id="diasInfo" style="display: none; font-size: 19px;">
         <span id="dias_selecionados" style="color: #4a90e2; font-weight: bold;"></span>
-        <span style="color: #4a90e2; font-weight: bold;">dias</span> de permanência <br>
-        Valor da taxa: <span id="valorTaxa" style="color: #4a90e2; font-weight: bold;">
-                                    R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}
-                                </span>
+        <span style="color: #4a90e2; font-weight: bold;">dias</span> de permanência <br>Valor da taxa: <span id="valorTaxa" style="color: #4a90e2; font-weight: bold;">R${{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
     </div>
 
     <div class="form-check text-center">
@@ -63,3 +59,4 @@
         </button>
     </div>
 </div>
+<script src="{{ asset('js/turista/data-cobranca.js') }}"></script>

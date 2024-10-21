@@ -36,7 +36,6 @@ function calcularDias() {
         const diffTime = Math.abs(date2 - date1);
         let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        // Adicionar 1 para incluir o último dia no cálculo
         diffDays += 1;
 
         document.getElementById('dias_selecionados').innerText = diffDays;

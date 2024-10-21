@@ -173,16 +173,18 @@
                     </tbody>
                 </table>
                 <div class="mt-3">
-                    <strong>Total de Taxas:</strong> <span id="totalTaxas">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
+                    <strong>Total de Taxas:</strong> <span
+                        id="totalTaxas">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
                 </div>
                 <div class="mt-2">
-                    <strong>Total Geral:</strong> <span id="totalGeral">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
+                    <strong>Total Geral:</strong> <span
+                        id="totalGeral">R$ {{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
                 </div>
             </div>
         </div>
     </div>
     <div class="d-flex justify-content-between mt-4">
         <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="prevStep()">Voltar</button>
-        <button type="submit" class="btn btn-success flex-fill">Finalizar</button>
+        <button type="submit" id="submitButton" data-url="{{ route('form.submit') }}" class="btn btn-success flex-fill">Finalizar</button>
     </div>
 </div>

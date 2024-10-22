@@ -96,7 +96,7 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <input type="text"
                    class="form-control"
                    id="turista_endereco_cep"
@@ -105,7 +105,7 @@
                    onblur="pesquisacep(this.value)"
                    required>
         </div>
-        <div class="form-group col-md-4" id="ruaField">
+        <div class="form-group col-md-5" id="ruaField">
             <input type="text"
                    class="form-control"
                    id="turista_endereco"
@@ -113,7 +113,7 @@
                    placeholder="Rua"
                    readonly>
         </div>
-        <div class="form-group col-md-4" id="bairroField">
+        <div class="form-group col-md-3" id="bairroField">
             <input type="text"
                    class="form-control"
                    id="turista_endereco_bairro"
@@ -121,7 +121,7 @@
                    placeholder="Bairro"
                    readonly>
         </div>
-        <div class="form-group col-md-1" id="numeroField">
+        <div class="form-group col-md-2" id="numeroField">
             <input type="text"
                    class="form-control"
                    id="turista_endereco_numero"

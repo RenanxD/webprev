@@ -1,5 +1,5 @@
-<div class="form-step" id="step4" style="display: none; text-align: center; margin-top: 5rem;">
-    <img id="qrCodeImage" src="" alt="QR Code" style="display: none;">
+<div class="form-step" id="step4" style="display: none; text-align: center; margin-top: 3rem;">
+    <img id="qrCodeImage" src="" alt="QR Code" style="display: none; width: 250px;">
     <p id="qrCodeText" style="display: none; text-align: center; margin-top: 2rem">
         Aponte sua câmera para o <strong>QR Code</strong> ou copie o código
     </p>

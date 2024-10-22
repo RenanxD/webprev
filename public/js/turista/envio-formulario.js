@@ -5,6 +5,9 @@ $(document).ready(function () {
         const formData = new FormData(this);
         const url = $('#submitButton').data('url');
 
+        // Mostrar o loading
+        $('#loading').show();
+
         $.ajax({
             url: url,
             method: 'POST',
@@ -12,7 +15,8 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                console.log('Resposta do servidor:', response);
+                // Ocultar o loading
+                $('#loading').hide();
 
                 if (response.qr_code) {
                     const qrCodeBase64 = 'data:image/png;base64,' + response.qr_code;
@@ -25,9 +29,17 @@ $(document).ready(function () {
                     $('#pixCode').val(response.pix_emv);
                 }
 
-                nextStep();
-                $('#step3').hide();
-                $('#step4').show();
+                if (validateCurrentStep()) {
+                    // Quando a requisição for concluída e os dados validados
+                    $('#step3').hide(); // Ocultar etapa 3
+                    $('#step4').show(); // Mostrar etapa 4
+                }
+            },
+            error: function (xhr, status, error) {
+                // Ocultar o loading em caso de erro
+                $('#loading').hide();
+                // Exiba uma mensagem de erro ou trate o erro conforme necessário
+                console.error(error);
             }
         });
     });

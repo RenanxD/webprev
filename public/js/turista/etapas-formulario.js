@@ -14,7 +14,7 @@ $(document).ready(function () {
         }
     }
 
-    function validateCurrentStep() {
+     window.validateCurrentStep = function () {
         let valid = true;
         const $currentFormStep = $steps.eq(currentStep);
 
@@ -56,7 +56,7 @@ $(document).ready(function () {
         }
 
         return valid;
-    }
+    };
 
     $('#aceitar_termos').on('change', function () {
         const checkboxTermos = $(this);

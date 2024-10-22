@@ -18,6 +18,13 @@
             <hr>
         </div>
     </div>
+    <div id="loading" style="display: none; text-align: center; margin-top: 20px;">
+        <div class="overlay"></div>
+        <div class="loading-content">
+            <img src="{{ asset('images/kOnzy.gif') }}" alt="Carregando..." />
+            <p>Carregando, por favor aguarde...</p>
+        </div>
+    </div>
     <div class="container">
         <div class="card card-radius" style="border-radius: 0.75rem; cursor: pointer;"
              data-toggle="collapse"
@@ -188,3 +195,31 @@
         <button type="submit" id="submitButton" data-url="{{ route('form.submit') }}" class="btn btn-success flex-fill">Finalizar</button>
     </div>
 </div>
+<style>
+    #loading {
+        position: relative;
+        z-index: 1000; /* Coloca o loading em cima do conteúdo */
+    }
+
+    .overlay {
+        position: fixed; /* Cobrirá toda a tela */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7); /* Cor de fundo com opacidade */
+        backdrop-filter: blur(5px); /* Efeito de desfoque */
+        z-index: 999; /* Um pouco abaixo do loading */
+    }
+
+    .loading-content {
+        position: relative; /* Para manter o GIF no topo */
+        z-index: 1001; /* Assegura que o conteúdo de loading fique acima da overlay */
+        text-align: center;
+    }
+
+    #loading img {
+        width: 50px; /* Defina o tamanho desejado do GIF */
+        height: auto; /* Mantém a proporção */
+    }
+</style>

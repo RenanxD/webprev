@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Turista;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TuristaRequest;
 use App\Models\Turista\Turista;
 use App\Services\CobrancaService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class CadastroTurista extends Controller
 {
@@ -17,53 +18,42 @@ class CadastroTurista extends Controller
         $this->cobrancaService = $cobrancaService;
     }
 
-    public function submit(Request $request)
+    public function submit(TuristaRequest $request)
     {
-        $request->merge([
-            'turista_dependente' => $request->turista_dependente === 'sim',
-            'turista_estrangeiro' => $request->turista_estrangeiro === 'sim',
-            'turista_necessidade_esp' => false
-        ]);
+        $validatedData = $request->validated();
 
-        $validatedData = $request->validate([
-            'turista_cpf' => 'required',
-            'turista_passaporte' => 'nullable',
-            'turista_nome' => 'required',
-            'turista_email' => 'required',
-            'turista_fone1' => 'required',
-            'turista_fone2' => 'required',
-            'turista_data_nascimento' => 'required',
-            'turista_sexo' => 'required',
-            'turista_tipo_sangue' => 'required',
-            'turista_endereco_cep' => 'required',
-            'turista_endereco' => 'required',
-            'turista_endereco_bairro' => 'required',
-            'turista_endereco_numero' => 'required',
-            'turista_necessidade_esp' => 'required|boolean',
-            'turista_dependente' => 'required|boolean',
-            'turista_estrangeiro' => 'required|boolean'
-        ]);
+        try {
+            $turista = Turista::create($validatedData);
 
-        $turista = Turista::create($validatedData);
+            $validatedData['id_turista'] = $turista->id;
 
-        $cobrancaResponse = $this->cobrancaService->gerarCobranca($turista);
-        Log::info('Cobranca Response:', $cobrancaResponse);
+            $cobrancaResponse = $this->cobrancaService->gerarCobranca($validatedData);
 
-        if (!isset($cobrancaResponse['qr_code'])) {
-            return response()->json(['error' => 'QR Code não encontrado'], 500);
+            Log::info('Cobranca Response:', $cobrancaResponse);
+
+            if (!isset($cobrancaResponse['qr_code'])) {
+                return response()->json(['error' => 'QR Code não encontrado'], 500);
+            }
+
+            if (isset($cobrancaResponse['error'])) {
+                return response()->json(['error' => $cobrancaResponse['error']], 500);
+            }
+
+            $qrCodeBase64 = base64_encode($cobrancaResponse['qr_code']);
+
+            return response()->json([
+                'success' => 'Formulário enviado e cobrança gerada com sucesso!',
+                'cobranca' => $cobrancaResponse['cobranca'],
+                'qr_code' => $qrCodeBase64,
+                'pix_emv' => $cobrancaResponse['detalhes_cobranca']['dados']['pix_emv'],
+            ]);
+
+        } catch (Exception $e) {
+            Log::error('Erro ao gerar a cobrança: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'Ocorreu um erro ao gerar a cobrança. Tente novamente mais tarde.'
+            ], 500);
         }
-
-        if (isset($cobrancaResponse['error'])) {
-            return response()->json(['error' => $cobrancaResponse['error']], 500);
-        }
-
-        $qrCodeBase64 = base64_encode($cobrancaResponse['qr_code']);
-
-        return response()->json([
-            'success' => 'Formulário enviado e cobrança gerada com sucesso!',
-            'cobranca' => $cobrancaResponse['cobranca'],
-            'qr_code' => $qrCodeBase64,
-            'pix_emv' => $cobrancaResponse['detalhes_cobranca']['dados']['pix_emv'],
-        ]);
     }
 }

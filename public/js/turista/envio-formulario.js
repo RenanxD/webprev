@@ -2,11 +2,11 @@ $(document).ready(function () {
     $('#multiStepForm').on('submit', function (event) {
         event.preventDefault();
 
-        var formData = new FormData(this);
-        var url = $('#submitButton').data('url'); // Acessando o atributo de dados
+        const formData = new FormData(this);
+        const url = $('#submitButton').data('url');
 
         $.ajax({
-            url: url, // Usando a URL do atributo de dados
+            url: url,
             method: 'POST',
             data: formData,
             contentType: false,
@@ -15,7 +15,7 @@ $(document).ready(function () {
                 console.log('Resposta do servidor:', response);
 
                 if (response.qr_code) {
-                    var qrCodeBase64 = 'data:image/png;base64,' + response.qr_code;
+                    const qrCodeBase64 = 'data:image/png;base64,' + response.qr_code;
 
                     $('#qrCodeImage').attr('src', qrCodeBase64).show();
                     $('#qrCodeText').show();

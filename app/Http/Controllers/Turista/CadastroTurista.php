@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Turista\Turista;
 use App\Services\CobrancaService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CadastroTurista extends Controller
 {
@@ -46,12 +47,16 @@ class CadastroTurista extends Controller
         $turista = Turista::create($validatedData);
 
         $cobrancaResponse = $this->cobrancaService->gerarCobranca($turista);
+        Log::info('Cobranca Response:', $cobrancaResponse);
+
+        if (!isset($cobrancaResponse['qr_code'])) {
+            return response()->json(['error' => 'QR Code não encontrado'], 500);
+        }
 
         if (isset($cobrancaResponse['error'])) {
             return response()->json(['error' => $cobrancaResponse['error']], 500);
         }
 
-        // Codifica o QR code binário para base64
         $qrCodeBase64 = base64_encode($cobrancaResponse['qr_code']);
 
         return response()->json([

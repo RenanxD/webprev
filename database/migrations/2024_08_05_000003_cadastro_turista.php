@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('turista_cpf');
             $table->string('turista_passaporte')->nullable();
             $table->string('turista_nome');
-            $table->string('turista_email')->unique();
+            $table->string('turista_email')->nullable();
             $table->string('turista_fone1');
             $table->string('turista_fone2')->nullable();
             $table->date('turista_data_nascimento')->nullable();

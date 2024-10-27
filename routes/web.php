@@ -38,8 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('/configuracoes', ConfiguracoesController::class);
 });
 
-Route::get('/email', function () {
-    return new \App\Mail\LoginLinkMail('https://www.google.com/');
-});
+Route::get('/api/check-payment-status', [CadastroTurista::class, 'checkPaymentStatus']);
 
 require __DIR__.'/auth.php';

@@ -1,4 +1,5 @@
 <div class="form-step" id="step3">
+    <div id="errorMessage" style="display: none; color: red;"></div>
     <div id="resumoPreenchido"></div>
     <div class="container">
         <div class="card card-radius mb-4" style="border-radius: 0.75rem;">

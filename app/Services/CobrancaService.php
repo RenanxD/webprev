@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Http;
 
 class CobrancaService
 {
-    // Método que retorna os headers
-    private function getHeaders()
+    const BASE_URL = 'https://cobranca.kapitolbank.com.br/api/cob/';
+
+    private function getHeaders(): array
     {
         return [
             'x-api-key' => 'b9b5caa6-63f4-41a2-9f3b-4b3212c36eb7',
@@ -16,8 +17,12 @@ class CobrancaService
         ];
     }
 
-    public function gerarCobranca($turista)
+    public function gerarCobranca(array $turista): array
     {
+        if (empty($turista['turista_cpf']) || empty($turista['id_turista']) || empty($turista['turista_nome'])) {
+            return ['error' => 'Dados do turista inválidos.'];
+        }
+
         $dataGeracao = Carbon::now();
         $dataVencimento = $dataGeracao->copy()->addDays(3);
         $cpf = str_replace(['.', '-'], '', $turista['turista_cpf']);
@@ -51,18 +56,18 @@ class CobrancaService
         ];
 
         try {
-            $response = Http::withHeaders($this->getHeaders())->post('https://cobranca.kapitolbank.com.br/api/cob/', $cobrancaData);
-
+            $response = Http::withHeaders($this->getHeaders())->post(self::BASE_URL, $cobrancaData);
             if ($response->successful()) {
                 $cobranca = $response->json();
-                $idCobranca = $cobranca[0]['dados']['id'];
+                $idCobranca = $cobranca[0]['dados']['id'] ?? null;
+
+                sleep(5);
 
                 $detalhesCobranca = $this->consultarDetalhesCobranca($idCobranca);
-
                 $qrCode = $this->consultarQrCode($idCobranca);
 
                 return [
-                    'cobranca' => $cobrancaData,
+                    'cobranca' => $cobranca,
                     'qr_code' => $qrCode,
                     'detalhes_cobranca' => $detalhesCobranca,
                 ];
@@ -72,16 +77,6 @@ class CobrancaService
 
         } catch (\Exception $e) {
             return ['error' => 'Erro ao gerar a cobrança: ' . $e->getMessage()];
-        }
-    }
-
-    private function consultarBarCode($id)
-    {
-        try {
-            $response = Http::withHeaders($this->getHeaders())->get("https://cobranca.kapitolbank.com.br/public/barcode/{$id}");
-            return $response->successful() ? $response->json() : null;
-        } catch (\Exception $e) {
-            return null;
         }
     }
 
@@ -100,7 +95,7 @@ class CobrancaService
         }
     }
 
-    private function consultarDetalhesCobranca($id)
+    public function consultarDetalhesCobranca($id)
     {
         try {
             $response = Http::withHeaders($this->getHeaders())->get("https://cobranca.kapitolbank.com.br/api/cob/{$id}");

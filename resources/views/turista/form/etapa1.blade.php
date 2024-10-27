@@ -41,8 +41,7 @@
                    id="turista_email"
                    name="turista_email"
                    placeholder="Email"
-                   value="{{ session('email') }}"
-                   readonly>
+                   value="{{ session('email') }}">
         </div>
     </div>
     <div class="form-row">

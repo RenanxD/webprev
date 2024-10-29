@@ -13,8 +13,7 @@ class CobrancasController extends Controller
     public function index(Request $request)
     {
         $tiposCobranca = TipoCobranca::all();
-        $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first()
-            ?? Cobrancas::latest()->first();
+        $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first() ?? Cobrancas::latest()->first();
         $ultimaCobrancaAtiva = Cobrancas::where('cobranca_ativa', true)->latest()->skip(1)->first();
         $cobrancas = Cobrancas::paginate(7);
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');

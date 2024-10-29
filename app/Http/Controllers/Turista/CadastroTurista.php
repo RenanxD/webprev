@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Turista;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TuristaRequest;
+use App\Models\Configuracoes\Cobrancas;
+use App\Models\Lancamento\LancamentoCobranca;
 use App\Models\Turista\Turista;
 use App\Services\CobrancaService;
 use Illuminate\Http\JsonResponse;
@@ -24,43 +26,73 @@ class CadastroTurista extends Controller
         $validatedData = $request->validated();
 
         try {
-            $turista = Turista::create($validatedData);
-            $validatedData['id_turista'] = $turista->id_turista;
+            $turista = $this->createTurista($validatedData);
+            $cobrancaResponse = $this->gerarCobranca($validatedData, $turista->id_turista);
+            $lancamentoCobranca = $this->createLancamentoCobranca($cobrancaResponse, $turista->id_turista);
 
-            $cobrancaResponse = $this->cobrancaService->gerarCobranca($validatedData);
 
-            $qrCodeBase64 = base64_encode($cobrancaResponse['qr_code']);
-            $idCobranca = $cobrancaResponse['cobranca'][0]['dados']['id'] ?? '';
-            $cobranca = $cobrancaResponse['cobranca'] ?? '';
-            $pixEmv = $cobrancaResponse['detalhes_cobranca']['dados']['pix_emv'] ?? '';
-
-            return response()->json([
+            return $this->successResponse([
                 'success' => 'Cobrança gerada com sucesso!',
-                'cobranca' => $cobranca,
-                'qr_code' => $qrCodeBase64,
-                'pix_emv' => $pixEmv,
-                'id_cobranca' => $idCobranca
+                'cobranca' => data_get($cobrancaResponse, 'cobranca', ''),
+                'qr_code' => base64_encode(data_get($cobrancaResponse, 'qr_code', '')),
+                'pix_emv' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.pix_emv', ''),
+                'id_cobranca' => $lancamentoCobranca->id_cobranca
             ]);
 
         } catch (Exception $e) {
-            return response()->json([
-                'exception' => $e->getMessage(),
-            ], 500);
+            return $this->errorResponse($e->getMessage());
         }
     }
 
-    public function checkPaymentStatus(Request $request)
+    public function checkPaymentStatus(Request $request): JsonResponse
     {
         $idCobranca = $request->input('id_cobranca');
-
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobranca);
 
-        //$detalhesCobranca['dados']['situacao'] = 'pago';
-
-        if ($detalhesCobranca['dados']['situacao'] === 'pago') {
+        if (data_get($detalhesCobranca, 'dados.situacao') === 'pago') {
             return response()->json(['paid' => true]);
         }
 
         return response()->json(['paid' => false]);
+    }
+
+    protected function createTurista(array $data)
+    {
+        return Turista::create($data);
+    }
+
+    protected function gerarCobranca(array $data, int $idTurista)
+    {
+        $data['id_turista'] = $idTurista;
+        return $this->cobrancaService->gerarCobranca($data);
+    }
+
+    protected function createLancamentoCobranca(array $cobrancaResponse, int $idTurista)
+    {
+        $cobranca = Cobrancas::where('cobranca_ativa', true)->latest()->first() ?? Cobrancas::latest()->first();
+
+        $data = [
+            'id_cobranca' => $cobranca ? $cobranca->id_cobranca : null, // Obtenha apenas o ID
+            'id_turista' => $idTurista,
+            'id_cobranca_bb' => data_get($cobrancaResponse, 'cobranca.0.dados.id', ''),
+            'lancamento_valor' => data_get($cobrancaResponse, 'valor', 0),
+            'lancamento_data_gerado' => now(),
+            'lancamento_codigo_barras' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.codigo_barras', ''),
+            'lancamento_codigo_pix' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.pix_emv', ''),
+            'lancamento_pago' => false,
+            'lancamento_ativo' => true,
+        ];
+
+        return LancamentoCobranca::create($data);
+    }
+
+    private function successResponse(array $data): JsonResponse
+    {
+        return response()->json($data);
+    }
+
+    private function errorResponse(string $message, int $status = 500): JsonResponse
+    {
+        return response()->json(['error' => $message], $status);
     }
 }

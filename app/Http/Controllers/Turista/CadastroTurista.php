@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Turista;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TuristaRequest;
+use App\Models\Comprovante\ComprovanteTaxa;
 use App\Models\Configuracoes\Cobrancas;
 use App\Models\Lancamento\LancamentoCobranca;
 use App\Models\Turista\Turista;
@@ -49,8 +50,23 @@ class CadastroTurista extends Controller
     {
         $idCobranca = $request->input('id_cobranca');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobranca);
-        $detalhesCobranca['dados']['situacao'] = 'pago';
+        //$detalhesCobranca['dados']['situacao'] = 'pago';
+
         if (data_get($detalhesCobranca, 'dados.situacao') === 'pago') {
+//            $data = [
+//                'id_lancamento' => /* ID do lançamento, ajuste conforme necessário */,
+//                'id_turista' => /* ID do turista, ajuste conforme necessário */,
+//                'id_cidade' => /* ID da cidade, ajuste conforme necessário */,
+//                'comprovante_hash' => /* Hash do comprovante, ajuste conforme necessário */,
+//                'comprovante_numero' => /* Número do comprovante, ajuste conforme necessário */,
+//                'comprovante_data_inicio' => now(),
+//                'comprovante_data_fim' => now()->addDays(7),
+//                'comprovante_data_emissao' => now(),
+//        ];
+//
+//            // Cria um novo registro na tabela
+//            ComprovanteTaxa::create($data);
+
             return response()->json(['paid' => true]);
         }
 

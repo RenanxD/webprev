@@ -21,6 +21,8 @@ class LancamentoCobranca extends Model
         'lancamento_codigo_pix',
         'lancamento_pago',
         'lancamento_ativo',
+        'data_inicio',
+        'data_fim',
     ];
 
     protected $primaryKey = 'id_lancamento';

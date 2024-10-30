@@ -40,6 +40,7 @@
     <div class="mt-3 mb-4" id="diasInfo" style="display: none; font-size: 19px;">
         <span id="dias_selecionados" style="color: #4a90e2; font-weight: bold;"></span>
         <span style="color: #4a90e2; font-weight: bold;">dias</span> de permanência <br>Valor da taxa: <span id="valorTaxa" style="color: #4a90e2; font-weight: bold;">R${{ $cobrancaAtual->cobranca_valor ?? '' }}</span>
+        <input type="hidden" name="valor_taxa" value="{{ $cobrancaAtual->cobranca_valor ?? '' }}">
     </div>
 
     <div class="form-check text-center">

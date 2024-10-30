@@ -1,5 +1,5 @@
 <div class="form-step" id="step4" style="display: none; text-align: center; margin-top: 3rem;">
-    <div id="timerDisplay" style="font-size: 18px; margin-top: 1rem;">Seu QR Code vai expirar em 5:00 minutos</div>
+    <div id="timerDisplay" style="font-size: 18px; margin-top: 1rem;">Seu <strong>QR Code</strong> vai expirar em 5:00 minutos</div>
     <p id="paymentStatus" style="font-size: 18px; color: green;"></p>
     <img id="qrCodeImage" src="" alt="QR Code" style="display: none; width: 250px;">
     <p id="qrCodeText" style="display: none; text-align: center; margin-top: 2rem">

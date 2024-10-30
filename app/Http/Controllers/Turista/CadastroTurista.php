@@ -8,6 +8,7 @@ use App\Models\Configuracoes\Cobrancas;
 use App\Models\Lancamento\LancamentoCobranca;
 use App\Models\Turista\Turista;
 use App\Services\CobrancaService;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
@@ -28,7 +29,7 @@ class CadastroTurista extends Controller
         try {
             $turista = $this->createTurista($validatedData);
             $cobrancaResponse = $this->gerarCobranca($validatedData, $turista->id_turista);
-            $lancamentoCobranca = $this->createLancamentoCobranca($cobrancaResponse, $turista->id_turista);
+            $lancamentoCobranca = $this->createLancamentoCobranca($validatedData, $cobrancaResponse, $turista->id_turista);
 
 
             return $this->successResponse([
@@ -48,7 +49,7 @@ class CadastroTurista extends Controller
     {
         $idCobranca = $request->input('id_cobranca');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobranca);
-
+        $detalhesCobranca['dados']['situacao'] = 'pago';
         if (data_get($detalhesCobranca, 'dados.situacao') === 'pago') {
             return response()->json(['paid' => true]);
         }
@@ -67,20 +68,22 @@ class CadastroTurista extends Controller
         return $this->cobrancaService->gerarCobranca($data);
     }
 
-    protected function createLancamentoCobranca(array $cobrancaResponse, int $idTurista)
+    protected function createLancamentoCobranca(array $validatedData, array $cobrancaResponse, int $idTurista)
     {
         $cobranca = Cobrancas::where('cobranca_ativa', true)->latest()->first() ?? Cobrancas::latest()->first();
 
         $data = [
-            'id_cobranca' => $cobranca ? $cobranca->id_cobranca : null, // Obtenha apenas o ID
+            'id_cobranca' => $cobranca ? $cobranca->id_cobranca : null,
             'id_turista' => $idTurista,
             'id_cobranca_bb' => data_get($cobrancaResponse, 'cobranca.0.dados.id', ''),
-            'lancamento_valor' => data_get($cobrancaResponse, 'valor', 0),
+            'lancamento_valor' => $validatedData['valor_taxa'] ?? 0,
             'lancamento_data_gerado' => now(),
             'lancamento_codigo_barras' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.codigo_barras', ''),
             'lancamento_codigo_pix' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.pix_emv', ''),
             'lancamento_pago' => false,
             'lancamento_ativo' => true,
+            'data_inicio' => Carbon::createFromFormat('Y-m-d', $validatedData['data_inicial']),
+            'data_fim' => Carbon::createFromFormat('Y-m-d', $validatedData['data_final'])
         ];
 
         return LancamentoCobranca::create($data);

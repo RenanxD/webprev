@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TuristaRequest extends FormRequest
@@ -30,6 +31,9 @@ class TuristaRequest extends FormRequest
             'turista_necessidade_esp' => 'required|boolean',
             'turista_dependente' => 'required|boolean',
             'turista_estrangeiro' => 'required|boolean',
+            'data_inicial' => 'required',
+            'data_final' => 'required',
+            'valor_taxa' => 'required'
         ];
     }
 

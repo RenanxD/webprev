@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('lancamento_codigo_pix');
             $table->boolean('lancamento_pago')->default(false);
             $table->boolean('lancamento_ativo')->default(true);
+            $table->dateTime('data_inicio');
+            $table->dateTime('data_fim');
             $table->timestamps();
 
             $table->foreign('id_cobranca')->references('id_cobranca')->on('cadastro_cobranca')->onDelete('cascade');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37fe2c346999ca7d61ec47202c5f69f2",
+    "content-hash": "4e9605ea4e84adad0bbda5b7fc12acd1",
     "packages": [
         {
             "name": "brick/math",
@@ -6055,29 +6055,29 @@
         },
         {
             "name": "lucascudo/laravel-pt-br-localization",
-            "version": "v2.2.3",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucascudo/laravel-pt-BR-localization.git",
-                "reference": "14a2b2b8f324a34806fdcddc9fade1c7c5ecbbbf"
+                "reference": "79e556cdd4b85f0a1e2d81bf243c512b1860f198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucascudo/laravel-pt-BR-localization/zipball/14a2b2b8f324a34806fdcddc9fade1c7c5ecbbbf",
-                "reference": "14a2b2b8f324a34806fdcddc9fade1c7c5ecbbbf",
+                "url": "https://api.github.com/repos/lucascudo/laravel-pt-BR-localization/zipball/79e556cdd4b85f0a1e2d81bf243c512b1860f198",
+                "reference": "79e556cdd4b85f0a1e2d81bf243c512b1860f198",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Lucascudo\\LaravelPtBRLocalization\\LaravelPtBRLocalizationServiceProvider"
+                        "Lucascudo\\LaravelPtBrLocalization\\LaravelPtBrLocalizationServiceProvider"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Lucascudo\\LaravelPtBRLocalization\\": "src/"
+                    "Lucascudo\\LaravelPtBrLocalization\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -6094,7 +6094,7 @@
             "homepage": "https://github.com/lucascudo/laravel-pt-br-localization",
             "support": {
                 "issues": "https://github.com/lucascudo/laravel-pt-BR-localization/issues",
-                "source": "https://github.com/lucascudo/laravel-pt-BR-localization/tree/v2.2.3"
+                "source": "https://github.com/lucascudo/laravel-pt-BR-localization/tree/v3.0.1"
             },
             "funding": [
                 {
@@ -6110,7 +6110,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-25T18:25:37+00:00"
+            "time": "2024-10-23T08:45:10+00:00"
         },
         {
             "name": "mockery/mockery",

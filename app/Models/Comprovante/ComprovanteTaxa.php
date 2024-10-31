@@ -11,6 +11,8 @@ class ComprovanteTaxa extends Model
 
     protected $table = 'comprovante_taxa';
 
+    protected $connection = 'internal_pgsql';
+
     protected $fillable = [
         'id_lancamento',
         'id_turista',
@@ -22,4 +24,6 @@ class ComprovanteTaxa extends Model
         'comprovante_data_fim',
         'comprovante_data_emissao',
     ];
+
+    protected $primaryKey = 'id_comprovante';
 }

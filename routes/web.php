@@ -38,6 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('/configuracoes', ConfiguracoesController::class);
 });
 
-Route::get('/api/check-payment-status', [CadastroTurista::class, 'checkPaymentStatus']);
+Route::get('/{slug}/api/check-payment-status', [CadastroTurista::class, 'checkPaymentStatus']);
 
 require __DIR__.'/auth.php';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Turista;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TuristaRequest;
+use App\Models\Cidade;
 use App\Models\Comprovante\ComprovanteTaxa;
 use App\Models\Configuracoes\Cobrancas;
 use App\Models\Lancamento\LancamentoCobranca;
@@ -32,13 +33,15 @@ class CadastroTurista extends Controller
             $cobrancaResponse = $this->gerarCobranca($validatedData, $turista->id_turista);
             $lancamentoCobranca = $this->createLancamentoCobranca($validatedData, $cobrancaResponse, $turista->id_turista);
 
+            $idCobrancaBB = data_get($cobrancaResponse, 'cobranca.0.dados.id', '');
+            session(['id_cobranca_bb' => $idCobrancaBB]);
 
             return $this->successResponse([
                 'success' => 'Cobrança gerada com sucesso!',
                 'cobranca' => data_get($cobrancaResponse, 'cobranca', ''),
                 'qr_code' => base64_encode(data_get($cobrancaResponse, 'qr_code', '')),
                 'pix_emv' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.pix_emv', ''),
-                'id_cobranca' => $lancamentoCobranca->id_cobranca
+                'id_cobranca' => $lancamentoCobranca->id_cobranca,
             ]);
 
         } catch (Exception $e) {
@@ -46,26 +49,28 @@ class CadastroTurista extends Controller
         }
     }
 
-    public function checkPaymentStatus(Request $request): JsonResponse
+    public function checkPaymentStatus(Request $request, $slug): JsonResponse
     {
+        $slugCidade = Cidade::where('slug', $slug)->first();
         $idCobranca = $request->input('id_cobranca');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobranca);
-        //$detalhesCobranca['dados']['situacao'] = 'pago';
+        $detalhesCobranca['dados']['situacao'] = 'pago';
+        $idCobrancaBB = session('id_cobranca_bb');
+
+        $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();
 
         if (data_get($detalhesCobranca, 'dados.situacao') === 'pago') {
-//            $data = [
-//                'id_lancamento' => /* ID do lançamento, ajuste conforme necessário */,
-//                'id_turista' => /* ID do turista, ajuste conforme necessário */,
-//                'id_cidade' => /* ID da cidade, ajuste conforme necessário */,
-//                'comprovante_hash' => /* Hash do comprovante, ajuste conforme necessário */,
-//                'comprovante_numero' => /* Número do comprovante, ajuste conforme necessário */,
-//                'comprovante_data_inicio' => now(),
-//                'comprovante_data_fim' => now()->addDays(7),
-//                'comprovante_data_emissao' => now(),
-//        ];
-//
-//            // Cria um novo registro na tabela
-//            ComprovanteTaxa::create($data);
+            $data = [
+                'id_lancamento' => $cobranca->id_lancamento,
+                'id_turista' => $cobranca->id_turista,
+                'id_cidade' => $slugCidade->getAttributes()['id_cidade'],
+                'comprovante_hash' => '',
+                'comprovante_numero' => '',
+                'comprovante_data_inicio' => $cobranca->data_inicio,
+                'comprovante_data_fim' => $cobranca->data_fim,
+                'comprovante_data_emissao' => $cobranca->created_at,
+        ];
+            ComprovanteTaxa::create($data);
 
             return response()->json(['paid' => true]);
         }

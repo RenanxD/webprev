@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::connection('internal_pgsql')->create('comprovante_taxa', function (Blueprint $table) {
             $table->id('id_comprovante');
             $table->unsignedBigInteger('id_lancamento');
-            $table->unsignedBigInteger('id_turista')->unique();
-            $table->unsignedBigInteger('id_cidade')->unique();
+            $table->unsignedBigInteger('id_turista');
+            $table->unsignedBigInteger('id_cidade');
             $table->string('comprovante_hash');
             $table->string('comprovante_numero');
             $table->boolean('comprovante_ativo')->default(true);

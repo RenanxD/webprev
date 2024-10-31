@@ -69,7 +69,9 @@ $(document).ready(function () {
 
     // Função para verificar o status de pagamento
     function checkPaymentStatus(idCobranca, checkInterval) {
-        $.get('/api/check-payment-status', { id_cobranca: idCobranca })
+        const slug = window.location.pathname.split('/')[1]; // Ajusta conforme sua estrutura de URL
+
+        $.get(`/${slug}/api/check-payment-status`, { id_cobranca: idCobranca })
             .done(function (data) {
                 console.log(data);
                 if (data.paid) {

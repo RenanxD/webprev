@@ -57,6 +57,7 @@ class AuthController extends Controller
         $cobrancaAtual = Cobrancas::where('cobranca_ativa', true)->latest()->first()
             ?? Cobrancas::latest()->first();
         $email = session('email');
+
         return view('turista.complete-registration', compact('email', 'slug', 'cobrancaAtual'));
     }
 

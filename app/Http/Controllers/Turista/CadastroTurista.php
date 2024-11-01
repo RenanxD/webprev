@@ -54,7 +54,7 @@ class CadastroTurista extends Controller
         $slugCidade = Cidade::where('slug', $slug)->first();
         $idCobranca = $request->input('id_cobranca');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobranca);
-        $detalhesCobranca['dados']['situacao'] = 'pago';
+        //$detalhesCobranca['dados']['situacao'] = 'pago';
         $idCobrancaBB = session('id_cobranca_bb');
 
         $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();

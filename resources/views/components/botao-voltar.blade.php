@@ -17,16 +17,9 @@
 <style>
     .btn-back {
         border: none;
-        background-color: transparent;
         cursor: pointer;
         padding: 8px;
         border-radius: 50%;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn-back:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        transform: scale(1);
     }
 
     .circle {
@@ -36,10 +29,11 @@
         width: 36px;
         height: 36px;
         border-radius: 50%;
+        background-color: #d0e7ff; /* Cor de fundo do círculo */
     }
 
     .lucide-arrow-left {
-        color: #000000;
+        color: #000000; /* Cor da flecha (preto) */
     }
 
     @media (max-width: 576px) {

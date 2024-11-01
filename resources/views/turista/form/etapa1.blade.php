@@ -174,8 +174,17 @@
         <label for="aceitar_termos">Aceito todos os <a href="#" target="_blank">termos</a></label>
     </div>
     <div class="d-flex justify-content-between mt-4">
-        <button type="button" class="btn btn-outline-secondary flex-fill mr-2">Cancelar</button>
+        <button type="button" class="btn btn-outline-secondary flex-fill mr-2" onclick="redirectToSignIn()">Cancelar</button>
         <button type="button" class="btn btn-primary flex-fill" onclick="nextStep()">Próximo
         </button>
     </div>
 </div>
+<script>
+    function redirectToSignIn() {
+        // Captura o slug do primeiro segmento da URL (depois do domínio)
+        const slug = window.location.pathname.split("/")[1];
+
+        // Redireciona para a URL de Sign In com o slug
+        window.location.href = `/${slug}/signin`;
+    }
+</script>

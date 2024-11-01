@@ -12,7 +12,15 @@
         <h2>O que <strong>deseja</strong> fazer?</h2>
         <a href="{{ route('complete.registration', $slug) }}"
            class="btn btn-primary btn-login centralizar-texto">Iniciar</a>
-        <a class="btn btn-login btn-comprovante centralizar-texto">Acessar Comprovante</a>
-        <a class="btn btn-login btn-emissao centralizar-texto">Emitir para outro turista</a>
+        <a href="{{ route('acessar.comprovante', ['slug' => $slug]) }}"
+           class="btn btn-login btn-comprovante centralizar-texto">Acessar Comprovante</a>
+        <a class="btn btn-login btn-emissao centralizar-texto" onclick="redirectToSignIn()">Emitir para outro turista</a>
     </div>
 @endsection
+<script>
+    function redirectToSignIn() {
+        const slug = window.location.pathname.split("/")[1];
+
+        window.location.href = `/${slug}/signin`;
+    }
+</script>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Configuracoes\TipoCobrancaController;
 use App\Http\Controllers\ConfiguracoesController;
 use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Turista\AcessarComprovante;
 use App\Http\Controllers\Turista\AuthController;
 use App\Http\Controllers\Turista\CadastroTurista;
 use App\Http\Controllers\WelcomeController;
@@ -18,10 +19,9 @@ Route::get('{slug}/signin/{token?}', [AuthController::class, 'signin'])->name('l
 Route::post('{slug}/signin-link', [AuthController::class, 'sendLoginLink']);
 
 Route::get('/{slug}/complete-registration', [AuthController::class, 'showCompleteRegistrationForm'])
-    ->name('complete-registration');
-
-Route::post('/{slug}/complete-registration', [AuthController::class, 'completeRegistration'])
     ->name('complete.registration');
+
+Route::get('/{slug}/acessar-comprovante', [AcessarComprovante::class, 'acessarComprovante'])->name('acessar.comprovante');
 
 Route::post('/submit-form', [CadastroTurista::class, 'submit'])->name('form.submit');
 

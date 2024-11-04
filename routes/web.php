@@ -23,6 +23,7 @@ Route::get('/{slug}/complete-registration', [AuthController::class, 'showComplet
 
 Route::get('/{slug}/acessar-comprovante', [AcessarComprovante::class, 'acessarComprovante'])->name('acessar.comprovante');
 
+Route::post('/salvar-dependente', [CadastroTurista::class, 'salvarDependente'])->name('salvar.dependente');
 Route::post('/submit-form', [CadastroTurista::class, 'submit'])->name('form.submit');
 
 Route::get('/dashboard', function () {

@@ -1,0 +1,139 @@
+<div class="modal" id="modalDependente" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adicionar Dependente</h5>
+                <button type="button" class="close" onclick="fecharModalDependente()" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="dependente_estrangeiro">Dependentes <strong>Estrangeiros?</strong></label><br>
+                    <input type="radio" id="dependente_estrangeiro_nao" name="dependente_estrangeiro" value="nao"
+                           checked>
+                    <label for="dependente_estrangeiro_nao">Não</label>
+                    <input type="radio" id="dependente_estrangeiro_sim" name="dependente_estrangeiro" value="sim">
+                    <label for="dependente_estrangeiro_sim">Sim</label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" id="dependente_cpf" name="dependente_cpf"
+                               placeholder="CPF" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <select class="form-control" id="dependente_tipo" name="dependente_tipo" required>
+                            <option value="">Tipo de dependentes</option>
+                            <option value="Filhos">Filhos</option>
+                            <option value="Enteado">Enteado</option>
+                            <option value="Irmãos, Netos ou Bisnetos">Irmãos, Netos ou Bisnetos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="dependente_nome" name="dependente_nome"
+                           placeholder="Nome Completo" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <input type="text" class="form-control" id="dependente_celular" name="dependente_celular"
+                               placeholder="Celular" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input type="date" class="form-control" id="dependente_data_nascimento"
+                               name="dependente_data_nascimento" placeholder="Data de Aniversário" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <select class="form-control" id="dependente_sexo" name="dependente_sexo" required>
+                            <option value="">Sexo</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <select class="form-control" id="dependente_tipo_sangue" name="dependente_tipo_sangue" required>
+                            <option value="">Tipo Sanguíneo</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="fecharModalDependente()">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarDependente()">Salvar Dependente</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const dependenteEstrangeiroSim = document.getElementById('dependente_estrangeiro_sim');
+    const dependenteEstrangeiroNao = document.getElementById('dependente_estrangeiro_nao');
+    const DependenteInput = document.getElementById('dependente_cpf');
+
+    function toggleDependenteInput() {
+        if (dependenteEstrangeiroSim.checked) {
+            DependenteInput.placeholder = 'Passaporte';
+            DependenteInput.name = 'dependente_passaporte';
+            DependenteInput.id = 'dependente_passaporte';
+            DependenteInput.required = true;
+        } else {
+            DependenteInput.placeholder = 'CPF';
+            DependenteInput.name = 'dependente_cpf';
+            DependenteInput.id = 'dependente_cpf';
+            DependenteInput.required = true;
+        }
+    }
+
+    dependenteEstrangeiroSim.addEventListener('change', toggleDependenteInput);
+    dependenteEstrangeiroNao.addEventListener('change', toggleDependenteInput);
+
+    toggleDependenteInput();
+</script>
+<script>
+    function salvarDependente() {
+        const dependente = {
+            estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
+            cpfOuPassaporte: DependenteInput.value,
+            tipo: document.getElementById('dependente_tipo').value,
+            nome: document.getElementById('dependente_nome').value,
+            celular: document.getElementById('dependente_celular').value,
+            dataNascimento: document.getElementById('dependente_data_nascimento').value,
+            sexo: document.getElementById('dependente_sexo').value,
+            tipoSangue: document.getElementById('dependente_tipo_sangue').value
+        };
+
+        // Salva o dependente no localStorage
+        const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
+        dependentes.push(dependente);
+        localStorage.setItem('dependentes', JSON.stringify(dependentes));
+
+        // Fecha o modal e limpa os campos, se desejar
+        fecharModalDependente();
+        limparCampos();
+    }
+
+    function fecharModalDependente() {
+        document.getElementById('modalDependente').style.display = 'none';
+    }
+
+    function limparCampos() {
+        document.getElementById('dependente_cpf').value = '';
+        document.getElementById('dependente_nome').value = '';
+        document.getElementById('dependente_celular').value = '';
+        document.getElementById('dependente_data_nascimento').value = '';
+        document.getElementById('dependente_sexo').value = '';
+        document.getElementById('dependente_tipo').value = '';
+        document.getElementById('dependente_tipo_sangue').value = '';
+    }
+</script>

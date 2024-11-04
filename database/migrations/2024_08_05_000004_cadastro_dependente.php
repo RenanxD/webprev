@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('dependente_cpf');
             $table->string('dependente_passaporte')->nullable();
             $table->string('dependente_nome');
+            $table->string('dependente_tipo');
             $table->string('dependente_celular')->nullable();
             $table->date('dependente_data_nascimento')->nullable();
             $table->char('dependente_sexo')->nullable();

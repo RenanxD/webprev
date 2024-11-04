@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Session;
 
 class CadastroTurista extends Controller
 {
@@ -76,6 +77,17 @@ class CadastroTurista extends Controller
         }
 
         return response()->json(['paid' => false]);
+    }
+
+    public function salvarDependente(Request $request)
+    {
+        $dependente = $request->only(['nome', 'data_nascimento', 'parentesco']);
+
+        $dependentes = Session::get('dependentes', []);
+        $dependentes[] = $dependente;
+        Session::put('dependentes', $dependentes);
+
+        return response()->json(['success' => true]);
     }
 
     protected function createTurista(array $data)

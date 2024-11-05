@@ -12,6 +12,9 @@
                 font-size: 14px; resize: none; text-align: center;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         </textarea>
+        <a id="downloadButton" href="#" class="btn btn-primary" style="display: none; margin-top: 1rem;">
+            Baixar Comprovante
+        </a>
         <div class="d-flex justify-content-center">
             <button class="btn btn-primary btn-login centralizar-texto" id="copyPixButton" style="margin-top: 1rem;width: 15rem;align-items: center;">Copiar Código Pix</button>
         </div>

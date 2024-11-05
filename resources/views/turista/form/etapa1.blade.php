@@ -94,10 +94,10 @@
         <input type="radio" id="turista_dependente_sim" name="turista_dependente" value="sim">
         <label for="turista_dependente_sim">Sim</label>
     </div>
-    <div class="form-group" id="adicionar-dependente" style="display: none;">
-        <button type="button" class="btn btn-secondary" onclick="abrirModalDependente()">Adicionar Dependente</button>
-    </div>
-    <x-modal-dependente/>
+{{--    <div class="form-group" id="adicionar-dependente" style="display: none;">--}}
+{{--        <button type="button" class="btn btn-secondary" onclick="abrirModalDependente()">Adicionar Dependente</button>--}}
+{{--    </div>--}}
+{{--    <x-modal-dependente/>--}}
     <div class="form-group">
         <input type="checkbox" id="aceitar_termos" required>
         <label for="aceitar_termos">Aceito todos os <a href="#" target="_blank">termos</a></label>

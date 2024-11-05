@@ -10,6 +10,7 @@ use App\Models\Configuracoes\Cobrancas;
 use App\Models\Lancamento\LancamentoCobranca;
 use App\Models\Turista\Turista;
 use App\Services\CobrancaService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -53,10 +54,9 @@ class CadastroTurista extends Controller
     public function checkPaymentStatus(Request $request, $slug): JsonResponse
     {
         $slugCidade = Cidade::where('slug', $slug)->first();
-        $idCobranca = $request->input('id_cobranca');
-        $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobranca);
-        //$detalhesCobranca['dados']['situacao'] = 'pago';
         $idCobrancaBB = session('id_cobranca_bb');
+        $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobrancaBB);
+        //$detalhesCobranca['dados']['situacao'] = 'pago';
 
         $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();
 
@@ -130,5 +130,28 @@ class CadastroTurista extends Controller
     private function errorResponse(string $message, int $status = 500): JsonResponse
     {
         return response()->json(['error' => $message], $status);
+    }
+
+    public function gerarComprovantePdf($idCobranca)
+    {
+        $comprovante = ComprovanteTaxa::where('id_cobranca_bb', $idCobranca)->firstOrFail();
+
+        $path = public_path('images/qrcode.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $dados = [
+            'nome' => 'Nome do Turista',
+            'regiao' => '',
+            'data_inicio' => now()->format('d/m/Y'),
+            'data_fim' => now()->format('d/m/Y'),
+            'valor' => 'R$ 100,00',
+            'qr_code' => $base64
+        ];
+
+        $pdf = Pdf::loadView('pdf.comprovante', $dados);
+
+        return $pdf->download("comprovante_{$idCobranca}.pdf");
     }
 }

@@ -17,29 +17,25 @@ $(document).ready(function () {
             success: function (response) {
                 $('#loading').hide();
 
-                // Verifica se o QR code foi gerado
                 if (response.qr_code) {
                     const qrCodeBase64 = 'data:image/png;base64,' + response.qr_code;
                     $('#qrCodeImage').attr('src', qrCodeBase64).show();
                     $('#qrCodeText').show();
                 }
 
-                // Verifica se o código PIX foi gerado
                 if (response.pix_emv) {
                     $('#pixCode').val(response.pix_emv);
                 }
 
-                // Armazena o ID da cobrança se estiver presente na resposta
                 if (response.id_cobranca) {
                     localStorage.setItem('id_cobranca', response.id_cobranca);
-                    startPaymentStatusCheck(response.id_cobranca); // Inicia a verificação de pagamento
+                    startPaymentStatusCheck(response.id_cobranca);
                 }
 
-                // Valida o passo atual e exibe o próximo
                 if (validateCurrentStep()) {
                     $('#step3').hide();
                     $('#step4').show();
-                    startTimer(); // Inicia o timer ao entrar na etapa 4
+                    startTimer();
                 }
             },
             error: function (xhr, status, error) {
@@ -58,27 +54,28 @@ $(document).ready(function () {
         });
     });
 
-    // Função para iniciar a verificação de pagamento
     function startPaymentStatusCheck(idCobranca) {
-        const interval = 15; // Intervalo de 15 segundos
-        checkPaymentStatus(idCobranca); // Verifica o status imediatamente
+        const interval = 15;
+        checkPaymentStatus(idCobranca);
         const checkInterval = setInterval(() => {
-            checkPaymentStatus(idCobranca, checkInterval); // Chama a função para verificar o status
+            checkPaymentStatus(idCobranca, checkInterval);
         }, interval * 1000);
     }
 
-    // Função para verificar o status de pagamento
     function checkPaymentStatus(idCobranca, checkInterval) {
-        const slug = window.location.pathname.split('/')[1]; // Ajusta conforme sua estrutura de URL
+        const slug = window.location.pathname.split('/')[1];
 
-        $.get(`/${slug}/api/check-payment-status`, { id_cobranca: idCobranca })
+        $.get(`/${slug}/api/check-payment-status`, { id_cobranca_bb: idCobranca })
             .done(function (data) {
-                console.log(data);
                 if (data.paid) {
-                    clearInterval(checkInterval); // Para a verificação se o pagamento foi confirmado
+                    clearInterval(checkInterval);
                     $('#paymentStatus').text('Seu pagamento foi confirmado!').show();
                     $('#timerDisplay').hide();
-                    localStorage.removeItem('id_cobranca'); // Remove o ID do Local Storage
+
+                    const downloadUrl = `/comprovante/download/${idCobranca}`;
+                    $('#downloadButton').attr('href', downloadUrl).show();
+
+                    localStorage.removeItem('id_cobranca_bb');
                 }
             })
             .fail(function () {
@@ -86,9 +83,8 @@ $(document).ready(function () {
             });
     }
 
-    // Função para iniciar o timer
     function startTimer() {
-        let timer = 300; // 5 minutos em segundos
+        let timer = 300;
         updateTimerDisplay(timer);
 
         const timerInterval = setInterval(() => {

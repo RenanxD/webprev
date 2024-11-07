@@ -27,9 +27,9 @@ $(document).ready(function () {
                     $('#pixCode').val(response.pix_emv);
                 }
 
-                if (response.id_cobranca) {
-                    localStorage.setItem('id_cobranca', response.id_cobranca);
-                    startPaymentStatusCheck(response.id_cobranca);
+                if (response.id_cobranca_bb) {
+                    localStorage.setItem('id_cobranca_bb', response.id_cobranca_bb);
+                    startPaymentStatusCheck(response.id_cobranca_bb);
                 }
 
                 if (validateCurrentStep()) {
@@ -54,11 +54,11 @@ $(document).ready(function () {
         });
     });
 
-    function startPaymentStatusCheck(idCobranca) {
+    function startPaymentStatusCheck(idCobrancaBB) {
         const interval = 15;
-        checkPaymentStatus(idCobranca);
+        checkPaymentStatus(idCobrancaBB);
         const checkInterval = setInterval(() => {
-            checkPaymentStatus(idCobranca, checkInterval);
+            checkPaymentStatus(idCobrancaBB, checkInterval);
         }, interval * 1000);
     }
 
@@ -72,7 +72,7 @@ $(document).ready(function () {
                     $('#paymentStatus').text('Seu pagamento foi confirmado!').show();
                     $('#timerDisplay').hide();
 
-                    const downloadUrl = `/comprovante/download/${idCobranca}`;
+                    const downloadUrl = `/${slug}/comprovante/download/${idCobranca}`;
                     $('#downloadButton').attr('href', downloadUrl).show();
 
                     localStorage.removeItem('id_cobranca_bb');
@@ -90,7 +90,6 @@ $(document).ready(function () {
         const timerInterval = setInterval(() => {
             if (timer <= 0) {
                 clearInterval(timerInterval);
-                alert('O tempo para pagamento expirou.');
                 return;
             }
             timer--;

@@ -80,7 +80,7 @@ class CobrancaService
         }
     }
 
-    private function consultarQrCode($id)
+    public function consultarQrCode($id)
     {
         try {
             $response = Http::withHeaders($this->getHeaders())->get("https://cobranca.kapitolbank.com.br/public/qrcode/{$id}");

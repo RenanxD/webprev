@@ -41,6 +41,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/{slug}/api/check-payment-status', [CadastroTurista::class, 'checkPaymentStatus']);
 
-Route::get('/comprovante/download/{idCobranca}', [CadastroTurista::class, 'gerarComprovantePdf'])->name('comprovante.download');
+Route::get('/{slug}/comprovante/download/{idCobranca}', [CadastroTurista::class, 'gerarComprovantePdf'])->name('comprovante.download');
 
 require __DIR__.'/auth.php';

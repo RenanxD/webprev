@@ -43,7 +43,7 @@ class CadastroTurista extends Controller
                 'cobranca' => data_get($cobrancaResponse, 'cobranca', ''),
                 'qr_code' => base64_encode(data_get($cobrancaResponse, 'qr_code', '')),
                 'pix_emv' => data_get($cobrancaResponse, 'detalhes_cobranca.dados.pix_emv', ''),
-                'id_cobranca' => $lancamentoCobranca->id_cobranca,
+                'id_cobranca_bb' => $idCobrancaBB,
             ]);
 
         } catch (Exception $e) {
@@ -56,7 +56,7 @@ class CadastroTurista extends Controller
         $slugCidade = Cidade::where('slug', $slug)->first();
         $idCobrancaBB = session('id_cobranca_bb');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobrancaBB);
-        //$detalhesCobranca['dados']['situacao'] = 'pago';
+        $detalhesCobranca['dados']['situacao'] = 'pago';
 
         $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();
 
@@ -132,26 +132,33 @@ class CadastroTurista extends Controller
         return response()->json(['error' => $message], $status);
     }
 
-    public function gerarComprovantePdf($idCobranca)
+    public function gerarComprovantePdf($slug, $idCobranca)
     {
-        $comprovante = ComprovanteTaxa::where('id_cobranca_bb', $idCobranca)->firstOrFail();
+        $comprovante = LancamentoCobranca::where('id_cobranca_bb', $idCobranca)->firstOrFail();
+        $turista = Turista::where('id_turista', $comprovante->id_turista)->first();
+        $slugCidade = Cidade::where('slug', $slug)->first();
 
-        $path = public_path('images/qrcode.png');
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        $imageData = $this->cobrancaService->consultarQrCode($comprovante->id_cobranca_bb);
+        $type = 'png';
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
+
+        $dataInicio = Carbon::parse($comprovante->data_inicio);
+        $dataFim = Carbon::parse($comprovante->data_fim);
+        $permanencia = (int) $dataInicio->diffInDays($dataFim) + 1;
 
         $dados = [
-            'nome' => 'Nome do Turista',
-            'regiao' => '',
-            'data_inicio' => now()->format('d/m/Y'),
-            'data_fim' => now()->format('d/m/Y'),
-            'valor' => 'R$ 100,00',
+            'nome' => $turista->turista_nome,
+            'regiao' => strtoupper($slugCidade->cidade_descricao),
+            'data_inicio' => $dataInicio->format('d/m/Y'),
+            'data_fim' => $dataFim->format('d/m/Y'),
+            'data_emissao' => Carbon::parse($comprovante->created_at)->format('d/m/Y \à\s H:i:s'),
+            'permanencia' => $permanencia,
+            'valor' => number_format($comprovante->lancamento_valor, 2, ',', '.'),
             'qr_code' => $base64
         ];
 
         $pdf = Pdf::loadView('pdf.comprovante', $dados);
 
-        return $pdf->download("comprovante_{$idCobranca}.pdf");
+        return $pdf->stream("comprovante_{$idCobranca}.pdf");
     }
 }

@@ -84,7 +84,7 @@
     <table style="width: 100%;">
         <tr>
             <td style="text-align: left;">N° 1/2024</td>
-            <td style="text-align: right;">Região: PINDORAMA DO TOCANTINS</td>
+            <td style="text-align: right;">Região: {{ $regiao }}</td>
         </tr>
     </table>
 </div>
@@ -96,8 +96,8 @@
 <div class="spacer"></div>
 
 <div class="content">
-    <p>Permanência: <strong>1 dias</strong></p>
-    <p>Período: 04/11/2024 à 04/11/2024</p>
+    <p>Permanência: <strong>{{ $permanencia }} dias</strong></p>
+    <p>Período: {{ $data_inicio }} à {{ $data_fim }}</p>
 </div>
 
 <div class="section-title">Turistas</div>
@@ -112,17 +112,17 @@
 <table class="taxes">
     <tr>
         <td>Taxa de conservação ambiental</td>
-        <td class="text-right">R$ 10,00</td>
+        <td class="text-right">R$ {{ $valor }}</td>
     </tr>
     <tr class="total">
         <td>Total Pago</td>
-        <td class="text-right">R$ 10,00</td>
+        <td class="text-right">R$ {{ $valor }}</td>
     </tr>
 </table>
 
 <div class="footer" style="font-size: 12px; margin-top: 3rem; border-top: 1px dashed #000">
-    <p>04/11/2024 às 20:42</p>
     <p>Data de emissão</p>
+    <p>{{ $data_emissao }}</p>
 </div>
 </body>
 </html>

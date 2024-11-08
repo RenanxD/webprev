@@ -20,10 +20,10 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <input type="text" class="form-control" id="dependente_cpf" name="dependente_cpf"
-                               placeholder="CPF" required>
+                               placeholder="CPF">
                     </div>
                     <div class="form-group col-md-6">
-                        <select class="form-control" id="dependente_tipo" name="dependente_tipo" required>
+                        <select class="form-control" id="dependente_tipo" name="dependente_tipo">
                             <option value="">Tipo de dependentes</option>
                             <option value="Filhos">Filhos</option>
                             <option value="Enteado">Enteado</option>
@@ -33,19 +33,19 @@
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="dependente_nome" name="dependente_nome"
-                           placeholder="Nome Completo" required>
+                           placeholder="Nome Completo">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <input type="text" class="form-control" id="dependente_celular" name="dependente_celular"
-                               placeholder="Celular" required>
+                               placeholder="Celular">
                     </div>
                     <div class="form-group col-md-4">
                         <input type="date" class="form-control" id="dependente_data_nascimento"
-                               name="dependente_data_nascimento" placeholder="Data de Aniversário" required>
+                               name="dependente_data_nascimento" placeholder="Data de Aniversário">
                     </div>
                     <div class="form-group col-md-4">
-                        <select class="form-control" id="dependente_sexo" name="dependente_sexo" required>
+                        <select class="form-control" id="dependente_sexo" name="dependente_sexo">
                             <option value="">Sexo</option>
                             <option value="Masculino">Masculino</option>
                             <option value="Feminino">Feminino</option>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <select class="form-control" id="dependente_tipo_sangue" name="dependente_tipo_sangue" required>
+                        <select class="form-control" id="dependente_tipo_sangue" name="dependente_tipo_sangue">
                             <option value="">Tipo Sanguíneo</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
@@ -71,7 +71,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="fecharModalDependente()">Fechar</button>
-                <button type="button" class="btn btn-primary" onclick="salvarDependente()">Salvar Dependente</button>
+                <button type="button" class="btn btn-primary" id="salvarEdicaoDependenteEdit" onclick="salvarDependente()">Salvar Dependente</button>
             </div>
         </div>
     </div>
@@ -86,12 +86,12 @@
             DependenteInput.placeholder = 'Passaporte';
             DependenteInput.name = 'dependente_passaporte';
             DependenteInput.id = 'dependente_passaporte';
-            DependenteInput.required = true;
+            DependenteInput.required = false;
         } else {
             DependenteInput.placeholder = 'CPF';
             DependenteInput.name = 'dependente_cpf';
             DependenteInput.id = 'dependente_cpf';
-            DependenteInput.required = true;
+            DependenteInput.required = false;
         }
     }
 
@@ -113,14 +113,14 @@
             tipoSangue: document.getElementById('dependente_tipo_sangue').value
         };
 
-        // Salva o dependente no localStorage
         const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
         dependentes.push(dependente);
         localStorage.setItem('dependentes', JSON.stringify(dependentes));
 
-        // Fecha o modal e limpa os campos, se desejar
         fecharModalDependente();
         limparCampos();
+
+        renderizarDependentes();
     }
 
     function fecharModalDependente() {
@@ -136,4 +136,88 @@
         document.getElementById('dependente_tipo').value = '';
         document.getElementById('dependente_tipo_sangue').value = '';
     }
+
+    function editarDependente(index) {
+        const dependentes = JSON.parse(localStorage.getItem('dependentes'));
+        const dependente = dependentes[index];
+
+        document.getElementById('dependente_nome').value = dependente.nome;
+        document.getElementById('dependente_cpf').value = dependente.cpfOuPassaporte;
+        document.getElementById('dependente_tipo').value = dependente.tipo;
+        document.getElementById('dependente_celular').value = dependente.celular;
+        document.getElementById('dependente_data_nascimento').value = dependente.dataNascimento;
+        document.getElementById('dependente_sexo').value = dependente.sexo;
+        document.getElementById('dependente_tipo_sangue').value = dependente.tipoSangue;
+
+        dependenteEstrangeiroSim.checked = dependente.estrangeiro === 'sim';
+        dependenteEstrangeiroNao.checked = dependente.estrangeiro === 'nao';
+
+        toggleDependenteInput();
+
+        document.getElementById('modalDependente').style.display = 'block';
+
+        document.getElementById('salvarEdicaoDependenteEdit').onclick = function() {
+            salvarEdicaoDependente(index);
+        };
+    }
+
+    function salvarEdicaoDependente(index) {
+        const dependentes = JSON.parse(localStorage.getItem('dependentes'));
+
+        dependentes[index] = {
+            estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
+            cpfOuPassaporte: DependenteInput.value,
+            tipo: document.getElementById('dependente_tipo').value,
+            nome: document.getElementById('dependente_nome').value,
+            celular: document.getElementById('dependente_celular').value,
+            dataNascimento: document.getElementById('dependente_data_nascimento').value,
+            sexo: document.getElementById('dependente_sexo').value,
+            tipoSangue: document.getElementById('dependente_tipo_sangue').value
+        };
+
+        localStorage.setItem('dependentes', JSON.stringify(dependentes));
+
+        fecharModalDependente();
+        limparCampos();
+        renderizarDependentes();
+    }
+
+    function excluirDependente(index) {
+        const dependentes = JSON.parse(localStorage.getItem('dependentes'));
+        dependentes.splice(index, 1);
+        localStorage.setItem('dependentes', JSON.stringify(dependentes));
+        renderizarDependentes();
+    }
+
+    function renderizarDependentes() {
+        const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
+        const listaElement = document.getElementById('listaDependentes');
+        listaElement.innerHTML = '';
+
+        dependentes.forEach((dependente, index) => {
+            const dependenteElement = document.createElement('div');
+            dependenteElement.style.display = 'flex';
+            dependenteElement.style.justifyContent = 'space-between';
+            dependenteElement.style.alignItems = 'center';
+            dependenteElement.style.marginBottom = '10px';
+
+            dependenteElement.innerHTML = `
+            <div>
+                <p><strong>${dependente.tipo}:</strong> ${dependente.nome}</p>
+            </div>
+            <div>
+                <button onclick="editarDependente(${index})">Editar</button>
+                <button onclick="excluirDependente(${index})">Excluir</button>
+            </div>
+        `;
+
+            listaElement.appendChild(dependenteElement);
+
+            // Separador (opcional)
+            const separador = document.createElement('hr');
+            listaElement.appendChild(separador);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', renderizarDependentes);
 </script>

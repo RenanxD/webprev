@@ -29,6 +29,8 @@ class CadastroTurista extends Controller
     public function submit(TuristaRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
+        $dependentes = $request->input('dependentes');
+        json_decode($dependentes);
 
         try {
             $turista = $this->createTurista($validatedData);

@@ -4,6 +4,8 @@ $(document).ready(function () {
 
         const formData = new FormData(this);
         const url = $('#submitButton').data('url');
+        const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
+        formData.append('dependentes', JSON.stringify(dependentes));
 
         $('#loading').show();
         updateProgressCircles(4);

@@ -97,7 +97,8 @@
     <div class="form-group" id="adicionar-dependente" style="display: none;">
         <button type="button" class="btn btn-secondary" onclick="abrirModalDependente()">Adicionar Dependente</button>
     </div>
-{{--    <x-modal-dependente/>--}}
+    <x-modal-dependente/>
+    <div id="listaDependentes" style="display: none;"></div>
     <div class="form-group">
         <input type="checkbox" id="aceitar_termos" required>
         <label for="aceitar_termos">Aceito todos os <a href="#" target="_blank">termos</a></label>
@@ -143,12 +144,15 @@
     const dependenteSim = document.getElementById('turista_dependente_sim');
     const dependenteNao = document.getElementById('turista_dependente_nao');
     const adicionarDependenteBtn = document.getElementById('adicionar-dependente');
+    const dependenteView = document.getElementById('listaDependentes');
 
     function toggleDependenteButton() {
         if (dependenteSim.checked) {
             adicionarDependenteBtn.style.display = 'block';
+            dependenteView.style.display = 'block';
         } else {
             adicionarDependenteBtn.style.display = 'none';
+            dependenteView.style.display = 'none';
         }
     }
 

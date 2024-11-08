@@ -8,6 +8,7 @@ use App\Models\Cidade;
 use App\Models\Comprovante\ComprovanteTaxa;
 use App\Models\Configuracoes\Cobrancas;
 use App\Models\Lancamento\LancamentoCobranca;
+use App\Models\Turista\Dependente;
 use App\Models\Turista\Turista;
 use App\Services\CobrancaService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -29,13 +30,17 @@ class CadastroTurista extends Controller
     public function submit(TuristaRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
-        $dependentes = $request->input('dependentes');
-        json_decode($dependentes);
+        $dependentes = json_decode($request->input('dependentes'), true);
 
         try {
             $turista = $this->createTurista($validatedData);
+
+            foreach ($dependentes as $dependenteData) {
+                $this->salvarDependente($turista->id_turista, $dependenteData);
+            }
+
             $cobrancaResponse = $this->gerarCobranca($validatedData, $turista->id_turista);
-            $lancamentoCobranca = $this->createLancamentoCobranca($validatedData, $cobrancaResponse, $turista->id_turista);
+            $this->createLancamentoCobranca($validatedData, $cobrancaResponse, $turista->id_turista);
 
             $idCobrancaBB = data_get($cobrancaResponse, 'cobranca.0.dados.id', '');
             session(['id_cobranca_bb' => $idCobrancaBB]);
@@ -81,15 +86,21 @@ class CadastroTurista extends Controller
         return response()->json(['paid' => false]);
     }
 
-    public function salvarDependente(Request $request)
+    protected function salvarDependente(int $idTurista, array $dependenteData)
     {
-        $dependente = $request->only(['nome', 'data_nascimento', 'parentesco']);
-
-        $dependentes = Session::get('dependentes', []);
-        $dependentes[] = $dependente;
-        Session::put('dependentes', $dependentes);
-
-        return response()->json(['success' => true]);
+        Dependente::create([
+            'id_turista' => $idTurista,
+            'dependente_estrangeiro' => $dependenteData['estrangeiro'],
+            'dependente_cpf' => $dependenteData['cpfOuPassaporte'],
+            'dependente_passaporte' => $dependenteData['passaporte'],
+            'dependente_nome' => $dependenteData['nome'],
+            'dependente_celular' => $dependenteData['celular'],
+            'dependente_data_nascimento' => $dependenteData['dataNascimento'],
+            'dependente_sexo' => $dependenteData['sexo'],
+            'dependente_tipo_sangue' => $dependenteData['tipoSangue'],
+            'dependente_necessidade_esp' => $dependenteData['necessidade_esp'],
+            'dependente_tipo' => $dependenteData['tipo'],
+        ]);
     }
 
     protected function createTurista(array $data)

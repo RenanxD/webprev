@@ -68,6 +68,23 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group mb-1">
+                    <label for="dependente_necessidade_esp_opcao">Possui alguma <strong>necessidade especial?</strong></label><br/>
+                    <input type="radio" id="dependente_necessidade_esp_nao" name="dependente_necessidade_esp_opcao" value="nao" checked/>
+                    <label for="dependente_necessidade_esp_nao">Não</label>
+                    <input type="radio" id="dependente_necessidade_esp_sim" name="dependente_necessidade_esp_opcao" value="sim"/>
+                    <label for="dependente_necessidade_esp_sim">Sim</label>
+                </div>
+                <div class="form-group col-md-4" id="dependente-necessidade-especial-options" style="display: none; padding-left: 0;">
+                    <select class="form-control" id="dependente_necessidade_esp" name="dependente_necessidade_esp">
+                        <option value="">Selecionar</option>
+                        <option value="Visual">Visual</option>
+                        <option value="Motora">Motora</option>
+                        <option value="Mental">Mental</option>
+                        <option value="Auditiva">Auditiva</option>
+                        <option value="Outra(s)">Outra(s)</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="fecharModalDependente()">Fechar</button>
@@ -102,6 +119,9 @@
 </script>
 <script>
     function salvarDependente() {
+        const necessidadeEspecialSim = document.getElementById('dependente_necessidade_esp_sim');
+        const necessidadeEspecialValor = document.getElementById('dependente_necessidade_esp').value;
+
         const dependente = {
             estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
             cpfOuPassaporte: DependenteInput.value,
@@ -110,7 +130,8 @@
             celular: document.getElementById('dependente_celular').value,
             dataNascimento: document.getElementById('dependente_data_nascimento').value,
             sexo: document.getElementById('dependente_sexo').value,
-            tipoSangue: document.getElementById('dependente_tipo_sangue').value
+            tipoSangue: document.getElementById('dependente_tipo_sangue').value,
+            necessidadeEspecial: necessidadeEspecialSim.checked ? necessidadeEspecialValor : false
         };
 
         const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
@@ -119,7 +140,6 @@
 
         fecharModalDependente();
         limparCampos();
-
         renderizarDependentes();
     }
 
@@ -212,12 +232,21 @@
         `;
 
             listaElement.appendChild(dependenteElement);
-
-            // Separador (opcional)
             const separador = document.createElement('hr');
             listaElement.appendChild(separador);
         });
     }
 
     document.addEventListener('DOMContentLoaded', renderizarDependentes);
+</script>
+<script>
+    $(document).ready(function () {
+        $('input[name="dependente_necessidade_esp_opcao"]').change(function () {
+            if ($('#dependente_necessidade_esp_sim').is(':checked')) {
+                $('#dependente-necessidade-especial-options').show();
+            } else {
+                $('#dependente-necessidade-especial-options').hide();
+            }
+        });
+    });
 </script>

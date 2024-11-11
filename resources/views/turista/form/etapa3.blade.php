@@ -147,11 +147,16 @@
             <span>Acompanhante(s) ou Dependente(s)</span>
             <hr>
         </div>
-        <div class="d-flex flex-column align-items-center">
-            <div class="mb-2">
-                <x-logos.logo-warning/>
+        <div id="dependente-container" class="d-flex flex-column align-items-center">
+            <!-- Conteúdo exibido caso não haja dependentes -->
+            <div id="no-dependente">
+                <div class="mb-2">
+                    <x-logos.logo-warning/>
+                </div>
+                <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi adicionado</p>
             </div>
-            <p style="font-weight:bold; color:#ABABAB;">Nenhum acompanhante ou dependente foi adicionado</p>
+            <!-- Lista de dependentes -->
+            <div id="dependentes-list"></div>
         </div>
     </div>
     <div class="container mt-5">
@@ -199,28 +204,63 @@
 <style>
     #loading {
         position: relative;
-        z-index: 1000; /* Coloca o loading em cima do conteúdo */
+        z-index: 1000;
     }
 
     .overlay {
-        position: fixed; /* Cobrirá toda a tela */
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(255, 255, 255, 0.7); /* Cor de fundo com opacidade */
-        backdrop-filter: blur(5px); /* Efeito de desfoque */
-        z-index: 999; /* Um pouco abaixo do loading */
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 999;
     }
 
     .loading-content {
-        position: relative; /* Para manter o GIF no topo */
-        z-index: 1001; /* Assegura que o conteúdo de loading fique acima da overlay */
+        position: relative;
+        z-index: 1001;
         text-align: center;
     }
 
     #loading img {
-        width: 50px; /* Defina o tamanho desejado do GIF */
-        height: auto; /* Mantém a proporção */
+        width: 50px;
+        height: auto;
     }
 </style>
+<script>
+    function renderDependentes() {
+        const dependentesContainer = document.getElementById('dependentes-list');
+        const noDependenteMessage = document.getElementById('no-dependente');
+        dependentesContainer.innerHTML = '';
+
+        // Carregar dependentes do localStorage
+        const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
+
+        // Verificar se há dependentes para exibir
+        if (dependentes.length > 0) {
+            noDependenteMessage.style.display = 'none';
+        } else {
+            noDependenteMessage.style.display = 'block';
+        }
+
+        // Adicionar cada dependente à lista
+        dependentes.forEach(dependente => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${dependente.nome} - ${dependente.tipo}`;
+            dependentesContainer.appendChild(listItem);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderDependentes();  // Chama a função na primeira renderização
+
+        // Atualiza sempre que há alteração no localStorage
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'dependentes') {
+                renderDependentes();  // Atualiza a lista sempre que houver alterações no localStorage
+            }
+        });
+    });
+</script>

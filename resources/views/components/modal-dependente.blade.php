@@ -136,11 +136,13 @@
 
         const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
         dependentes.push(dependente);
+
         localStorage.setItem('dependentes', JSON.stringify(dependentes));
 
         fecharModalDependente();
         limparCampos();
         renderizarDependentes();
+        renderDependentes();
     }
 
     function fecharModalDependente() {
@@ -200,13 +202,17 @@
         fecharModalDependente();
         limparCampos();
         renderizarDependentes();
+        renderDependentes();
     }
 
     function excluirDependente(index) {
         const dependentes = JSON.parse(localStorage.getItem('dependentes'));
-        dependentes.splice(index, 1);
+        dependentes.splice(index, 1); // Remove o dependente
         localStorage.setItem('dependentes', JSON.stringify(dependentes));
+
+        // Atualiza a renderização imediatamente após a exclusão
         renderizarDependentes();
+        renderDependentes(); // Atualiza a lista na etapa 3 também
     }
 
     function renderizarDependentes() {

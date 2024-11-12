@@ -123,14 +123,15 @@
         const necessidadeEspecialValor = document.getElementById('dependente_necessidade_esp').value;
 
         const dependente = {
-            estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
-            cpfOuPassaporte: DependenteInput.value,
-            tipo: document.getElementById('dependente_tipo').value,
-            nome: document.getElementById('dependente_nome').value,
-            celular: document.getElementById('dependente_celular').value,
-            dataNascimento: document.getElementById('dependente_data_nascimento').value,
-            sexo: document.getElementById('dependente_sexo').value,
-            tipoSangue: document.getElementById('dependente_tipo_sangue').value,
+            dependente_estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
+            dependente_cpf: document.getElementById('dependente_cpf').value?? null,
+            dependente_passaporte: document.getElementById('dependente_passaporte').value ?? null,
+            dependente_tipo: document.getElementById('dependente_tipo').value,
+            dependente_nome: document.getElementById('dependente_nome').value,
+            dependente_celular: document.getElementById('dependente_celular').value,
+            dependente_data_nascimento: document.getElementById('dependente_data_nascimento').value,
+            dependente_sexo: document.getElementById('dependente_sexo').value,
+            dependente_tipo_sangue: document.getElementById('dependente_tipo_sangue').value,
             necessidadeEspecial: necessidadeEspecialSim.checked ? necessidadeEspecialValor : false
         };
 
@@ -151,6 +152,7 @@
 
     function limparCampos() {
         document.getElementById('dependente_cpf').value = '';
+        document.getElementById('dependente_passaporte').value = '';
         document.getElementById('dependente_nome').value = '';
         document.getElementById('dependente_celular').value = '';
         document.getElementById('dependente_data_nascimento').value = '';
@@ -164,15 +166,16 @@
         const dependente = dependentes[index];
 
         document.getElementById('dependente_nome').value = dependente.nome;
-        document.getElementById('dependente_cpf').value = dependente.cpfOuPassaporte;
-        document.getElementById('dependente_tipo').value = dependente.tipo;
+        document.getElementById('dependente_cpf').value = dependente.dependente_cpf;
+        document.getElementById('dependente_passaporte').value = dependente.dependente_passaporte;
+        document.getElementById('dependente_tipo').value = dependente.dependente_tipo;
         document.getElementById('dependente_celular').value = dependente.celular;
         document.getElementById('dependente_data_nascimento').value = dependente.dataNascimento;
         document.getElementById('dependente_sexo').value = dependente.sexo;
-        document.getElementById('dependente_tipo_sangue').value = dependente.tipoSangue;
+        document.getElementById('dependente_tipo_sangue').value = dependente.dependente_tipo_sangue;
 
-        dependenteEstrangeiroSim.checked = dependente.estrangeiro === 'sim';
-        dependenteEstrangeiroNao.checked = dependente.estrangeiro === 'nao';
+        dependenteEstrangeiroSim.checked = dependente.dependente_estrangeiro === 'sim';
+        dependenteEstrangeiroNao.checked = dependente.dependente_estrangeiro === 'nao';
 
         toggleDependenteInput();
 
@@ -187,14 +190,15 @@
         const dependentes = JSON.parse(localStorage.getItem('dependentes'));
 
         dependentes[index] = {
-            estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
-            cpfOuPassaporte: DependenteInput.value,
-            tipo: document.getElementById('dependente_tipo').value,
-            nome: document.getElementById('dependente_nome').value,
-            celular: document.getElementById('dependente_celular').value,
-            dataNascimento: document.getElementById('dependente_data_nascimento').value,
-            sexo: document.getElementById('dependente_sexo').value,
-            tipoSangue: document.getElementById('dependente_tipo_sangue').value
+            dependente_estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
+            dependente_cpf: document.getElementById('dependente_cpf').value ?? null,
+            dependente_passaporte: document.getElementById('dependente_passaporte').value ?? null,
+            dependente_tipo: document.getElementById('dependente_tipo').value,
+            dependente_nome: document.getElementById('dependente_nome').value,
+            dependente_celular: document.getElementById('dependente_celular').value,
+            dependente_dataNascimento: document.getElementById('dependente_data_nascimento').value,
+            dependente_sexo: document.getElementById('dependente_sexo').value,
+            dependente_tipo_sangue: document.getElementById('dependente_tipo_sangue').value
         };
 
         localStorage.setItem('dependentes', JSON.stringify(dependentes));
@@ -207,12 +211,11 @@
 
     function excluirDependente(index) {
         const dependentes = JSON.parse(localStorage.getItem('dependentes'));
-        dependentes.splice(index, 1); // Remove o dependente
+        dependentes.splice(index, 1);
         localStorage.setItem('dependentes', JSON.stringify(dependentes));
 
-        // Atualiza a renderização imediatamente após a exclusão
         renderizarDependentes();
-        renderDependentes(); // Atualiza a lista na etapa 3 também
+        renderDependentes();
     }
 
     function renderizarDependentes() {
@@ -229,7 +232,7 @@
 
             dependenteElement.innerHTML = `
             <div>
-                <p><strong>${dependente.tipo}:</strong> ${dependente.nome}</p>
+                <p><strong>${dependente.dependente_tipo}:</strong> ${dependente.dependente_nome}</p>
             </div>
             <div>
                 <button onclick="editarDependente(${index})">Editar</button>

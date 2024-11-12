@@ -18,7 +18,7 @@
                             <div class="progress-line"></div>
                             <div class="progress-circle" id="circle4">4</div>
                         </div>
-                        <form id="multiStepForm" method="POST">
+                        <form id="multiStepForm" method="POST" novalidate>
                             @csrf
                             @include('turista.form.etapa1')
                             @include('turista.form.etapa2')

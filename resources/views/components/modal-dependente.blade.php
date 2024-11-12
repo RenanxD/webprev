@@ -96,19 +96,19 @@
 <script>
     const dependenteEstrangeiroSim = document.getElementById('dependente_estrangeiro_sim');
     const dependenteEstrangeiroNao = document.getElementById('dependente_estrangeiro_nao');
-    const DependenteInput = document.getElementById('dependente_cpf');
+    const dependenteInput = document.getElementById('dependente_cpf');
 
     function toggleDependenteInput() {
         if (dependenteEstrangeiroSim.checked) {
-            DependenteInput.placeholder = 'Passaporte';
-            DependenteInput.name = 'dependente_passaporte';
-            DependenteInput.id = 'dependente_passaporte';
-            DependenteInput.required = false;
+            dependenteInput.placeholder = 'Passaporte';
+            dependenteInput.name = 'dependente_passaporte';
+            dependenteInput.id = 'dependente_passaporte';
+            dependenteInput.required = false;
         } else {
-            DependenteInput.placeholder = 'CPF';
-            DependenteInput.name = 'dependente_cpf';
-            DependenteInput.id = 'dependente_cpf';
-            DependenteInput.required = false;
+            dependenteInput.placeholder = 'CPF';
+            dependenteInput.name = 'dependente_cpf';
+            dependenteInput.id = 'dependente_cpf';
+            dependenteInput.required = false;
         }
     }
 
@@ -124,8 +124,8 @@
 
         const dependente = {
             dependente_estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
-            dependente_cpf: document.getElementById('dependente_cpf').value?? null,
-            dependente_passaporte: document.getElementById('dependente_passaporte').value ?? null,
+            dependente_cpf: document.getElementById('dependente_cpf').value || null,
+            dependente_passaporte: dependenteEstrangeiroSim.checked ? (document.getElementById('dependente_passaporte').value || null) : null,
             dependente_tipo: document.getElementById('dependente_tipo').value,
             dependente_nome: document.getElementById('dependente_nome').value,
             dependente_celular: document.getElementById('dependente_celular').value,
@@ -151,54 +151,83 @@
     }
 
     function limparCampos() {
-        document.getElementById('dependente_cpf').value = '';
-        document.getElementById('dependente_passaporte').value = '';
-        document.getElementById('dependente_nome').value = '';
-        document.getElementById('dependente_celular').value = '';
-        document.getElementById('dependente_data_nascimento').value = '';
-        document.getElementById('dependente_sexo').value = '';
-        document.getElementById('dependente_tipo').value = '';
-        document.getElementById('dependente_tipo_sangue').value = '';
+        const fieldIds = [
+            'dependente_cpf',
+            'dependente_passaporte',
+            'dependente_nome',
+            'dependente_celular',
+            'dependente_data_nascimento',
+            'dependente_sexo',
+            'dependente_tipo',
+            'dependente_tipo_sangue'
+        ];
+
+        fieldIds.forEach(id => {
+            const field = document.getElementById(id);
+            if (field) {
+                field.value = '';
+            }
+        });
     }
 
     function editarDependente(index) {
         const dependentes = JSON.parse(localStorage.getItem('dependentes'));
         const dependente = dependentes[index];
 
-        document.getElementById('dependente_nome').value = dependente.nome;
-        document.getElementById('dependente_cpf').value = dependente.dependente_cpf;
-        document.getElementById('dependente_passaporte').value = dependente.dependente_passaporte;
-        document.getElementById('dependente_tipo').value = dependente.dependente_tipo;
-        document.getElementById('dependente_celular').value = dependente.celular;
-        document.getElementById('dependente_data_nascimento').value = dependente.dataNascimento;
-        document.getElementById('dependente_sexo').value = dependente.sexo;
-        document.getElementById('dependente_tipo_sangue').value = dependente.dependente_tipo_sangue;
+        const fieldMappings = {
+            'dependente_nome': dependente.dependente_nome,
+            'dependente_cpf': dependente.dependente_cpf,
+            'dependente_passaporte': dependente.dependente_passaporte,
+            'dependente_tipo': dependente.dependente_tipo,
+            'dependente_celular': dependente.dependente_celular,
+            'dependente_data_nascimento': dependente.dependente_data_nascimento,
+            'dependente_sexo': dependente.dependente_sexo,
+            'dependente_tipo_sangue': dependente.dependente_tipo_sangue
+        };
 
-        dependenteEstrangeiroSim.checked = dependente.dependente_estrangeiro === 'sim';
-        dependenteEstrangeiroNao.checked = dependente.dependente_estrangeiro === 'nao';
+        Object.keys(fieldMappings).forEach(id => {
+            const field = document.getElementById(id);
+            if (field) {
+                field.value = fieldMappings[id] || '';
+            }
+        });
+
+        const dependenteEstrangeiroSim = document.getElementById('dependenteEstrangeiroSim');
+        const dependenteEstrangeiroNao = document.getElementById('dependenteEstrangeiroNao');
+
+        if (dependenteEstrangeiroSim && dependenteEstrangeiroNao) {
+            dependenteEstrangeiroSim.checked = dependente.dependente_estrangeiro === 'sim';
+            dependenteEstrangeiroNao.checked = dependente.dependente_estrangeiro === 'nao';
+        }
 
         toggleDependenteInput();
 
-        document.getElementById('modalDependente').style.display = 'block';
+        const modalDependente = document.getElementById('modalDependente');
+        if (modalDependente) {
+            modalDependente.style.display = 'block';
+        }
 
-        document.getElementById('salvarEdicaoDependenteEdit').onclick = function() {
-            salvarEdicaoDependente(index);
-        };
+        const salvarButton = document.getElementById('salvarEdicaoDependenteEdit');
+        if (salvarButton) {
+            salvarButton.onclick = function() {
+                salvarEdicaoDependente(index);
+            };
+        }
     }
 
     function salvarEdicaoDependente(index) {
         const dependentes = JSON.parse(localStorage.getItem('dependentes'));
 
         dependentes[index] = {
-            dependente_estrangeiro: dependenteEstrangeiroSim.checked ? 'sim' : 'nao',
-            dependente_cpf: document.getElementById('dependente_cpf').value ?? null,
-            dependente_passaporte: document.getElementById('dependente_passaporte').value ?? null,
-            dependente_tipo: document.getElementById('dependente_tipo').value,
-            dependente_nome: document.getElementById('dependente_nome').value,
-            dependente_celular: document.getElementById('dependente_celular').value,
-            dependente_dataNascimento: document.getElementById('dependente_data_nascimento').value,
-            dependente_sexo: document.getElementById('dependente_sexo').value,
-            dependente_tipo_sangue: document.getElementById('dependente_tipo_sangue').value
+            dependente_estrangeiro: document.getElementById('dependenteEstrangeiroSim')?.checked ? 'sim' : 'nao',
+            dependente_cpf: document.getElementById('dependente_cpf')?.value || null,
+            dependente_passaporte: document.getElementById('dependente_passaporte')?.value || null,
+            dependente_tipo: document.getElementById('dependente_tipo')?.value || '',
+            dependente_nome: document.getElementById('dependente_nome')?.value || '',
+            dependente_celular: document.getElementById('dependente_celular')?.value || '',
+            dependente_data_nascimento: document.getElementById('dependente_data_nascimento')?.value || '',
+            dependente_sexo: document.getElementById('dependente_sexo')?.value || '',
+            dependente_tipo_sangue: document.getElementById('dependente_tipo_sangue')?.value || ''
         };
 
         localStorage.setItem('dependentes', JSON.stringify(dependentes));
@@ -235,8 +264,8 @@
                 <p><strong>${dependente.dependente_tipo}:</strong> ${dependente.dependente_nome}</p>
             </div>
             <div>
-                <button onclick="editarDependente(${index})">Editar</button>
-                <button onclick="excluirDependente(${index})">Excluir</button>
+                <a class="btn btn-primary" style="color:white;" onclick="editarDependente(${index})">Editar</a>
+                <a class="btn btn-danger" style="color:white;" onclick="excluirDependente(${index})">Excluir</a>
             </div>
         `;
 

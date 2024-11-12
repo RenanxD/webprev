@@ -88,18 +88,20 @@ class CadastroTurista extends Controller
 
     protected function salvarDependente(int $idTurista, array $dependenteData)
     {
+        $dependenteData['dependente_estrangeiro'] = ($dependenteData['dependente_estrangeiro'] === 'sim');
+
         Dependente::create([
             'id_turista' => $idTurista,
-            'dependente_estrangeiro' => $dependenteData['estrangeiro'],
-            'dependente_cpf' => $dependenteData['cpfOuPassaporte'],
-            'dependente_passaporte' => $dependenteData['passaporte'],
-            'dependente_nome' => $dependenteData['nome'],
-            'dependente_celular' => $dependenteData['celular'],
-            'dependente_data_nascimento' => $dependenteData['dataNascimento'],
-            'dependente_sexo' => $dependenteData['sexo'],
-            'dependente_tipo_sangue' => $dependenteData['tipoSangue'],
-            'dependente_necessidade_esp' => $dependenteData['necessidade_esp'],
-            'dependente_tipo' => $dependenteData['tipo'],
+            'dependente_estrangeiro' => $dependenteData['dependente_estrangeiro'],
+            'dependente_cpf' => $dependenteData['dependente_cpf'],
+            'dependente_passaporte' => $dependenteData['dependente_passaporte'],
+            'dependente_nome' => $dependenteData['dependente_nome'],
+            'dependente_tipo' => $dependenteData['dependente_tipo'],
+            'dependente_celular' => $dependenteData['dependente_celular'],
+            'dependente_data_nascimento' => $dependenteData['dependente_data_nascimento'],
+            'dependente_sexo' => $dependenteData['dependente_sexo'],
+            'dependente_tipo_sangue' => $dependenteData['dependente_tipo_sangue'],
+            'dependente_necessidade_esp' => $dependenteData['necessidadeEspecial'],
         ]);
     }
 

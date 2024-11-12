@@ -235,31 +235,27 @@
         const noDependenteMessage = document.getElementById('no-dependente');
         dependentesContainer.innerHTML = '';
 
-        // Carregar dependentes do localStorage
         const dependentes = JSON.parse(localStorage.getItem('dependentes')) || [];
 
-        // Verificar se há dependentes para exibir
         if (dependentes.length > 0) {
             noDependenteMessage.style.display = 'none';
         } else {
             noDependenteMessage.style.display = 'block';
         }
 
-        // Adicionar cada dependente à lista
         dependentes.forEach(dependente => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${dependente.nome} - ${dependente.tipo}`;
+            listItem.textContent = `${dependente.dependente_tipo} - ${dependente.dependente_nome}`;
             dependentesContainer.appendChild(listItem);
         });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        renderDependentes();  // Chama a função na primeira renderização
+        renderDependentes();
 
-        // Atualiza sempre que há alteração no localStorage
         window.addEventListener('storage', (event) => {
             if (event.key === 'dependentes') {
-                renderDependentes();  // Atualiza a lista sempre que houver alterações no localStorage
+                renderDependentes();
             }
         });
     });

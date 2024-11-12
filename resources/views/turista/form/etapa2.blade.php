@@ -24,7 +24,7 @@
 
     <div class="form-row justify-content-center text-start">
         <div class="form-group col-md-4 position-relative">
-            <label for="data_inicial">Data Final</label>
+            <label for="data_final">Data Final</label>
             <input type="date"
                    class="form-control"
                    id="data_final"

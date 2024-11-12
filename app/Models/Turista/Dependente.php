@@ -16,6 +16,7 @@ class Dependente extends Model
         'dependente_cpf',
         'dependente_passaporte',
         'dependente_nome',
+        'dependente_tipo',
         'dependente_celular',
         'dependente_data_nascimento',
         'dependente_sexo',

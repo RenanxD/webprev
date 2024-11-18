@@ -58,6 +58,23 @@ class AuthController extends Controller
             ?? Cobrancas::latest()->first();
         $email = session('email');
 
-        return view('turista.complete-registration', compact('email', 'slug', 'cobrancaAtual'));
+        $clienteJaCadastrado = Turista::where('turista_email', $email)->exists();
+        $cliente = (object) [
+            'cpf' => '123.456.789-00',
+            'nome' => 'João Silva',
+            'email' => 'joao.silva@example.com',
+            'telefone_celular' => '(11) 98765-4321',
+            'data_nascimento' => '1990-05-15',
+            'endereco_cep' => '01001-000',
+            'endereco_rua' => 'Avenida Paulista',
+            'endereco_bairro' => 'Bela Vista',
+            'endereco_numero' => '1000',
+            'estrangeiro' => 'nao', // 'sim' para estrangeiro
+            'sexo' => 'Masculino', // ou 'Feminino', 'Outro'
+            'tipo_sangue' => 'O+',
+        ];
+
+
+        return view('turista.complete-registration', compact('email', 'slug', 'cobrancaAtual', 'clienteJaCadastrado', 'cliente'));
     }
 }

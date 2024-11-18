@@ -16,7 +16,6 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
-use Illuminate\Support\Facades\Session;
 
 class CadastroTurista extends Controller
 {
@@ -63,11 +62,17 @@ class CadastroTurista extends Controller
         $slugCidade = Cidade::where('slug', $slug)->first();
         $idCobrancaBB = session('id_cobranca_bb');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobrancaBB);
-        $detalhesCobranca['dados']['situacao'] = 'pago';
+        //$detalhesCobranca['dados']['situacao'] = 'pago';
 
         $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();
 
         if (data_get($detalhesCobranca, 'dados.situacao') === 'pago') {
+
+            $cobranca->update([
+                'lancamento_pago' => true,
+                'lancamento_data_pago' => now(),
+            ]);
+
             $data = [
                 'id_lancamento' => $cobranca->id_lancamento,
                 'id_turista' => $cobranca->id_turista,
@@ -77,7 +82,8 @@ class CadastroTurista extends Controller
                 'comprovante_data_inicio' => $cobranca->data_inicio,
                 'comprovante_data_fim' => $cobranca->data_fim,
                 'comprovante_data_emissao' => $cobranca->created_at,
-        ];
+            ];
+
             ComprovanteTaxa::create($data);
 
             return response()->json(['paid' => true]);
@@ -159,7 +165,7 @@ class CadastroTurista extends Controller
 
         $dataInicio = Carbon::parse($comprovante->data_inicio);
         $dataFim = Carbon::parse($comprovante->data_fim);
-        $permanencia = (int) $dataInicio->diffInDays($dataFim) + 1;
+        $permanencia = (int)$dataInicio->diffInDays($dataFim) + 1;
 
         $dados = [
             'nome' => $turista->turista_nome,

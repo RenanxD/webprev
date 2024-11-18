@@ -1,11 +1,9 @@
 @extends('layouts.signin')
-
 @section('content')
     <div class="acessar-comprovante-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <!-- Alinhamento entre a seta e o título -->
             <x-botao-voltar></x-botao-voltar>
-            <h3 class="mx-auto comprovante-titulo">Comprovantes</h3> <!-- Classe mx-auto centraliza o título -->
+            <h3 class="comprovante-titulo">Comprovantes</h3>
         </div>
         <div class="justify-content-center d-flex mt-4">
             <div class="mb-3">
@@ -15,11 +13,44 @@
                    onclick="showUtilizados()">Utilizado</a>
             </div>
         </div>
-        <div class="justify-content-center d-flex flex-column align-items-center" style="margin-top: 12rem;">
-            <div id="comprovantes-ativos" style="display: none;">
+        <div class="justify-content-center d-flex flex-column align-items-center" style="margin-top: 1rem;">
+            <div class="comprovantes-cards" id="comprovantes-ativos" style="display: none;">
                 <div class="text-center">
-                    <x-logos.logo-nada-consta />
-                    <p style="font-weight: bold; color: #ABABAB; font-size: 20px;">Nada consta</p>
+                    @if (!$comprovantes || $comprovantes->isEmpty())
+                        <x-logos.logo-nada-consta />
+                        <p style="font-weight: bold; color: #ABABAB; font-size: 20px;">Nada consta</p>
+                    @endif
+                    @foreach($comprovantes as $comprovante)
+                        <div class="card mb-4 card-acessar-comprovante">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div class="text-left">
+                                        <p class="card-text">
+                                            Nº <strong>10</strong>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="card-text">
+                                            <strong>Data da emissão:</strong> 04/11/2024 às 20:42
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <div class="text-left">
+                                        <p class="card-text">
+                                            Região: <strong>Pindorama Do Tocantins</strong>
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="card-text">
+                                            <strong>1 dia(s)</strong> de permanência:<br>
+                                            <strong>04/11/2024 à 04/11/2024</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
@@ -56,12 +87,14 @@
             font-weight: bold;
             text-decoration: none;
             color: #0056b3;
+            font-size: 20px;
         }
 
         .link-style.active {
             color: #007bff;
             text-decoration: underline;
             cursor: pointer;
+            font-size: 20px;
         }
 
         .acessar-comprovante-container {
@@ -79,31 +112,61 @@
             transform: translate(-50%, -50%);
         }
 
-        .back-button {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #d0e7ff; /* cor de fundo parecida com a da imagem */
-            color: #333; /* cor da seta */
-            font-size: 20px;
-            text-decoration: none;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            top: 20px; /* Ajuste a posição conforme necessário */
-            left: 20px;
-            transition: background-color 0.3s ease;
+        .card-acessar-comprovante {
+            border-radius: 0.75rem;
+            height: 8rem;
+            width: 40rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-right: 7px solid #4a90e2;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
         }
 
-        .back-button:hover {
-            background-color: #4a90e2; /* cor de fundo ao passar o mouse */
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 1rem;
+            margin: 0;
+        }
+
+        .card-body div {
+            display: flex;
+        }
+
+        .card-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .card-text strong {
             color: #000;
         }
 
-        .ml-auto, .mx-auto {
-            margin-left: 12rem !important;
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .mt-3 {
+            margin-top: 1rem;
+        }
+
+        .comprovante-titulo {
+            width: 61%;
+            display: flex;
+            text-align: center;
+        }
+
+        .comprovantes-cards {
+            margin-top: 25px;
         }
     </style>
 @endsection

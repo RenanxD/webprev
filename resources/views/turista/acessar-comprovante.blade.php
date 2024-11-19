@@ -26,25 +26,25 @@
                                 <div class="d-flex justify-content-between">
                                     <div class="text-left">
                                         <p class="card-text">
-                                            Nº <strong>10</strong>
+                                            Nº <strong>{{ $comprovante->id_comprovante }}</strong>
                                         </p>
                                     </div>
                                     <div class="text-right">
                                         <p class="card-text">
-                                            <strong>Data da emissão:</strong> 04/11/2024 às 20:42
+                                            <strong>Data da emissão:</strong> {{ $comprovante->comprovante_data_emissao }}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between mt-3">
                                     <div class="text-left">
                                         <p class="card-text">
-                                            Região: <strong>Pindorama Do Tocantins</strong>
+                                            Região: <strong>{{ $cidade->cidade_descricao }}</strong>
                                         </p>
                                     </div>
                                     <div class="text-right">
                                         <p class="card-text">
                                             <strong>1 dia(s)</strong> de permanência:<br>
-                                            <strong>04/11/2024 à 04/11/2024</strong>
+                                            <strong>{{ $comprovante->comprovante_data_inicio }} à {{ $comprovante->comprovante_data_fim }}</strong>
                                         </p>
                                     </div>
                                 </div>

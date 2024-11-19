@@ -21,7 +21,7 @@ class ComprovantePago extends Mailable
     {
         return $this->view('emails.comprovante-pago')
             ->subject('Comprovante de Pagamento')
-            ->attachData($this->dados['pdf']->output(), 'comprovante.pdf', [
+            ->attachData($this->dados['pdf'], 'comprovante.pdf', [
                 'mime' => 'application/pdf',
             ]);
     }

@@ -67,6 +67,10 @@ class CadastroTurista extends Controller
 
         $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();
 
+        if ($cobranca->lancamento_pago) {
+            return response()->json(['paid' => true]);
+        }
+
         if (data_get($detalhesCobranca, 'dados.situacao') === 'pago') {
 
             $cobranca->update([

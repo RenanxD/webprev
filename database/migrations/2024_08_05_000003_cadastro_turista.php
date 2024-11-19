@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('turista_fone1');
             $table->string('turista_fone2')->nullable();
             $table->date('turista_data_nascimento')->nullable();
-            $table->char('turista_sexo')->nullable();
+            $table->string('turista_sexo')->nullable();
             $table->string('turista_tipo_sangue')->nullable();
             $table->string('turista_endereco_cep')->nullable();
             $table->string('turista_endereco')->nullable();

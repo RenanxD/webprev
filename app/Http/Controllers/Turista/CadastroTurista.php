@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class CadastroTurista extends Controller
 {
@@ -62,7 +63,7 @@ class CadastroTurista extends Controller
         $slugCidade = Cidade::where('slug', $slug)->first();
         $idCobrancaBB = session('id_cobranca_bb');
         $detalhesCobranca = $this->cobrancaService->consultarDetalhesCobranca($idCobrancaBB);
-        //$detalhesCobranca['dados']['situacao'] = 'pago';
+        $detalhesCobranca['dados']['situacao'] = 'pago';
 
         $cobranca = LancamentoCobranca::where('id_cobranca_bb', $idCobrancaBB)->first();
 
@@ -85,6 +86,21 @@ class CadastroTurista extends Controller
             ];
 
             ComprovanteTaxa::create($data);
+
+            $pdf = $this->gerarComprovantePdf($slug, $idCobrancaBB);
+            $turista = Turista::find($cobranca->id_turista);
+
+            $dadosEmail = [
+                'pdf' => $pdf,
+                'nome' => $turista->turista_nome,
+                'email' => $turista->turista_email,
+            ];
+
+            try {
+                Mail::to($dadosEmail['email'])->send(new \App\Mail\ComprovantePago($dadosEmail));
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Erro ao enviar e-mail: ' . $e->getMessage()], 500);
+            }
 
             return response()->json(['paid' => true]);
         }

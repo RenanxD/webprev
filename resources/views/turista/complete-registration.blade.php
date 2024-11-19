@@ -20,7 +20,7 @@
                         </div>
                         <form id="multiStepForm" method="POST" novalidate>
                             @csrf
-                            @if($clienteJaCadastrado)
+                            @if($cliente)
                                 @include('turista.form.etapa1_turista')
                             @else
                                 @include('turista.form.etapa1')

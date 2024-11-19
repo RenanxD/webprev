@@ -10,8 +10,12 @@ class AcessarComprovante
     public function acessarComprovante($slug)
     {
         $email = session('email');
+        $comprovantes = collect();
         $turista = Turista::where('turista_email', $email)->first();
-        $comprovantes = ComprovanteTaxa::where('id_turista', $turista->id_turista)->get();
+
+        if ($turista) {
+            $comprovantes = ComprovanteTaxa::where('id_turista', $turista->id_turista)->get();
+        }
 
         return view('turista.acessar-comprovante', compact('email', 'slug', 'comprovantes'));
     }

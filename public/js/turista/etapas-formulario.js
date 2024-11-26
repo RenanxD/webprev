@@ -159,7 +159,7 @@ $(document).ready(function () {
 
         } else {
             $('#resumoNecessidadeEspecialNao').prop('checked', true);
-            $('.resumoTuristaNecessidadeEsp').text('Não possui necessidade especial');
+            $('.resumoTuristaNecessidadeEsp').text('Não');
         }
     }
 

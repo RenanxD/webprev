@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::connection('internal_pgsql')->create('lancamento_cobranca', function (Blueprint $table) {
             $table->id('id_lancamento');
             $table->unsignedBigInteger('id_cobranca');
-            $table->unsignedBigInteger('id_turista')->unique();
+            $table->unsignedBigInteger('id_turista');
             $table->string('id_cobranca_bb')->unique();
             $table->decimal('lancamento_valor', 10, 2);
             $table->dateTime('lancamento_data_gerado');

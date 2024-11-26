@@ -21,7 +21,10 @@
                         <p style="font-weight: bold; color: #ABABAB; font-size: 20px;">Nada consta</p>
                     @endif
                     @foreach($comprovantes as $comprovante)
-                        <div class="card mb-4 card-acessar-comprovante">
+                        <a href="/{{ $cidade->slug }}/comprovante/download/{{ $comprovante->id_comprovante }}"
+                           target="_blank"
+                           class="card mb-4 card-acessar-comprovante text-decoration-none"
+                           style="color: inherit;">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div class="text-left">
@@ -49,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>

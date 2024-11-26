@@ -33,10 +33,18 @@ class CadastroTurista extends Controller
         $dependentes = json_decode($request->input('dependentes'), true);
 
         try {
-            $turista = $this->createTurista($validatedData);
+            $turista = Turista::where('turista_email', $validatedData['turista_email'])->first();
+
+            if (!$turista) {
+                $turista = $this->createTurista($validatedData);
+            }
 
             foreach ($dependentes as $dependenteData) {
-                $this->salvarDependente($turista->id_turista, $dependenteData);
+                $dependente = Dependente::where('dependente_cpf', $dependenteData['dependente_cpf'])->first();
+
+                if (!$dependente) {
+                    $dependente = $this->salvarDependente($turista->id_turista, $dependenteData);
+                }
             }
 
             $cobrancaResponse = $this->gerarCobranca($validatedData, $turista->id_turista);
@@ -106,7 +114,10 @@ class CadastroTurista extends Controller
                 return response()->json(['error' => 'Erro ao enviar e-mail: ' . $e->getMessage()], 500);
             }
 
-            return response()->json(['paid' => true]);
+            return response()->json([
+                'paid' => true,
+                'redirect_url' => route('acessar.comprovante', ['slug' => $slug])
+            ]);
         }
 
         return response()->json(['paid' => false]);
@@ -116,7 +127,7 @@ class CadastroTurista extends Controller
     {
         $dependenteData['dependente_estrangeiro'] = ($dependenteData['dependente_estrangeiro'] === 'sim');
 
-        Dependente::create([
+        return Dependente::create([
             'id_turista' => $idTurista,
             'dependente_estrangeiro' => $dependenteData['dependente_estrangeiro'],
             'dependente_cpf' => $dependenteData['dependente_cpf'],
@@ -175,16 +186,17 @@ class CadastroTurista extends Controller
 
     public function gerarComprovantePdf($slug, $idCobranca)
     {
-        $comprovante = LancamentoCobranca::where('id_cobranca_bb', $idCobranca)->firstOrFail();
-        $turista = Turista::where('id_turista', $comprovante->id_turista)->first();
+        $comprovante = ComprovanteTaxa::where('id_comprovante', $idCobranca)->firstOrFail();
+        $lancamento = LancamentoCobranca::where('id_lancamento', $comprovante->id_lancamento)->firstOrFail();
+        $turista = Turista::where('id_turista', $lancamento->id_turista)->first();
         $slugCidade = Cidade::where('slug', $slug)->first();
 
-        $imageData = $this->cobrancaService->consultarQrCode($comprovante->id_cobranca_bb);
+        $imageData = $this->cobrancaService->consultarQrCode($lancamento->id_cobranca_bb);
         $type = 'png';
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($imageData);
 
-        $dataInicio = Carbon::parse($comprovante->data_inicio);
-        $dataFim = Carbon::parse($comprovante->data_fim);
+        $dataInicio = Carbon::parse($lancamento->data_inicio);
+        $dataFim = Carbon::parse($lancamento->data_fim);
         $permanencia = (int)$dataInicio->diffInDays($dataFim) + 1;
 
         $dados = [
@@ -192,9 +204,9 @@ class CadastroTurista extends Controller
             'regiao' => strtoupper($slugCidade->cidade_descricao),
             'data_inicio' => $dataInicio->format('d/m/Y'),
             'data_fim' => $dataFim->format('d/m/Y'),
-            'data_emissao' => Carbon::parse($comprovante->created_at)->format('d/m/Y \à\s H:i:s'),
+            'data_emissao' => Carbon::parse($lancamento->created_at)->format('d/m/Y \à\s H:i:s'),
             'permanencia' => $permanencia,
-            'valor' => number_format($comprovante->lancamento_valor, 2, ',', '.'),
+            'valor' => number_format($lancamento->lancamento_valor, 2, ',', '.'),
             'qr_code' => $base64
         ];
 

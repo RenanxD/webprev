@@ -64,15 +64,22 @@ $(document).ready(function () {
         }, interval * 1000);
     }
 
-    function checkPaymentStatus(idCobranca, checkInterval) {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function checkPaymentStatus(idCobranca, checkInterval) {
         const slug = window.location.pathname.split('/')[1];
 
         $.get(`/${slug}/api/check-payment-status`, { id_cobranca_bb: idCobranca })
-            .done(function (data) {
-                if (data.paid) {
+            .done(async function (data) {
+                if (data.paid && data.redirect_url) {
                     clearInterval(checkInterval);
                     $('#paymentStatus').text('Seu pagamento foi confirmado!').show();
                     $('#timerDisplay').hide();
+
+                    await sleep(5000); // Aguarda 5 segundos antes de redirecionar
+                    window.location.href = data.redirect_url;
 
                     const downloadUrl = `/${slug}/comprovante/download/${idCobranca}`;
                     $('#downloadButton').attr('href', downloadUrl).show();

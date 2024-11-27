@@ -1,5 +1,5 @@
 @extends('layouts.signin-options')
-@section('title', 'Bem-vindo')
+@section('title', 'WebPrev - Bem-vindo')
 @section('content')
     <div class="logo" style="margin-top: 10rem;">
         <x-logos.logo-regiao/>

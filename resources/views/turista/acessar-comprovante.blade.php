@@ -1,4 +1,5 @@
 @extends('layouts.signin')
+@section('title', 'WebPrev - Comprovantes')
 @section('content')
     <div class="acessar-comprovante-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -57,7 +58,7 @@
                 </div>
             </div>
 
-            <div id="comprovantes-utilizados" style="display: none;">
+            <div id="comprovantes-utilizados" style="display: none; margin-top: 10rem;">
                 <div class="text-center">
                     <x-logos.logo-nada-consta />
                     <p style="font-weight: bold; color: #ABABAB; font-size: 20px;">Nada consta</p>
@@ -163,7 +164,7 @@
         }
 
         .comprovante-titulo {
-            width: 61%;
+            width: 63%;
             display: flex;
             text-align: center;
         }

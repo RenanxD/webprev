@@ -59,7 +59,7 @@
             justify-content: center;
         }
     </style>
-    <title></title>
+    <title>WebPrev - Região</title>
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 <div class="container d-flex flex-column justify-content-center align-items-center text-center full-height">

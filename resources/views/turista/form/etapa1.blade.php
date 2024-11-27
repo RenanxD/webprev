@@ -18,7 +18,7 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <input type="email" class="form-control" id="turista_email" name="turista_email" placeholder="Email" value="{{ session('email') }}">
+            <input type="email" class="form-control" id="turista_email" name="turista_email" placeholder="Email" value="{{ session('email') }}" readonly>
         </div>
     </div>
     <div class="form-row">

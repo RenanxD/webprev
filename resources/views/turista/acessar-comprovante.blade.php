@@ -18,8 +18,10 @@
             <div class="comprovantes-cards" id="comprovantes-ativos" style="display: none;">
                 <div class="text-center">
                     @if (!$comprovantes || $comprovantes->isEmpty())
-                        <x-logos.logo-nada-consta />
-                        <p style="font-weight: bold; color: #ABABAB; font-size: 20px;">Nada consta</p>
+                        <div style="margin-top: 8.45rem">
+                            <x-logos.logo-nada-consta />
+                            <p style="font-weight: bold; color: #ABABAB; font-size: 20px;">Nada consta</p>
+                        </div>
                     @endif
                     @foreach($comprovantes as $comprovante)
                         <a href="/{{ $cidade->slug }}/comprovante/download/{{ $comprovante->id_comprovante }}"
@@ -83,7 +85,6 @@
             document.getElementById('link-utilizados').classList.add('active');
         }
 
-        // Exibe "Ativo" por padrão
         showAtivos();
     </script>
     <style>

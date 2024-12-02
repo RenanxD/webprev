@@ -90,16 +90,13 @@
         var cidadeCardContainer = document.getElementById('cidade-card');
         var cidadeCardContent = cidadeCardContainer.querySelector('.cidade-card-container');
 
-        // Clear previous cards
         cidadeCardContent.innerHTML = '';
 
-        // Return early if no estadoId is selected
         if (!estadoId) {
             cidadeCardContainer.style.display = 'none';
             return;
         }
 
-        // Show loading text
         cidadeCardContainer.style.display = 'block';
         cidadeCardContent.innerHTML = '<p>Carregando cidades...</p>';
 
@@ -128,6 +125,5 @@
             });
     });
 </script>
-
 </body>
 </html>

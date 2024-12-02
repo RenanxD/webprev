@@ -1,5 +1,5 @@
 @extends('layouts.complete-registration')
-@section('title', 'Webprev - Registro')
+@section('title', 'WebPrev - Registro')
 @section('content')
     <div class="container mt-4 mb-4">
         <div class="row justify-content-center">

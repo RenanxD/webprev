@@ -147,9 +147,9 @@
             <span>Acompanhante(s) ou Dependente(s)</span>
             <hr>
         </div>
-        <div id="dependente-container" class="d-flex flex-column align-items-center">
+        <div id="dependente-container" class="d-flex flex-column align-items-center justify-content-center">
             <!-- Conteúdo exibido caso não haja dependentes -->
-            <div id="no-dependente">
+            <div id="no-dependente" class="text-center">
                 <div class="mb-2">
                     <x-logos.logo-warning/>
                 </div>

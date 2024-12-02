@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
-    <title>@yield('title', 'Webprev')</title>
+    <title>@yield('title', 'WebPrev')</title>
 </head>
 <body>
 <div class="container mt-4 mb-4">
